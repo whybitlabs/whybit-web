@@ -29,7 +29,6 @@ python3 -m http.server 8080
 ## say hi
 
 - email — [harshith@whybit.in](mailto:harshith@whybit.in)
-- whatsapp — [+91 82777 15578](https://wa.me/918277715578)
 - github — [@whybitlabs](https://github.com/whybitlabs)
 - instagram — [@lharshitharadhya](https://www.instagram.com/lharshitharadhya/)
 - youtube — [@harshitharadhyadev](https://www.youtube.com/@harshitharadhyadev/shorts)

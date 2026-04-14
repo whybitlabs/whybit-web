@@ -3,18 +3,51 @@
    Everything Tailwind can't do elegantly lives here.
    ============================================================ */
 
+/* Light mode (default) */
 :root {
   --bg:        #FAFAFA;
   --bg-soft:   #F1F1F1;
+  --bg-card:   #FFFFFF;
   --ink:       #141414;
   --ink-dim:   #5A5A5A;
-  --accent:    #FF5B1F;
-  --signature: #2B5BFF;
+  --ink-low:   #A0A0A0;
   --line:      #E2E2E2;
+  --accent:    #FF5B1F;
+  --accent-deep: #E04810;
+  --signature: #2B5BFF;
+
+  --dot:         #C8C8C8;
+  --scrollbar:   #CFCFCF;
+  --glass:       rgba(250, 250, 250, 0.72);
+  --card-plate:  #F4F4F4;
+  --glow-blend:  multiply;
 
   --mx: 50%;   /* cursor x */
   --my: 50%;   /* cursor y */
   --scroll-blur: 0px;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] {
+  --bg:        #0A0A0A;
+  --bg-soft:   #141414;
+  --bg-card:   #1A1A1A;
+  --ink:       #EDEDED;
+  --ink-dim:   #8A8A8A;
+  --ink-low:   #4A4A4A;
+  --line:      #222222;
+
+  --dot:         #2a2a2a;
+  --scrollbar:   #2a2a2a;
+  --glass:       rgba(10, 10, 10, 0.72);
+  --card-plate:  #0f0f0f;
+  --glow-blend:  screen;
+}
+
+/* Smooth the crossfade between themes, but not on every property. */
+html { transition: background-color 0.3s ease; }
+body, header, nav, footer, .product-card, .bottom-nav {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 * { -webkit-tap-highlight-color: transparent; }
@@ -31,16 +64,21 @@ html, body {
 /* Scrollbar — thin, quiet */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #CFCFCF; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* ============================================================
    FILM GRAIN — SVG noise, fixed, animated slow jitter
    ============================================================ */
 .grain {
+  /* Dark grain for light theme */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 240px 240px;
   animation: grainShift 8s steps(8) infinite;
+}
+:root[data-theme="dark"] .grain {
+  /* Light grain for dark theme */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 @keyframes grainShift {
   0%   { transform: translate(0,0); }
@@ -61,7 +99,7 @@ html, body {
    Nothing-OS homage. Quiet until you look for it.
    ============================================================ */
 .dot-grid {
-  background-image: radial-gradient(circle at center, #C8C8C8 1px, transparent 1.2px);
+  background-image: radial-gradient(circle at center, var(--dot) 1px, transparent 1.2px);
   background-size: 22px 22px;
   background-position: 0 0;
   mask-image: radial-gradient(circle 420px at var(--mx) var(--my),
@@ -92,7 +130,7 @@ html, body {
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(255,91,31,0.22) 0%, rgba(255,91,31,0.08) 35%, transparent 70%);
   transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
-  mix-blend-mode: multiply;
+  mix-blend-mode: var(--glow-blend);
 }
 .cursor-trail {
   width: 8px; height: 8px;
@@ -198,7 +236,7 @@ html, body {
    ============================================================ */
 .bottom-nav {
   padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
-  background: rgba(250, 250, 250, 0.72);
+  background: var(--glass);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-top: 1px solid var(--line);

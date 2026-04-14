@@ -163,7 +163,7 @@ const Home = {
     <!-- ============ MANIFESTO MARQUEE ============ -->
     <section class="relative py-10 border-y border-line overflow-hidden observe-section">
       <div class="marquee-mask overflow-hidden">
-        <div class="flex gap-16 animate-marquee whitespace-nowrap font-display italic text-5xl md:text-7xl text-ink-dim/80">
+        <div class="flex gap-16 animate-marquee whitespace-nowrap font-display italic text-5xl md:text-7xl text-ink-dim opacity-80">
           <span v-for="(w, i) in [...manifestoWords, ...manifestoWords]" :key="i" class="flex items-center gap-16">
             {{ w }}
             <span class="inline-block w-2 h-2 rounded-full bg-accent"></span>
@@ -190,7 +190,7 @@ const Home = {
                  @mousemove="onCardMove">
           <!-- Product visual: real T-01 imagery -->
           <div class="aspect-square w-full mb-6 rounded-sm relative overflow-hidden product-img bg-bg"
-               :style="'background-color: #F4F4F4;'">
+               :style="'background-color: var(--card-plate);'">
             <img :src="p.img" :alt="p.name" loading="lazy"
                  class="absolute inset-0 w-full h-full object-cover" />
             <div class="absolute inset-0 pointer-events-none"
@@ -420,6 +420,38 @@ const App = {
       { to: '/contact', name: 'contact', icon: 'contact' },
     ];
 
+    /* ---------- THEME ---------- */
+    const THEME_KEY = 'whybit-theme';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const stored = (() => { try { return localStorage.getItem(THEME_KEY); } catch { return null; } })();
+    const theme = ref(stored || (prefersDark.matches ? 'dark' : 'light'));
+
+    const syncThemeColorMeta = (t) => {
+      const color = t === 'dark' ? '#0A0A0A' : '#FAFAFA';
+      document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.setAttribute('content', color));
+    };
+
+    const applyTheme = (t) => {
+      document.documentElement.setAttribute('data-theme', t);
+      syncThemeColorMeta(t);
+    };
+
+    applyTheme(theme.value);
+
+    const toggleTheme = () => {
+      theme.value = theme.value === 'dark' ? 'light' : 'dark';
+      applyTheme(theme.value);
+      try { localStorage.setItem(THEME_KEY, theme.value); } catch {}
+    };
+
+    // Follow OS preference if the user hasn't expressed one
+    const onSchemeChange = (e) => {
+      try { if (localStorage.getItem(THEME_KEY)) return; } catch {}
+      theme.value = e.matches ? 'dark' : 'light';
+      applyTheme(theme.value);
+    };
+    prefersDark.addEventListener?.('change', onSchemeChange);
+
     // Cursor tracking for dot-grid mask + cursor glow
     const onMove = (e) => {
       document.documentElement.style.setProperty('--mx', e.clientX + 'px');
@@ -461,9 +493,10 @@ const App = {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mousemove', onHoverable);
       window.removeEventListener('scroll', onScroll);
+      prefersDark.removeEventListener?.('change', onSchemeChange);
     });
 
-    return { currentName, navItems };
+    return { currentName, navItems, theme, toggleTheme };
   },
   template: `
   <!-- TOP NAV (desktop minimal, mobile logo-only) -->
@@ -478,7 +511,24 @@ const App = {
         {{ n.name }}
       </router-link>
     </nav>
-    <div class="md:hidden text-[10px] tracking-[0.3em] uppercase text-ink-low pointer-events-auto">{{ currentName }}</div>
+    <div class="flex items-center gap-3 pointer-events-auto">
+      <span class="md:hidden text-[10px] tracking-[0.3em] uppercase text-ink-low">{{ currentName }}</span>
+      <button type="button"
+              @click="toggleTheme"
+              :aria-label="theme === 'dark' ? 'switch to light mode' : 'switch to dark mode'"
+              :title="theme === 'dark' ? 'light mode' : 'dark mode'"
+              class="theme-toggle w-9 h-9 rounded-full border border-line hover:border-accent hover:text-accent text-ink-dim flex items-center justify-center transition-colors">
+        <!-- sun (shown in dark mode) -->
+        <svg v-if="theme === 'dark'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+        <!-- moon (shown in light mode) -->
+        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+      </button>
+    </div>
   </header>
 
   <!-- PAGE CONTENT -->

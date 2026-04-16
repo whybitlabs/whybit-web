@@ -39,7 +39,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="alternate icon" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.svg" />
-    <link rel="mask-icon" href="/favicon/favicon.svg" color="#2B5BFF" />
+    <link rel="mask-icon" href="/favicon/favicon.svg" color="#FF5B1F" />
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.svg" />
 
@@ -79,7 +79,7 @@
       "address": { "@type": "PostalAddress", "addressLocality": "Bengaluru", "addressCountry": "IN" },
       "sameAs": [
         "https://github.com/whybitlabs",
-        "https://www.instagram.com/lharshitharadhya/",
+        "https://www.instagram.com/whybitlabs/",
         "https://www.youtube.com/@harshitharadhyadev/shorts",
         "https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/"
       ]
@@ -98,11 +98,11 @@
       })();
     </script>
 
-    <!-- Fonts: Instrument Serif (editorial display) + JetBrains Mono (maker/terminal) -->
+    <!-- Fonts: Inter (modern sans) + JetBrains Mono (maker/terminal) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap"
         rel="stylesheet" />
 
     <!-- Tailwind CDN -->
@@ -124,7 +124,8 @@
                         line: 'var(--line)',
                     },
                     fontFamily: {
-                        display: ['"Instrument Serif"', 'ui-serif', 'Georgia', 'serif'],
+                        display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
                     },
                     letterSpacing: {
@@ -162,7 +163,7 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="bg-bg text-ink font-mono antialiased overflow-x-hidden">
+<body class="bg-bg text-ink font-sans antialiased overflow-x-hidden">
 
     <!-- Grain overlay -->
     <div class="grain pointer-events-none fixed inset-0 z-[60] opacity-[0.035] mix-blend-overlay"></div>

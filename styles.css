@@ -137,8 +137,8 @@ html, body {
   border-radius: 50%;
   left: var(--mx); top: var(--my);
   transform: translate(-50%, -50%);
-  background: var(--signature);
-  box-shadow: 0 0 12px rgba(43,91,255,0.8);
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(255,91,31,0.8);
   transition: transform 0.12s ease-out, opacity 0.3s ease;
   opacity: 0.9;
 }
@@ -193,15 +193,15 @@ html, body {
   display: inline-block;
   width: 0.28em; height: 0.28em;
   border-radius: 50%;
-  background: var(--signature);
+  background: var(--accent);
   margin-left: 0.04em;
   vertical-align: baseline;
   transform-origin: center;
   animation: pulseDot 2.4s ease-in-out infinite;
 }
 @keyframes pulseDot {
-  0%, 100% { transform: scale(1);   opacity: 1;   box-shadow: 0 0 0px rgba(43,91,255,0); }
-  50%      { transform: scale(1.25); opacity: 0.85; box-shadow: 0 0 12px rgba(43,91,255,0.5); }
+  0%, 100% { transform: scale(1);   opacity: 1;   box-shadow: 0 0 0px rgba(255,91,31,0); }
+  50%      { transform: scale(1.25); opacity: 0.85; box-shadow: 0 0 12px rgba(255,91,31,0.5); }
 }
 
 /* ============================================================

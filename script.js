@@ -240,7 +240,7 @@ const Home = {
         <span class="hidden md:inline">· tiny. curious. open.</span>
       </div>
       <div class="flex flex-wrap gap-x-6 gap-y-2">
-        <a href="https://www.instagram.com/lharshitharadhya/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">instagram</a>
+        <a href="https://www.instagram.com/whybitlabs/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">instagram</a>
         <a href="https://www.youtube.com/@harshitharadhyadev/shorts" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">youtube</a>
         <a href="https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">linkedin</a>
         <a href="https://github.com/whybitlabs" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">github</a>
@@ -319,7 +319,7 @@ const Contact = {
         </a>
 
         <div class="grid grid-cols-3 gap-3 md:gap-4">
-          <a href="https://www.instagram.com/lharshitharadhya/" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">instagram</a>
+          <a href="https://www.instagram.com/whybitlabs/" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">instagram</a>
           <a href="https://www.youtube.com/@harshitharadhyadev/shorts" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">youtube</a>
           <a href="https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">linkedin</a>
         </div>

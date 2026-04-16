@@ -353,10 +353,10 @@ const About = {
         </div>
         <div>
           <div class="text-ink-low mb-2">founder</div>
-          <div class="text-ink">harshit a.</div>
+          <div class="text-ink">Harshith Aradhya</div>
         </div>
         <div>
-          <div class="text-ink-low mb-2">built with</div>
+          <div class="text-ink-low mb-2">build with</div>
           <div class="text-ink">soldering and precision</div>
         </div>
       </aside>

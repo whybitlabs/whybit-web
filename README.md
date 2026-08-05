@@ -8,20 +8,32 @@ tiny electronics for curious makers — out of bengaluru, india.
 
 ## what's this?
 
-the source of [whybit.in](https://whybit.in) — a one-page site for our kits, built as a single-file Vue 3 app with Tailwind (no build step, no framework fatigue). open it, read it, remix it.
+the source of [whybit.in](https://whybit.in) — three static html pages with Tailwind (no build step, no framework fatigue). open it, read it, remix it.
 
 ## the kits (coming soon)
 
-- **t-01 · explorer** — esp32-c3 tracked robot with animated oled eyes and esp-now radio.
-- **t-01 · explorer kit** — solder-it-yourself flavour of the same.
-- **isro moon-rover kit** — a tiny pragyan with swappable arm, drill, and camera modules.
+- **lun-e** — esp32-c3 tracked robot with animated oled eyes and esp-now radio.
 
-the t-01 firmware lives at [whybitlabs/T-01-The-Explorer](https://github.com/whybitlabs/T-01-The-Explorer).
+the firmware lives at [whybitlabs/T-01-The-Explorer](https://github.com/whybitlabs/T-01-The-Explorer).
+
+## layout
+
+```
+index.html          →  whybit.in/
+about/index.html    →  whybit.in/about
+contact/index.html  →  whybit.in/contact
+styles.css          →  everything tailwind can't do elegantly
+script.js           →  theme toggle, cursor glow, scroll blur
+```
+
+each page is standalone. the `<head>` boilerplate and the nav/footer chrome
+are duplicated across the three files on purpose — that's the tax for having
+no build step. edit one, edit all three.
 
 ## run locally
 
 ```sh
-# any static server works
+# any static server works — serve from the repo root so /about/ resolves
 python3 -m http.server 8080
 # then open http://localhost:8080
 ```
@@ -30,8 +42,8 @@ python3 -m http.server 8080
 
 - email — [harshith@whybit.in](mailto:harshith@whybit.in)
 - github — [@whybitlabs](https://github.com/whybitlabs)
-- instagram — [@lharshitharadhya](https://www.instagram.com/lharshitharadhya/)
-- youtube — [@harshitharadhyadev](https://www.youtube.com/@harshitharadhyadev/shorts)
+- instagram — [@whybit.in](https://www.instagram.com/whybit.in/)
+- youtube — [@why-bit](https://www.youtube.com/@why-bit)
 
 ## license
 

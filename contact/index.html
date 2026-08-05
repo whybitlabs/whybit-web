@@ -7,24 +7,20 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
 
-    <title>whybit. — think it. build it. vibe it.</title>
-    <meta name="description" content="whybit — tiny electronics for curious makers. Think it. Build it. Vibe it." />
-    <meta name="keywords" content="whybit, robotics, esp32, esp32-c3, lun-e, maker kits, diy electronics, bengaluru" />
+    <title>contact — whybit.</title>
+    <meta name="description" content="say hi to whybit — email, whatsapp, or github. kits are still cooking; collaborators and curious people welcome." />
     <meta name="author" content="harshith aradhya · whybit" />
     <meta name="creator" content="whybit" />
     <meta name="publisher" content="whybit" />
     <meta name="copyright" content="copyleft 2026 whybit · GPL v3" />
     <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="rating" content="general" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="canonical" href="https://whybit.in/" />
+    <link rel="canonical" href="https://whybit.in/contact/" />
 
-    <!-- Theme colors — respect the (currently light) palette on all surfaces -->
+    <!-- Theme colors -->
     <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: dark)" />
     <meta name="msapplication-TileColor" content="#FAFAFA" />
-    <meta name="msapplication-navbutton-color" content="#FAFAFA" />
     <meta name="color-scheme" content="light" />
 
     <!-- iOS / Safari -->
@@ -35,65 +31,30 @@
     <meta name="application-name" content="whybit" />
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- Favicons — SVG blue dot, everywhere it works -->
+    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="alternate icon" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.svg" />
     <link rel="mask-icon" href="/favicon/favicon.svg" color="#FF5B1F" />
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.svg" />
-
-    <!-- PWA manifest -->
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="whybit." />
-    <meta property="og:title" content="whybit. — think it. build it. vibe it." />
-    <meta property="og:description" content="tiny electronics for curious makers. lun-e is coming." />
-    <meta property="og:url" content="https://whybit.in/" />
+    <meta property="og:title" content="contact — whybit." />
+    <meta property="og:description" content="email, whatsapp, or github. the door is open." />
+    <meta property="og:url" content="https://whybit.in/contact/" />
     <meta property="og:locale" content="en_IN" />
     <meta property="og:image" content="https://github.com/whybitlabs/T-01-The-Explorer/raw/main/images/t01-robots.jpeg" />
     <meta property="og:image:alt" content="lun-e — a tracked robot with animated oled eyes." />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="whybit. — think it. build it. vibe it." />
-    <meta name="twitter:description" content="tiny electronics for curious makers. lun-e is coming." />
+    <meta name="twitter:title" content="contact — whybit." />
+    <meta name="twitter:description" content="email, whatsapp, or github. the door is open." />
     <meta name="twitter:image" content="https://github.com/whybitlabs/T-01-The-Explorer/raw/main/images/t01-robots.jpeg" />
-    <meta name="twitter:image:alt" content="lun-e — a tracked robot with animated oled eyes." />
-
-    <!-- Structured data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "whybit",
-      "url": "https://whybit.in/",
-      "logo": "https://whybit.in/favicon/icon.svg",
-      "email": "harshith@whybit.in",
-      "telephone": "+91-82777-15578",
-      "founder": { "@type": "Person", "name": "Harshith Aradhya" },
-      "address": { "@type": "PostalAddress", "addressLocality": "Bengaluru", "addressCountry": "IN" },
-      "sameAs": [
-        "https://github.com/whybitlabs",
-        "https://www.instagram.com/whybit.in/",
-        "https://www.youtube.com/@why-bit",
-        "https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/"
-      ]
-    }
-    </script>
-
-    <!-- Legacy hash-router links (#/about, #/contact) → real pages -->
-    <script>
-      (function () {
-        var map = { '#/about': '/about/', '#/contact': '/contact/' };
-        var target = map[window.location.hash];
-        if (target) window.location.replace(target);
-      })();
-    </script>
 
     <!-- No-FOUC theme bootstrap: apply saved/system theme before paint -->
     <script>
@@ -184,10 +145,10 @@
             </a>
             <nav class="hidden md:flex gap-8 text-[10px] tracking-[0.3em] uppercase pointer-events-auto">
                 <a href="/about/" class="transition-colors hover:text-accent text-ink-dim">about</a>
-                <a href="/contact/" class="transition-colors hover:text-accent text-ink-dim">contact</a>
+                <a href="/contact/" aria-current="page" class="transition-colors hover:text-accent text-accent">contact</a>
             </nav>
             <div class="flex items-center gap-3 pointer-events-auto">
-                <span class="md:hidden text-[10px] tracking-[0.3em] uppercase text-ink-low">home</span>
+                <span class="md:hidden text-[10px] tracking-[0.3em] uppercase text-ink-low">contact</span>
                 <button type="button" id="theme-toggle"
                         class="theme-toggle w-9 h-9 rounded-full border border-line hover:border-accent hover:text-accent text-ink-dim flex items-center justify-center transition-colors">
                     <!-- sun (shown in dark mode) -->
@@ -205,75 +166,51 @@
 
         <!-- ============ PAGE CONTENT ============ -->
         <main class="flex-1 flex flex-col scroll-blur-target pb-24 md:pb-0">
+            <div class="px-6 md:px-12 pt-28 pb-24">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-6">/ contact — say hi</div>
+                <h1 class="hero-title text-6xl md:text-[8rem] text-ink mb-6">
+                    contact
+                </h1>
 
-            <!-- ============ HERO ============ -->
-            <section class="relative min-h-[92svh] flex flex-col justify-center px-6 md:px-12 pt-24 pb-20">
+                <div class="grid md:grid-cols-[1fr_2fr] gap-10 md:gap-20 max-w-6xl">
+                    <aside class="text-xs tracking-[0.2em] uppercase text-ink-dim space-y-6 md:sticky md:top-24 h-fit">
+                        <div>
+                            <div class="text-ink-low mb-2">based in</div>
+                            <div class="text-ink">bengaluru, india</div>
+                        </div>
+                        <div>
+                            <div class="text-ink-low mb-2">timezone</div>
+                            <div class="text-ink">ist (utc +5:30)</div>
+                        </div>
+                    </aside>
 
-                <div class="w-full grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-10 md:gap-12 md:items-center">
+                    <div class="space-y-10">
+                        <a href="mailto:harshith@whybit.in" class="block group border border-line hover:border-accent transition-colors p-6 md:p-8 bg-bg-soft">
+                            <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">email</div>
+                            <div class="font-display text-2xl md:text-4xl text-ink group-hover:text-accent transition-colors tracking-tighter2 break-all">harshith@whybit.in</div>
+                            <div class="text-xs text-ink-dim mt-3">for kit updates, partnerships, and general why-asking.</div>
+                        </a>
 
-                    <!-- lun-e, in motion. First on mobile, right-hand column on desktop. -->
-                    <div class="md:order-2">
-                        <img src="/images/lun-e-front-facing-eyes-on.gif"
-                             alt="lun-e — a tracked desktop robot, front on, its oled eyes blinking"
-                             width="480" height="270" decoding="async"
-                             class="hero-media w-full max-w-[480px] h-auto rounded-sm md:ml-auto" />
-                    </div>
+                        <a href="https://wa.me/918277715578" target="_blank" rel="noopener" class="block group border border-line hover:border-accent transition-colors p-6 md:p-8 bg-bg-soft">
+                            <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">phone · whatsapp</div>
+                            <div class="font-display text-2xl md:text-4xl text-ink group-hover:text-accent transition-colors tracking-tighter2">+91 82777 15578</div>
+                            <div class="text-xs text-ink-dim mt-3">tap to whatsapp. voice notes welcome.</div>
+                        </a>
 
-                    <div class="md:order-1">
-                        <h1 class="hero-title text-[12vw] md:text-[6.5vw] text-ink max-w-[11ch]">
-                            tiny robots for <em>every</em> desk
-                        </h1>
+                        <a href="https://github.com/whybitlabs/T-01-The-Explorer" target="_blank" rel="noopener" class="block group border border-line hover:border-accent transition-colors p-6 md:p-8 bg-bg-soft">
+                            <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">github · firmware</div>
+                            <div class="font-display text-xl md:text-3xl text-ink group-hover:text-accent transition-colors tracking-tighter2 break-words">whybitlabs/t-01-the-explorer</div>
+                            <div class="text-xs text-ink-dim mt-3">open firmware for the t-01 tank. stars, forks, and issues welcome.</div>
+                        </a>
 
-                        <p class="mt-8 max-w-md text-sm md:text-base text-ink-dim font-mono leading-relaxed">
-                            desktop robotics kits for people who ask
-                            <span class="text-accent font-display italic text-lg align-baseline">why?</span>
-                        </p>
-
-                        <div class="mt-10 flex flex-wrap gap-4">
-                            <a href="/about/" class="self-center text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-ink transition-colors ul-link">the story →</a>
+                        <div class="grid grid-cols-3 gap-3 md:gap-4">
+                            <a href="https://www.instagram.com/whybit.in/" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">instagram</a>
+                            <a href="https://www.youtube.com/@why-bit" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">youtube</a>
+                            <a href="https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/" target="_blank" rel="noopener" class="border border-line hover:border-accent transition-colors p-4 text-center text-[10px] tracking-[0.25em] uppercase text-ink-dim hover:text-accent">linkedin</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Bottom hero meta row -->
-                <div class="absolute bottom-6 md:bottom-10 left-6 md:left-12 right-6 md:right-12 flex justify-between items-end text-[10px] tracking-[0.25em] uppercase text-ink-low font-mono pointer-events-none">
-                    <span>01 / home</span>
-                    <span class="hidden md:block">scroll ↓</span>
-                </div>
-            </section>
-
-            <!-- ============ PRODUCTS ============ -->
-            <section class="px-6 md:px-12 py-24 md:py-32">
-                <div class="mb-14 md:mb-20">
-                    <div class="text-[10px] md:text-xs tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — kits</div>
-                    <h2 class="font-display text-3xl md:text-5xl tracking-tighter2 text-ink max-w-2xl leading-[1.05]">
-                        small things that <em class="italic text-accent">do a lot.</em>
-                    </h2>
-                </div>
-
-                <article class="product-card border border-line bg-bg-soft p-6 md:p-8
-                                grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:items-center">
-                    <!-- Product visual -->
-                    <div class="aspect-square w-full rounded-sm relative overflow-hidden product-img bg-bg"
-                         style="background-color: var(--card-plate);">
-                        <img src="https://github.com/whybitlabs/T-01-The-Explorer/raw/main/images/t01-robots.jpeg"
-                             alt="lun-e — a tracked desktop robot with animated oled eyes" loading="lazy"
-                             class="absolute inset-0 w-full h-full object-cover" />
-                        <div class="absolute inset-0 pointer-events-none"
-                             style="background: radial-gradient(circle at 30% 30%, #FF5B1F22, transparent 60%);"></div>
-                        <!-- Dotted overlay -->
-                        <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(#D0D0D0 1px, transparent 1px); background-size: 10px 10px; opacity: 0.18; mix-blend-mode: multiply;"></div>
-                    </div>
-
-                    <div>
-                        <h3 class="font-display text-3xl md:text-5xl tracking-tighter2 text-ink mb-3">lun-e</h3>
-                        <div class="text-[10px] tracking-[0.25em] uppercase text-accent mb-4">esp32-c3 · tank</div>
-                        <p class="text-sm md:text-base text-ink-dim leading-relaxed mb-7">wireless tracked robot. differential steering, animated oled eyes, esp-now radio.</p>
-                        <a href="https://github.com/whybitlabs/T-01-The-Explorer" target="_blank" rel="noopener"
-                           class="text-xs tracking-[0.2em] uppercase ul-link text-ink hover:text-accent">learn more →</a>
-                    </div>
-                </article>
-            </section>
+            </div>
 
             <!-- ============ FOOTER ============ -->
             <footer class="mt-auto px-6 md:px-12 py-10 border-t border-line flex flex-col md:flex-row md:items-end justify-between gap-8 text-[10px] tracking-[0.25em] uppercase text-ink-low">
@@ -299,7 +236,7 @@
 
         <!-- ============ BOTTOM NAV (mobile only) ============ -->
         <nav class="bottom-nav md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-stretch justify-around pt-2">
-            <a href="/" aria-current="page" class="nav-item active flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+            <a href="/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 10 L11 3 L19 10 V18 H3 Z" />
                     <circle cx="11" cy="14" r="1" fill="currentColor" />
@@ -314,7 +251,7 @@
                 </svg>
                 <span class="text-[9px] tracking-[0.25em] uppercase">about</span>
             </a>
-            <a href="/contact/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+            <a href="/contact/" aria-current="page" class="nav-item active flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="5" width="16" height="12" rx="1.5" />
                     <path d="M3 7 L11 12 L19 7" />

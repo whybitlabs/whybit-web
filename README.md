@@ -12,16 +12,21 @@ the source of [whybit.in](https://whybit.in) — three static html pages with Ta
 
 ## the kits (coming soon)
 
-- **lun-e** — esp32-c3 tracked robot with animated oled eyes and esp-now radio.
+- **Lun-E** — esp32-c3 tracked robot with animated oled eyes and esp-now radio.
 
-the firmware lives at [whybitlabs/T-01-The-Explorer](https://github.com/whybitlabs/T-01-The-Explorer).
+the full build — hardware, wiring, firmware and print files — is documented at
+[whybit.in/lun-e](https://whybit.in/lun-e/). the firmware itself lives at
+[whybitlabs/T-01-The-Explorer](https://github.com/whybitlabs/T-01-The-Explorer)
+(the repo still uses the T-01 name).
 
 ## layout
 
 ```
 index.html          →  whybit.in/
+lun-e/index.html    →  whybit.in/lun-e     (the full build guide)
 about/index.html    →  whybit.in/about
 contact/index.html  →  whybit.in/contact
+images/             →  local media
 styles.css          →  everything tailwind can't do elegantly
 script.js           →  theme toggle, cursor glow, scroll blur
 ```

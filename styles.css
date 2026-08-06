@@ -222,6 +222,55 @@ html, body {
 }
 
 /* ============================================================
+   ASSET SLOT — a labelled placeholder for media we don't have
+   yet. Deliberately obvious: hatched, dashed, and tagged, so an
+   empty slot never reads as a finished design.
+   ============================================================ */
+.asset-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--ink-low);
+  border: 1px dashed var(--ink-low);
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 7px, var(--bg-soft) 7px, var(--bg-soft) 14px
+  );
+}
+.asset-slot::before {
+  content: attr(data-asset);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.7;
+}
+.asset-slot::after {
+  content: 'asset needed';
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.65;
+}
+
+/* ============================================================
+   MODEL VIEWER — the interactive glb
+   ============================================================ */
+model-viewer {
+  width: 100%;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  --poster-color: transparent;
+  --progress-bar-color: var(--accent);
+  --progress-mask: transparent;
+}
+
+/* ============================================================
    PRODUCT CARD — monochrome with orange reveal on hover
    ============================================================ */
 .product-card {

@@ -1,0 +1,7 @@
+{
+  "name": "whybit-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "the source of whybit.in — static html, no build step",
+  "license": "GPL-3.0"
+}

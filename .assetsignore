@@ -1,0 +1,22 @@
+# Files in the assets directory (= repo root) that must NOT be uploaded as public
+# assets. Same syntax as .gitignore.
+#
+# node_modules is the critical line: `npm ci` creates it inside the assets directory
+# during the Cloudflare build, and without this every dependency file would ship.
+
+node_modules
+.git
+.gitignore
+.assetsignore
+package.json
+package-lock.json
+wrangler.jsonc
+.wrangler
+README.md
+LICENSE
+.vscode
+.DS_Store
+
+# 31 MB uncompressed original — over Cloudflare's 25 MiB per-file cap, and unused by
+# the site, which loads the 1.1 MB draco-compressed models/lun-e.glb instead.
+models/lun-e.source.glb

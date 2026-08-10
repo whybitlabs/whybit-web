@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "whybit-web",
+  "compatibility_date": "2026-08-06",
+  "observability": { "enabled": true },
+
+  // Assets-only Worker: there is no "main", so no Worker script runs — Cloudflare
+  // just serves these files. The assets directory is the repo root, so .assetsignore
+  // (next to this file) is what keeps node_modules and repo furniture out of the upload.
+  //
+  // html_handling defaults to "auto-trailing-slash", which serves about/index.html at
+  // both /about and /about/ — the clean URLs the nav already links to.
+  "assets": {
+    "directory": "."
+  }
+}

@@ -214,10 +214,15 @@
 
                     <!-- lun-e, in motion. First on mobile, right-hand column on desktop. -->
                     <div class="md:order-2">
-                        <img src="/images/lun-e-front-facing-eyes-on.gif"
-                             alt="Lun-E — a tracked desktop robot, front on, its oled eyes blinking"
-                             width="480" height="270" decoding="async"
-                             class="hero-media w-full max-w-[480px] h-auto rounded-sm md:ml-auto" />
+                        <!-- Live 3D: the real assembly taking itself apart (hero-explode.js).
+                             The GIF is the fallback — it stays until the model has loaded,
+                             and remains if WebGL or the model is unavailable. -->
+                        <div id="lune-hero" class="hero-3d w-full max-w-[520px] md:ml-auto" data-model="/models/lun-e-explode.glb">
+                            <img src="/images/lun-e-front-facing-eyes-on.gif"
+                                 alt="Lun-E — a tracked desktop robot, front on, its oled eyes blinking"
+                                 width="480" height="270" decoding="async"
+                                 class="hero-media hero-3d-fallback w-full h-auto rounded-sm" />
+                        </div>
                     </div>
 
                     <div class="md:order-1">
@@ -330,6 +335,13 @@
     </div>
 
     <script src="/script.js"></script>
+    <script type="importmap">
+      { "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      } }
+    </script>
+    <script type="module" src="/hero-explode.js"></script>
 </body>
 
 </html>

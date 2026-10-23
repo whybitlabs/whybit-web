@@ -216,7 +216,7 @@
                         <div class="flex flex-wrap items-center gap-6">
                             <a href="#files"
                                class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">get the files →</a>
-                            <a href="#board" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">the board ↓</a>
+                            <a href="/lun-e/pcb/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">the board →</a>
                             <a href="/lun-e/evolution/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">how it got here →</a>
                         </div>
                     </div>
@@ -252,9 +252,33 @@
                 </div>
             </section>
 
-            <!-- ============ 01 — HOW IT DRIVES ============ -->
+            <!-- ============ 01 — WHAT MAKES IT ============ -->
             <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 01 — how it drives</div>
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 01 — what makes it lun-e</div>
+                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-12">
+                    small rover, <em class="italic text-accent">big personality.</em>
+                </h2>
+
+                <div class="rc-stats mb-12">
+                    <div><b>26 × 42</b><span>mm board</span></div>
+                    <div><b>2</b><span>n20 gear motors</span></div>
+                    <div><b>15</b><span>chain links a side</span></div>
+                    <div><b>300</b><span>mAh lipo</span></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-line border border-line">
+                    <div class="rc-feature"><span class="k">01</span><b>its own board</b><p>a custom esp32-c3 pcb replaces the dev board, modules and wires of the first build.</p></div>
+                    <div class="rc-feature"><span class="k">02</span><b>geared tracks</b><p>two n20 gear motors on a drv8833 drive 8-tooth sprockets and printed 10 mm chain.</p></div>
+                    <div class="rc-feature"><span class="k">03</span><b>animated oled eyes</b><p>a 0.96″ oled in a snap-fit case gives it a face — and the eyes are drawn in code.</p></div>
+                    <div class="rc-feature"><span class="k">04</span><b>esp-now control</b><p>driven from an esp32 transmitter — no router, no app, no pairing dance.</p></div>
+                    <div class="rc-feature"><span class="k">05</span><b>one usb-c port</b><p>charges the cell and programs the chip through the same socket.</p></div>
+                    <div class="rc-feature"><span class="k">06</span><b>headlights + deep sleep</b><p>two white leds up front, and a button that wakes it from deep sleep.</p></div>
+                </div>
+            </section>
+
+            <!-- ============ 02 — HOW IT DRIVES ============ -->
+            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — how it drives</div>
                 <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
                     two tracks, four <em class="italic text-accent">moves.</em>
                 </h2>
@@ -350,200 +374,43 @@
                 </div>
             </section>
 
-            <!-- ============ 02 — THE BOARD ============ -->
+            <!-- ============ 03 — THE BOARD (teaser → /lun-e/pcb/) ============ -->
             <section id="board" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — the board</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    one board. <em class="italic text-accent">no more wiring.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-14">
-                    the dev board, charger module, booster and switch from the first build are now one 26 × 42 mm, two-layer pcb.
-                    usb-c charges the cell and programs the chip; the cell feeds the motor driver and a 3.3 v ldo directly.
-                </p>
-
-                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 lg:items-start">
-                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="Lun-E RC board: esp32-c3 module, usb-c, button, pin header, headlights" loading="lazy" /><figcaption>esp32-c3 module at the back · usb-c in the middle · oled header on the front edge</figcaption></figure>
-
-                    <dl class="rc-specs">
-                        <div><dt>brain</dt><dd>esp32-c3-mini-1-h4 · risc-v, wi-fi + ble, 4 mb flash</dd></div>
-                        <div><dt>motors</dt><dd>drv8833 dual h-bridge → 2× n20 gear motors</dd></div>
-                        <div><dt>charging</dt><dd>tp4054 · 500 mA from usb-c · red led while charging</dd></div>
-                        <div><dt>3.3 v rail</dt><dd>rt9080 ldo · 600 mA, 2 µA quiescent</dd></div>
-                        <div><dt>cell</dt><dd>1s lipo, 300 mAh, protected · soldered to pads underneath</dd></div>
-                        <div><dt>usb</dt><dd>vertical through-hole usb-c · charge + program</dd></div>
-                        <div><dt>face</dt><dd>0.96″ ssd1306 oled on a 4-pin i2c header</dd></div>
-                        <div><dt>lights</dt><dd>two white 0603 headlights</dd></div>
-                        <div><dt>input</dt><dd>one button · wakes the board from deep sleep</dd></div>
-                        <div><dt>board</dt><dd>26 × 42 mm · 2 layers · 1.6 mm</dd></div>
-                    </dl>
-                </div>
-
-                <!-- power path -->
-                <div class="mt-16">
-                    <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-4">power, in order</div>
-                    <ol class="rc-flow">
-                        <li><span>01</span>usb-c 5 v → tp4054 charger</li>
-                        <li><span>02</span>tp4054 → 1s lipo (protected cell)</li>
-                        <li><span>03</span>cell → drv8833 motor supply</li>
-                        <li><span>04</span>cell → rt9080 → 3.3 v</li>
-                        <li><span>05</span>3.3 v → esp32-c3, oled, headlights</li>
-                    </ol>
-                </div>
-            </section>
-
-            <!-- ============ 03 — BILL OF MATERIALS ============ -->
-            <section id="bom" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 03 — bill of materials</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    every part on the board, <em class="italic text-accent">by name.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-10">
-                    the assembler fits the surface-mount parts. the lines marked <span class="text-ink">hand</span> are soldered by you:
-                    the motor driver, the motors, the cell and the oled header.
-                    <a href="/downloads/lun-e-rc/lun-e-rc-bom.csv" download class="ul-link text-ink hover:text-accent">bom as .csv ↓</a>
-                </p>
-
-                <div class="rc-table-wrap">
-                    <table class="rc-table">
-                        <thead><tr><th>ref</th><th>qty</th><th>part</th><th>value / package</th><th>mpn</th><th>fit</th></tr></thead>
-                        <tbody>
-                            <tr><td>U1</td><td>1</td><td>ESP32-C3 WiFi/BLE module, 4MB flash, -40~105 C</td><td>Module 13.2x16.6 mm</td><td>ESP32-C3-MINI-1-H4</td><td>fitted</td></tr>
-                            <tr><td>U3</td><td>1</td><td>Li-ion charger 4.2 V 500 mA, SOT-23-5</td><td>SOT-23-5</td><td>TP4054</td><td>fitted</td></tr>
-                            <tr><td>U4</td><td>1</td><td>LDO 3.3V 600mA 2uA Iq, SOT-23-5</td><td>SOT-23-5</td><td>RT9080-33GJ5</td><td>fitted</td></tr>
-                            <tr><td>J1</td><td>1</td><td>USB-C receptacle USB 2.0 16P, vertical (top-entry), through-hole, 10 mm tall</td><td>USB-C vertical, through-hole</td><td>TYPE-C 16PLC-H10.0</td><td>fitted</td></tr>
-                            <tr><td>SW1</td><td>1</td><td>Tactile switch 5.2x5.2 mm SMD, 3.2 N, 2.0 mm high</td><td>SMD 5.2x5.2 mm</td><td>PTS526 SP20 SMTR2 LFS</td><td>fitted</td></tr>
-                            <tr><td>D1</td><td>1</td><td>LED red 0603, charge indicator</td><td>0603</td><td>XL-1608VRC-06</td><td>fitted</td></tr>
-                            <tr><td>D2 D3</td><td>2</td><td>LED white 0603, headlight</td><td>0603</td><td>White LED 0603 (equiv. LTW-C191DS5)</td><td>fitted</td></tr>
-                            <tr><td>C1 C2</td><td>2</td><td>MLCC 4.7uF 50V X5R 0805</td><td>4.7uF · 0805</td><td>0805X475K500NT</td><td>fitted</td></tr>
-                            <tr><td>C3</td><td>1</td><td>MLCC 10uF 16V X5R 0805</td><td>10uF · 0805</td><td>GRT21BR61C106KE01L</td><td>fitted</td></tr>
-                            <tr><td>C4 C8</td><td>2</td><td>MLCC 1uF 16V X5R 0603</td><td>1uF · 0603</td><td>GRM188R61C105KA12D</td><td>fitted</td></tr>
-                            <tr><td>C5</td><td>1</td><td>MLCC 47uF 6.3V X7R 1210</td><td>47uF · 1210</td><td>CS3225X7R476K6R3NRL</td><td>fitted</td></tr>
-                            <tr><td>C6</td><td>1</td><td>MLCC 10nF 50V X7R 0603</td><td>10nF · 0603</td><td>TCC0603X7R103J500CT</td><td>fitted</td></tr>
-                            <tr><td>C7</td><td>1</td><td>MLCC 2.2uF 35V X5R 0603</td><td>2.2uF · 0603</td><td>CL10A225KL8NNNC</td><td>fitted</td></tr>
-                            <tr><td>R1 R2</td><td>2</td><td>Resistor 5.1k 1% 0603</td><td>5.1k · 0603</td><td>RS-03K5101FT</td><td>fitted</td></tr>
-                            <tr><td>R3</td><td>1</td><td>Resistor 2k 1% 0603</td><td>2k · 0603</td><td>AC0603FR-072KL</td><td>fitted</td></tr>
-                            <tr><td>R4</td><td>1</td><td>Resistor 1k 1% 0603</td><td>1k · 0603</td><td>RC0603FR-071KL</td><td>fitted</td></tr>
-                            <tr><td>R7 R8 R9 R10</td><td>4</td><td>Resistor 10k 1% 0603</td><td>10k · 0603</td><td>RC0603FR-0710KL</td><td>fitted</td></tr>
-                            <tr><td>R11 R12</td><td>2</td><td>Resistor 47R 5% 0603</td><td>47 · 0603</td><td>RC0603JR-0747RL</td><td>fitted</td></tr>
-                            <tr><td>U2</td><td>1</td><td>Dual H-bridge motor driver, TSSOP-16</td><td>TSSOP-16</td><td>DRV8833PWR</td><td><span class="fit-hand">hand</span></td></tr>
-                            <tr><td>J2</td><td>1</td><td>Battery solder pads</td><td>2 SMD pads (SMB size)</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
-                            <tr><td>J3</td><td>1</td><td>N20 motor A</td><td>2 holes, 7.00 mm pitch</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
-                            <tr><td>J4</td><td>1</td><td>N20 motor B</td><td>2 holes, 7.00 mm pitch</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
-                            <tr><td>J5</td><td>1</td><td>1x4 2.54 mm pin header for OLED</td><td>1x4 header, 2.54 mm</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- ============ 04 — PINOUT ============ -->
-            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 04 — pinout</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    what every gpio <em class="italic text-accent">does.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-10">
-                    gpio 2 and 8 are strapping pins, so their 10k pull-ups double as the oled's i2c pull-ups. close jumper jp1 to hold gpio 9 low and boot into download mode.
-                </p>
-                <div class="rc-table-wrap">
-                    <table class="rc-table rc-gpio">
-                        <thead><tr><th>gpio</th><th>function</th></tr></thead>
-                        <tbody>
-                            <tr><td>0</td><td>motor a · ain2</td></tr>
-                            <tr><td>1</td><td>left headlight (low = on)</td></tr>
-                            <tr><td>2</td><td>oled i2c scl · strap pull-up</td></tr>
-                            <tr><td>3</td><td>free</td></tr>
-                            <tr><td>4</td><td>motor a · ain1</td></tr>
-                            <tr><td>5</td><td>button (active low, deep-sleep wake)</td></tr>
-                            <tr><td>6 / 7</td><td>motor b · bin1 / bin2</td></tr>
-                            <tr><td>8</td><td>oled i2c sda · strap pull-up</td></tr>
-                            <tr><td>9</td><td>strap · jp1 = download mode</td></tr>
-                            <tr><td>10</td><td>motor sleep (high = motors on)</td></tr>
-                            <tr><td>18 / 19</td><td>usb d− / d+</td></tr>
-                            <tr><td>20</td><td>right headlight (low = on)</td></tr>
-                            <tr><td>21</td><td>free (boot-log tx)</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- ============ 05 — THE BODY ============ -->
-            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 05 — the body</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    printed parts and <em class="italic text-accent">the bits you buy.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-14">
-                    everything mechanical is printed except the bearings, the motors and the screen.
-                </p>
-
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 03 — the board</div>
                 <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-14 lg:items-center">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-line border border-line">
-                        <div class="rc-part"><b>base + lid</b><span>1 set · printed</span></div>
-                        <div class="rc-part"><b>oled case</b><span>front + back · snap-fit</span></div>
-                        <div class="rc-part"><b>drive sprocket</b><span>×2 · printed</span></div>
-                        <div class="rc-part"><b>freewheel</b><span>×2 · printed</span></div>
-                        <div class="rc-part"><b>chain link, 10 mm</b><span>×30 · printed</span></div>
-                        <div class="rc-part"><b>625-2z bearing</b><span>×2 · 5 × 16 × 5 mm</span></div>
-                        <div class="rc-part"><b>n20 gear motor</b><span>×2 · d-shaft</span></div>
-                        <div class="rc-part"><b>0.96″ oled</b><span>×1 · ssd1306, i2c</span></div>
+                    <div>
+                        <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-xl leading-[1.1] mb-6">
+                            one board. <em class="italic text-accent">no more wiring.</em>
+                        </h2>
+                        <p class="text-sm text-ink-dim leading-relaxed max-w-xl mb-8">
+                            everything that was a module in v1 now lives on one 26 × 42 mm, two-layer board:
+                            the esp32-c3, the motor driver, the charger and the 3.3 v regulator.
+                        </p>
+                        <ul class="evo-delta mb-10">
+                            <li><b>brain</b><span>esp32-c3-mini-1 · wi-fi + ble</span></li>
+                            <li><b>motors</b><span>drv8833 dual h-bridge</span></li>
+                            <li><b>power</b><span>tp4054 charger · rt9080 ldo</span></li>
+                            <li><b>usb</b><span>vertical usb-c · charge + program</span></li>
+                        </ul>
+                        <a href="/lun-e/pcb/" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">board, bom + pinout →</a>
                     </div>
-                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-side.webp" alt="Lun-E RC from the side: chain wrapped round sprocket and freewheel" loading="lazy" /><figcaption>side on · black body, orange sprockets</figcaption></figure>
+                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="Lun-E RC board inside the body, lid lifted" loading="lazy" /><figcaption>the board, lid off</figcaption></figure>
                 </div>
             </section>
 
-            <!-- ============ 06 — FIRMWARE ============ -->
+            <!-- ============ 04 — STATUS ============ -->
             <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 06 — firmware</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    still esp-now. <em class="italic text-accent">new sketch coming soon.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-6">
-                    lun-e rc is driven the same way as the first build: an esp32 transmitter sends throttle and turn over esp-now.
-                    the firmware for this board — motor driver, headlights, button, deep sleep — is being written and will land here and on github.
-                </p>
-                <a href="https://github.com/whybitlabs" target="_blank" rel="noopener" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">follow whybitlabs on github →</a>
-            </section>
-
-            <!-- ============ 07 — HONEST ============ -->
-            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 07 — the honest bit</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-12">
-                    what it does, and <em class="italic text-accent">what it doesn't.</em>
-                </h2>
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 04 — where it's at</div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    <div class="border border-line bg-bg-soft p-6 md:p-8">
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-5">it can</div>
-                        <ul class="space-y-3 text-sm text-ink-dim leading-relaxed">
-                            <li>+ drive, arc and pivot on two geared tracks</li>
-                            <li>+ take throttle and turn over esp-now</li>
-                            <li>+ charge and reprogram over one usb-c port</li>
-                            <li>+ switch its headlights on and off</li>
-                            <li>+ sleep deep and wake on a button press</li>
-                        </ul>
-                    </div>
-                    <div class="border border-line bg-bg-soft p-6 md:p-8">
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-5">it can't — yet</div>
-                        <ul class="space-y-3 text-sm text-ink-dim leading-relaxed">
-                            <li>− drive itself: there are no distance or line sensors</li>
-                            <li>− run from a phone: esp-now talks to another esp32</li>
-                            <li>− run the new firmware: it isn't published yet</li>
-                        </ul>
-                    </div>
-                    <div class="border border-line bg-bg-soft p-6 md:p-8">
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-5">things that will bite you</div>
-                        <ul class="space-y-3 text-sm text-ink-dim leading-relaxed">
-                            <li><span class="text-ink">hand-soldered driver.</span> the drv8833 is fitted by hand (tssop-16, 0.65 mm pitch).</li>
-                            <li><span class="text-ink">cell first.</span> the battery must be connected to charge or program the board.</li>
-                            <li><span class="text-ink">a little slack.</span> 15 links leave about 2 mm of slack in each chain.</li>
-                            <li><span class="text-ink">upward light.</span> 0603 leds shine up more than forward.</li>
-                        </ul>
-                    </div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">done</div><p class="text-sm text-ink-dim leading-relaxed">board designed and ordered · body, tracks and oled case modelled for printing.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">next</div><p class="text-sm text-ink-dim leading-relaxed">firmware for this board — motors, headlights, button, deep sleep — on github.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">not yet</div><p class="text-sm text-ink-dim leading-relaxed">no sensors, so it doesn't drive itself; it isn't driven from a phone.</p></div>
                 </div>
             </section>
 
-            <!-- ============ 08 — FILES ============ -->
+            <!-- ============ 05 — FILES ============ -->
             <section id="files" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 08 — every file</div>
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 05 — every file</div>
                 <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
                     all of it is <em class="italic text-accent">already yours.</em>
                 </h2>
@@ -551,14 +418,14 @@
                     nothing behind a wall, nothing behind an email form.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     <a href="/models/lun-e-rc.glb" download
                        class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" /><path d="M12 22 V12 M12 12 L21 7 M12 12 L3 7" /></svg>
                         <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">3d model</div>
                         <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">lun-e-rc.glb</div>
                         <p class="text-xs text-ink-dim leading-relaxed mb-6">the assembled rover from the viewer up top — drop it into your own scene.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.glb (draco)</span><span class="text-ink-low border border-line px-2 py-1">786 kb</span></div>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.glb (draco)</span><span class="text-ink-low border border-line px-2 py-1">977 kb</span></div>
                     </a>
 
                     <a href="/downloads/lun-e-rc/lun-e-rc-print-parts.zip" download
@@ -570,31 +437,13 @@
                         <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.stl ×5</span><span class="text-ink-low border border-line px-2 py-1">9.5 mb</span></div>
                     </a>
 
-                    <a href="/downloads/lun-e-rc/lun-e-rc-gerbers.zip" download
+                    <a href="/lun-e/pcb/#board-files"
                        class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 3 L21 8 L12 13 L3 8 Z" /><path d="M3 12 L12 17 L21 12" /><path d="M3 16 L12 21 L21 16" /></svg>
                         <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">gerbers</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">copper, mask, silk, paste, outline and drills — ready for any fab.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.zip</span><span class="text-ink-low border border-line px-2 py-1">88 kb</span></div>
-                    </a>
-
-                    <a href="/downloads/lun-e-rc/lun-e-rc-board.step" download
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><rect x="6" y="6" width="12" height="12" rx="1.5" /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">board .step</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">the populated board from kicad, for your cad tool.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.step</span><span class="text-ink-low border border-line px-2 py-1">5.9 mb</span></div>
-                    </a>
-
-                    <a href="/downloads/lun-e-rc/lun-e-rc-bom.csv" download
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M8 6h13M8 12h13M8 18h13" /><circle cx="4" cy="6" r="1" /><circle cx="4" cy="12" r="1" /><circle cx="4" cy="18" r="1" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">bill of materials</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">every part with mpn, package and a buy link.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.csv</span><span class="text-ink-low border border-line px-2 py-1">6 kb</span></div>
+                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">board files</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">gerbers, the populated board as .step, the full bom and the pinout — on the board page.</p>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">gerber</span><span class="text-ink-low border border-line px-2 py-1">.step</span><span class="text-ink-low border border-line px-2 py-1">.csv</span></div>
                     </a>
 
                     <a href="/lun-e/evolution/"

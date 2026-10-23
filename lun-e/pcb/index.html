@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Lun-E RC board — esp32-c3 pcb, bom and pinout · whybit.</title>
+    <meta name="description" content="the Lun-E RC board: a 26 × 42 mm two-layer esp32-c3 pcb with drv8833 motor driver, tp4054 charger and rt9080 ldo. full bill of materials, gpio pinout, build notes, gerbers and step." />
+    <meta name="keywords" content="lun-e, whybit, esp32-c3, esp-now, tracked robot, tank robot, ssd1306, oled eyes, continuous rotation servo, open hardware, 3d printed robot" />
+    <meta name="author" content="harshith aradhya · whybit" />
+    <meta name="creator" content="whybit" />
+    <meta name="publisher" content="whybit" />
+    <meta name="copyright" content="copyleft 2026 whybit · GPL v3" />
+    <meta name="robots" content="index, follow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="canonical" href="https://whybit.in/lun-e/pcb/" />
+
+    <!-- Theme colors -->
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: dark)" />
+    <meta name="msapplication-TileColor" content="#FAFAFA" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- iOS / Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="whybit" />
+    <meta name="application-name" content="whybit" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="alternate icon" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.svg" />
+    <link rel="mask-icon" href="/favicon/favicon.svg" color="#FF5B1F" />
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.svg" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="whybit." />
+    <meta property="og:title" content="Lun-E RC board — bom and pinout" />
+    <meta property="og:description" content="a 26 × 42 mm esp32-c3 board: full bom, pinout, gerbers and step." />
+    <meta property="og:url" content="https://whybit.in/lun-e/pcb/" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:image" content="/images/lun-e-rc/lun-e-rc-og.jpg" />
+    <meta property="og:image:alt" content="Lun-E — tracked desktop robots with glowing oled eyes." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lun-E RC board — bom and pinout" />
+    <meta name="twitter:description" content="esp32-c3, differential steering, animated oled eyes. spin the 3d model, take the bill of materials, wiring and firmware — all of it, on one page." />
+    <meta name="twitter:image" content="/images/lun-e-rc/lun-e-rc-og.jpg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Lun-E",
+      "description": "An ESP32-C3 powered tracked robot with continuous-servo differential steering and animated OLED eyes. Open firmware and printable chassis.",
+      "brand": { "@type": "Brand", "name": "whybit" },
+      "category": "Robotics kit",
+      "url": "https://whybit.in/lun-e/",
+      "image": "/images/Lun-E.jpeg",
+      "manufacturer": { "@type": "Organization", "name": "whybit", "url": "https://whybit.in/" }
+    }
+    </script>
+
+    <!-- No-FOUC theme bootstrap: apply saved/system theme before paint -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('whybit-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Font: JetBrains Mono (single typeface, roman + italic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: 'var(--bg)',
+                        'bg-soft': 'var(--bg-soft)',
+                        'bg-card': 'var(--bg-card)',
+                        ink: 'var(--ink)',
+                        'ink-dim': 'var(--ink-dim)',
+                        'ink-low': 'var(--ink-low)',
+                        accent: 'var(--accent)',
+                        'accent-deep': 'var(--accent-deep)',
+                        signature: 'var(--signature)',
+                        line: 'var(--line)',
+                    },
+                    fontFamily: {
+                        display: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                        sans: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                    },
+                    letterSpacing: {
+                        tightest: '-0.06em',
+                        tighter2: '-0.04em',
+                    },
+                    animation: {
+                        'pulse-dot': 'pulseDot 2.4s ease-in-out infinite',
+                        'fade-up': 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
+                    },
+                    keyframes: {
+                        pulseDot: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.35)', opacity: '0.7' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body class="bg-bg text-ink font-sans antialiased overflow-x-hidden">
+
+    <!-- Grain overlay -->
+    <div class="grain pointer-events-none fixed inset-0 z-[60] opacity-[0.035] mix-blend-overlay"></div>
+
+    <!-- Dotted grid background (reactive to cursor on desktop) -->
+    <div id="dot-grid" class="dot-grid pointer-events-none fixed inset-0 z-0"></div>
+
+    <!-- Cursor glow (desktop only) -->
+    <div id="cursor-glow" class="cursor-glow pointer-events-none fixed z-[55] hidden md:block"></div>
+    <div id="cursor-trail" class="cursor-trail pointer-events-none fixed z-[56] hidden md:block"></div>
+
+    <div class="relative z-10 min-h-[100svh] flex flex-col">
+
+        <!-- ============ TOP NAV ============ -->
+        <header class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between pointer-events-none">
+            <a href="/" class="pointer-events-auto" aria-label="whybit — home">
+                <span class="text-xl md:text-2xl font-display font-normal tracking-tightest leading-none select-none"><span>whybit</span><span class="logo-dot"></span></span>
+            </a>
+            <nav class="hidden md:flex gap-8 text-[10px] tracking-[0.3em] uppercase pointer-events-auto">
+                <a href="/lun-e/" aria-current="page" class="transition-colors hover:text-accent text-accent">lun-e</a>
+                <a href="/lun-e/evolution/" class="transition-colors hover:text-accent text-ink-dim">evolution</a>
+                <a href="/about/" class="transition-colors hover:text-accent text-ink-dim">about</a>
+                <a href="/contact/" class="transition-colors hover:text-accent text-ink-dim">contact</a>
+            </nav>
+            <div class="flex items-center gap-3 pointer-events-auto">
+                <span class="md:hidden text-[10px] tracking-[0.3em] uppercase text-ink-low">board</span>
+                <button type="button" id="theme-toggle"
+                        class="theme-toggle w-9 h-9 rounded-full border border-line hover:border-accent hover:text-accent text-ink-dim flex items-center justify-center transition-colors">
+                    <!-- sun (shown in dark mode) -->
+                    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                    </svg>
+                    <!-- moon (shown in light mode) -->
+                    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- ============ PAGE CONTENT ============ -->
+        <main class="flex-1 flex flex-col scroll-blur-target pb-24 md:pb-0">
+
+            <!-- ============ HERO — THE BOARD ============ -->
+            <section class="px-6 md:px-12 pt-28 pb-14 md:pb-20">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-6"><a href="/lun-e/" class="ul-link hover:text-accent">/ lun-e rc</a> — the board</div>
+                <h1 class="hero-title text-5xl md:text-7xl text-ink max-w-[14ch] mb-6">the <em>board</em></h1>
+                <p class="text-base md:text-lg text-ink-dim leading-relaxed max-w-2xl mb-8">
+                    the dev board, charger module, booster and switch from the first build are now one 26 × 42 mm, two-layer pcb.
+                    usb-c charges the cell and programs the chip; the cell feeds the motor driver and a 3.3 v ldo directly.
+                </p>
+                <div class="flex flex-wrap items-center gap-6 mb-14">
+                    <a href="#board-files" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">gerbers + step →</a>
+                    <a href="#bom" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">bom ↓</a>
+                    <a href="#pinout" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">pinout ↓</a>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 lg:items-start">
+                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="Lun-E RC board: esp32-c3 module, usb-c, button, pin header, headlights" loading="lazy" /><figcaption>esp32-c3 module at the back · usb-c in the middle · oled header on the front edge</figcaption></figure>
+
+                    <dl class="rc-specs">
+                        <div><dt>brain</dt><dd>esp32-c3-mini-1-h4 · risc-v, wi-fi + ble, 4 mb flash</dd></div>
+                        <div><dt>motors</dt><dd>drv8833 dual h-bridge → 2× n20 gear motors</dd></div>
+                        <div><dt>charging</dt><dd>tp4054 · 500 mA from usb-c · red led while charging</dd></div>
+                        <div><dt>3.3 v rail</dt><dd>rt9080 ldo · 600 mA, 2 µA quiescent</dd></div>
+                        <div><dt>cell</dt><dd>1s lipo, 300 mAh, protected · soldered to pads underneath</dd></div>
+                        <div><dt>usb</dt><dd>vertical through-hole usb-c · charge + program</dd></div>
+                        <div><dt>face</dt><dd>0.96″ ssd1306 oled on a 4-pin i2c header</dd></div>
+                        <div><dt>lights</dt><dd>two white 0603 headlights</dd></div>
+                        <div><dt>input</dt><dd>one button · wakes the board from deep sleep</dd></div>
+                        <div><dt>board</dt><dd>26 × 42 mm · 2 layers · 1.6 mm</dd></div>
+                    </dl>
+                </div>
+
+                <!-- power path -->
+                <div class="mt-16">
+                    <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-4">power, in order</div>
+                    <ol class="rc-flow">
+                        <li><span>01</span>usb-c 5 v → tp4054 charger</li>
+                        <li><span>02</span>tp4054 → 1s lipo (protected cell)</li>
+                        <li><span>03</span>cell → drv8833 motor supply</li>
+                        <li><span>04</span>cell → rt9080 → 3.3 v</li>
+                        <li><span>05</span>3.3 v → esp32-c3, oled, headlights</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ============ 03 — BILL OF MATERIALS ============ -->
+            <section id="bom" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 01 — bill of materials</div>
+                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
+                    every part on the board, <em class="italic text-accent">by name.</em>
+                </h2>
+                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-10">
+                    the assembler fits the surface-mount parts. the lines marked <span class="text-ink">hand</span> are soldered by you:
+                    the motor driver, the motors, the cell and the oled header.
+                    <a href="/downloads/lun-e-rc/lun-e-rc-bom.csv" download class="ul-link text-ink hover:text-accent">bom as .csv ↓</a>
+                </p>
+
+                <div class="rc-table-wrap">
+                    <table class="rc-table">
+                        <thead><tr><th>ref</th><th>qty</th><th>part</th><th>value / package</th><th>mpn</th><th>fit</th></tr></thead>
+                        <tbody>
+                            <tr><td>U1</td><td>1</td><td>ESP32-C3 WiFi/BLE module, 4MB flash, -40~105 C</td><td>Module 13.2x16.6 mm</td><td>ESP32-C3-MINI-1-H4</td><td>fitted</td></tr>
+                            <tr><td>U3</td><td>1</td><td>Li-ion charger 4.2 V 500 mA, SOT-23-5</td><td>SOT-23-5</td><td>TP4054</td><td>fitted</td></tr>
+                            <tr><td>U4</td><td>1</td><td>LDO 3.3V 600mA 2uA Iq, SOT-23-5</td><td>SOT-23-5</td><td>RT9080-33GJ5</td><td>fitted</td></tr>
+                            <tr><td>J1</td><td>1</td><td>USB-C receptacle USB 2.0 16P, vertical (top-entry), through-hole, 10 mm tall</td><td>USB-C vertical, through-hole</td><td>TYPE-C 16PLC-H10.0</td><td>fitted</td></tr>
+                            <tr><td>SW1</td><td>1</td><td>Tactile switch 5.2x5.2 mm SMD, 3.2 N, 2.0 mm high</td><td>SMD 5.2x5.2 mm</td><td>PTS526 SP20 SMTR2 LFS</td><td>fitted</td></tr>
+                            <tr><td>D1</td><td>1</td><td>LED red 0603, charge indicator</td><td>0603</td><td>XL-1608VRC-06</td><td>fitted</td></tr>
+                            <tr><td>D2 D3</td><td>2</td><td>LED white 0603, headlight</td><td>0603</td><td>White LED 0603 (equiv. LTW-C191DS5)</td><td>fitted</td></tr>
+                            <tr><td>C1 C2</td><td>2</td><td>MLCC 4.7uF 50V X5R 0805</td><td>4.7uF · 0805</td><td>0805X475K500NT</td><td>fitted</td></tr>
+                            <tr><td>C3</td><td>1</td><td>MLCC 10uF 16V X5R 0805</td><td>10uF · 0805</td><td>GRT21BR61C106KE01L</td><td>fitted</td></tr>
+                            <tr><td>C4 C8</td><td>2</td><td>MLCC 1uF 16V X5R 0603</td><td>1uF · 0603</td><td>GRM188R61C105KA12D</td><td>fitted</td></tr>
+                            <tr><td>C5</td><td>1</td><td>MLCC 47uF 6.3V X7R 1210</td><td>47uF · 1210</td><td>CS3225X7R476K6R3NRL</td><td>fitted</td></tr>
+                            <tr><td>C6</td><td>1</td><td>MLCC 10nF 50V X7R 0603</td><td>10nF · 0603</td><td>TCC0603X7R103J500CT</td><td>fitted</td></tr>
+                            <tr><td>C7</td><td>1</td><td>MLCC 2.2uF 35V X5R 0603</td><td>2.2uF · 0603</td><td>CL10A225KL8NNNC</td><td>fitted</td></tr>
+                            <tr><td>R1 R2</td><td>2</td><td>Resistor 5.1k 1% 0603</td><td>5.1k · 0603</td><td>RS-03K5101FT</td><td>fitted</td></tr>
+                            <tr><td>R3</td><td>1</td><td>Resistor 2k 1% 0603</td><td>2k · 0603</td><td>AC0603FR-072KL</td><td>fitted</td></tr>
+                            <tr><td>R4</td><td>1</td><td>Resistor 1k 1% 0603</td><td>1k · 0603</td><td>RC0603FR-071KL</td><td>fitted</td></tr>
+                            <tr><td>R7 R8 R9 R10</td><td>4</td><td>Resistor 10k 1% 0603</td><td>10k · 0603</td><td>RC0603FR-0710KL</td><td>fitted</td></tr>
+                            <tr><td>R11 R12</td><td>2</td><td>Resistor 47R 5% 0603</td><td>47 · 0603</td><td>RC0603JR-0747RL</td><td>fitted</td></tr>
+                            <tr><td>U2</td><td>1</td><td>Dual H-bridge motor driver, TSSOP-16</td><td>TSSOP-16</td><td>DRV8833PWR</td><td><span class="fit-hand">hand</span></td></tr>
+                            <tr><td>J2</td><td>1</td><td>Battery solder pads</td><td>2 SMD pads (SMB size)</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
+                            <tr><td>J3</td><td>1</td><td>N20 motor A</td><td>2 holes, 7.00 mm pitch</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
+                            <tr><td>J4</td><td>1</td><td>N20 motor B</td><td>2 holes, 7.00 mm pitch</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
+                            <tr><td>J5</td><td>1</td><td>1x4 2.54 mm pin header for OLED</td><td>1x4 header, 2.54 mm</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ============ 04 — PINOUT ============ -->
+            <section id="pinout" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — pinout</div>
+                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
+                    what every gpio <em class="italic text-accent">does.</em>
+                </h2>
+                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-10">
+                    gpio 2 and 8 are strapping pins, so their 10k pull-ups double as the oled's i2c pull-ups. close jumper jp1 to hold gpio 9 low and boot into download mode.
+                </p>
+                <div class="rc-table-wrap">
+                    <table class="rc-table rc-gpio">
+                        <thead><tr><th>gpio</th><th>function</th></tr></thead>
+                        <tbody>
+                            <tr><td>0</td><td>motor a · ain2</td></tr>
+                            <tr><td>1</td><td>left headlight (low = on)</td></tr>
+                            <tr><td>2</td><td>oled i2c scl · strap pull-up</td></tr>
+                            <tr><td>3</td><td>free</td></tr>
+                            <tr><td>4</td><td>motor a · ain1</td></tr>
+                            <tr><td>5</td><td>button (active low, deep-sleep wake)</td></tr>
+                            <tr><td>6 / 7</td><td>motor b · bin1 / bin2</td></tr>
+                            <tr><td>8</td><td>oled i2c sda · strap pull-up</td></tr>
+                            <tr><td>9</td><td>strap · jp1 = download mode</td></tr>
+                            <tr><td>10</td><td>motor sleep (high = motors on)</td></tr>
+                            <tr><td>18 / 19</td><td>usb d− / d+</td></tr>
+                            <tr><td>20</td><td>right headlight (low = on)</td></tr>
+                            <tr><td>21</td><td>free (boot-log tx)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ============ 03 — BUILD NOTES ============ -->
+            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 03 — before you solder</div>
+                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-12">
+                    things that <em class="italic text-accent">will bite you.</em>
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
+                    <div class="rc-feature"><b>hand-soldered driver</b><p>the drv8833 is fitted by hand: tssop-16 at 0.65 mm pitch. flux and a fine tip help.</p></div>
+                    <div class="rc-feature"><b>cell first</b><p>connect the battery before you charge or program — the board runs from the cell.</p></div>
+                    <div class="rc-feature"><b>protected cell only</b><p>there is no battery protection on the board; use a 1s lipo with its own protection.</p></div>
+                    <div class="rc-feature"><b>upward light</b><p>0603 leds shine up more than forward, so the headlights glow rather than beam.</p></div>
+                </div>
+            </section>
+
+            <!-- ============ 04 — BOARD FILES ============ -->
+            <section id="board-files" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 04 — board files</div>
+                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-14">
+                    send it to <em class="italic text-accent">any fab.</em>
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <a href="/downloads/lun-e-rc/lun-e-rc-gerbers.zip" download
+                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 3 L21 8 L12 13 L3 8 Z" /><path d="M3 12 L12 17 L21 12" /><path d="M3 16 L12 21 L21 16" /></svg>
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
+                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">gerbers</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">copper, mask, silk, paste, outline and drills — ready for any fab.</p>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.zip</span><span class="text-ink-low border border-line px-2 py-1">88 kb</span></div>
+                    </a>
+
+                    <a href="/downloads/lun-e-rc/lun-e-rc-board.step" download
+                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><rect x="6" y="6" width="12" height="12" rx="1.5" /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" /></svg>
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
+                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">board .step</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">the populated board from kicad, for your cad tool.</p>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.step</span><span class="text-ink-low border border-line px-2 py-1">5.9 mb</span></div>
+                    </a>
+
+                    <a href="/downloads/lun-e-rc/lun-e-rc-bom.csv" download
+                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M8 6h13M8 12h13M8 18h13" /><circle cx="4" cy="6" r="1" /><circle cx="4" cy="12" r="1" /><circle cx="4" cy="18" r="1" /></svg>
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
+                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">bill of materials</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">every part with mpn, package and a buy link.</p>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.csv</span><span class="text-ink-low border border-line px-2 py-1">6 kb</span></div>
+                    </a>
+                </div>
+                <p class="mt-10 text-sm text-ink-dim"><a href="/lun-e/" class="ul-link text-ink hover:text-accent">← back to lun-e rc</a></p>
+            </section>
+
+            <!-- ============ FOOTER ============ -->
+            <footer class="mt-auto px-6 md:px-12 py-10 border-t border-line flex flex-col md:flex-row md:items-end justify-between gap-8 text-[10px] tracking-[0.25em] uppercase text-ink-low">
+                <div class="flex items-center gap-4">
+                    <span class="text-xl font-display font-normal tracking-tightest leading-none select-none normal-case"><span>whybit</span><span class="logo-dot"></span></span>
+                </div>
+                <div class="flex flex-wrap gap-x-6 gap-y-2">
+                    <a href="https://www.instagram.com/whybit.in/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">instagram</a>
+                    <a href="https://www.youtube.com/@why-bit" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">youtube</a>
+                    <a href="https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">linkedin</a>
+                    <a href="https://github.com/whybitlabs" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">github</a>
+                    <a href="/contact/" class="ul-link text-ink-dim hover:text-accent">contact</a>
+                </div>
+                <div class="flex flex-col md:items-end gap-1 normal-case tracking-normal">
+                    <div class="text-[10px] tracking-[0.25em] uppercase">copyleft 🄯 2026 whybit · gpl v3</div>
+                    <div class="text-[10px] tracking-[0.25em] uppercase">
+                        site by
+                        <a href="https://absurd.industries/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">absurd industries</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+        <!-- ============ BOTTOM NAV (mobile only) ============ -->
+        <nav class="bottom-nav md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-stretch justify-around pt-2">
+            <a href="/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 10 L11 3 L19 10 V18 H3 Z" />
+                    <circle cx="11" cy="14" r="1" fill="currentColor" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">home</span>
+            </a>
+            <a href="/lun-e/" aria-current="page" class="nav-item active flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="7" width="16" height="10" rx="2" />
+                    <circle cx="8" cy="12" r="1.2" fill="currentColor" />
+                    <circle cx="14" cy="12" r="1.2" fill="currentColor" />
+                    <path d="M11 7 V4" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">lun-e</span>
+            </a>
+            <a href="/lun-e/evolution/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 17 L8 11 L12 14 L19 5" />
+                    <path d="M15 5 H19 V9" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">evolution</span>
+            </a>
+            <a href="/about/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M9 9 Q9 7 11 7 Q13 7 13 9 Q13 10.5 11 11 V12.5" />
+                    <circle cx="11" cy="15" r="0.8" fill="currentColor" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">about</span>
+            </a>
+            <a href="/contact/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="16" height="12" rx="1.5" />
+                    <path d="M3 7 L11 12 L19 7" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">contact</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+
+</html>

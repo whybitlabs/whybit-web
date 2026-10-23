@@ -161,6 +161,7 @@
     </script>
 
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="preload" href="/models/lun-e-explode.glb" as="fetch" type="model/gltf-binary" crossorigin />
 </head>
 
 <body class="bg-bg text-ink font-sans antialiased overflow-x-hidden">
@@ -208,40 +209,35 @@
         <main class="flex-1 flex flex-col scroll-blur-target pb-24 md:pb-0">
 
             <!-- ============ HERO ============ -->
-            <section class="relative min-h-[92svh] flex flex-col justify-center px-6 md:px-12 pt-24 pb-20">
+            <!-- Scroll-driven: the section is taller than the screen and the stage
+                 inside it is sticky. hero-explode.js maps how far you have scrolled
+                 through the section onto the model — scroll down and Lun-E comes
+                 apart, scroll back up and it goes back together. -->
+            <section id="lune-scroll" class="lune-scroll relative">
+                <div class="lune-stage px-6 md:px-12">
 
-                <div class="w-full grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-10 md:gap-12 md:items-center">
-
-                    <!-- lun-e, in motion. First on mobile, right-hand column on desktop. -->
-                    <div class="md:order-2">
-                        <!-- Live 3D: the real assembly taking itself apart (hero-explode.js).
-                             The GIF is the fallback — it stays until the model has loaded,
-                             and remains if WebGL or the model is unavailable. -->
-                        <div id="lune-hero" class="hero-3d w-full max-w-[520px] md:ml-auto" data-model="/models/lun-e-explode.glb">
-                            <img src="/images/lun-e-front-facing-eyes-on.gif"
-                                 alt="Lun-E — a tracked desktop robot, front on, its oled eyes blinking"
-                                 width="480" height="270" decoding="async"
-                                 class="hero-media hero-3d-fallback w-full h-auto rounded-sm" />
-                        </div>
+                    <!-- the model: first on mobile, right-hand side on desktop -->
+                    <div id="lune-hero" class="lune-canvas md:order-2" data-model="/models/lun-e-explode.glb">
+                        <div class="lune-loading" aria-hidden="true"><span class="lune-loading-dot"></span>loading lun-e</div>
+                        <div class="lune-labels" aria-hidden="true"></div>
                     </div>
 
-                    <div class="md:order-1">
-                        <h1 class="hero-title text-[12vw] md:text-[6.5vw] text-ink max-w-[11ch]">
+                    <div class="lune-copy md:order-1">
+                        <h1 class="hero-title text-[11vw] md:text-[5.6vw] text-ink max-w-[11ch]">
                             tiny robots for <em>every</em> desk
                         </h1>
 
-                        <p class="mt-8 max-w-md text-sm md:text-base text-ink-dim font-mono leading-relaxed">
+                        <p class="mt-6 md:mt-8 max-w-md text-sm md:text-base text-ink-dim font-mono leading-relaxed">
                             desktop robotics kits for people who ask
                             <span class="text-accent font-display italic text-lg align-baseline">why?</span>
                         </p>
 
-                        <div class="mt-10 flex flex-wrap gap-4">
-                            <a href="/about/" class="self-center text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-ink transition-colors ul-link">the story →</a>
+                        <div class="mt-8 md:mt-10 flex flex-wrap items-center gap-6">
+                            <a href="/about/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-ink transition-colors ul-link">the story →</a>
+                            <span class="lune-hint text-[10px] tracking-[0.3em] uppercase text-ink-low">scroll to take it apart ↓</span>
                         </div>
                     </div>
                 </div>
-
-
             </section>
 
             <!-- ============ PRODUCTS ============ -->

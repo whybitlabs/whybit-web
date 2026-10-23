@@ -4,13 +4,27 @@
   "compatibility_date": "2026-08-06",
   "observability": { "enabled": true },
 
-  // Assets-only Worker: there is no "main", so no Worker script runs — Cloudflare
-  // just serves these files. The assets directory is the repo root, so .assetsignore
-  // (next to this file) is what keeps node_modules and repo furniture out of the upload.
+  // The site is still served straight from the repo root. worker/index.js only
+  // answers /api/* (the pre-order form); every other request goes to the assets.
+  // .assetsignore keeps worker/, node_modules and repo furniture out of the upload.
   //
   // html_handling defaults to "auto-trailing-slash", which serves about/index.html at
   // both /about and /about/ — the clean URLs the nav already links to.
+  "main": "worker/index.js",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
   }
+
+  // ---- pre-order database (one-time setup — see README "pre-orders") ----
+  // 1. npx wrangler d1 create whybit-preorders
+  // 2. paste the database_id it prints below and remove the // in front of the block
+  // 3. npx wrangler d1 execute whybit-preorders --remote --file=worker/schema.sql
+  // 4. npx wrangler secret put ADMIN_KEY      (any long random string — used to export orders)
+  // Until then the site deploys fine and the form says "reservations open soon".
+  //
+  // ,"d1_databases": [
+  //   { "binding": "DB", "database_name": "whybit-preorders", "database_id": "PASTE-ID-HERE" }
+  // ]
 }

@@ -26,14 +26,17 @@ index.html          →  whybit.in/
 lun-e/index.html    →  whybit.in/lun-e     (lun-e rc — the current build)
 lun-e/pcb/          →  whybit.in/lun-e/pcb  (the board: specs, bom, pinout, board files)
 lun-e/evolution/    →  whybit.in/lun-e/evolution  (every version, v1 → now)
+connect/            →  whybit.in/connect   (connect — the controller for lun-e)
 about/index.html    →  whybit.in/about
 contact/index.html  →  whybit.in/contact
-images/             →  local media (images/lun-e-rc/ = renders of the current build)
-models/             →  3d models (lun-e-rc.glb viewer, lun-e-explode.glb home hero, lun-e.glb v1)
+images/             →  local media (images/lun-e-rc/, images/connect/ = renders)
+models/             →  3d models (lun-e-rc.glb / connect.glb viewers, lun-e-explode.glb / connect-explode.glb home scroll sections, lun-e.glb v1)
 downloads/lun-e-rc/ →  gerbers, board step, bom, printable stls
+downloads/connect/  →  printable stls for the controller
 styles.css          →  everything tailwind can't do elegantly
 script.js           →  theme toggle, starfield, cursor glow, scroll blur
-hero-explode.js     →  home hero: lun-e spins and comes apart as you scroll
+hero-explode.js     →  home page scroll sections: lun-e (hero) and connect spin and come apart as you scroll.
+                       one config per model in CONFIGS; a section opts in with data-hero="lune" / "connect"
 ```
 
 to add a version to the evolution page: copy one `.evo-stop` link in the rail
@@ -63,3 +66,27 @@ python3 -m http.server 8080
 copyleft 🄯 2026 whybit. released under the [GNU GPL v3](./LICENSE). fork it, remix it, ship it — just keep it free.
 
 site by [absurd industries](https://absurd.industries/).
+
+## pre-orders
+
+the home page has a free-reservation form (`#preorder`, `preorder.js`). it posts to a tiny
+worker (`worker/index.js`) that stores reservations in cloudflare d1. no payment is taken.
+
+the site deploys and works without the database — the form just says "reservations open
+soon". to switch reservations on, once:
+
+```sh
+npx wrangler d1 create whybit-preorders
+# paste the database_id it prints into wrangler.jsonc and un-comment the d1_databases block
+npx wrangler d1 execute whybit-preorders --remote --file=worker/schema.sql
+npx wrangler secret put ADMIN_KEY        # any long random string
+```
+
+then push. to download every reservation as a spreadsheet:
+
+```sh
+curl -H "Authorization: Bearer <ADMIN_KEY>" https://whybit.in/api/preorder/export -o preorders.csv
+```
+
+first batch size (20) and the kit list live at the top of `worker/index.js`.
+the first 20 units are `reserved`; anyone after that is saved as `waitlist`.

@@ -20,3 +20,6 @@ LICENSE
 # 31 MB uncompressed original — over Cloudflare's 25 MiB per-file cap, and unused by
 # the site, which loads the 1.1 MB draco-compressed models/lun-e.glb instead.
 models/lun-e.source.glb
+
+# local build helpers for the page generator
+.build

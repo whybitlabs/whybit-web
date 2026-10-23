@@ -534,3 +534,12 @@ model-viewer {
 .evo-badge.now { color: var(--accent); border-color: var(--accent); }
 /* model-viewer ships a 300 × 150 px default size from its shadow root; size it from the page instead */
 model-viewer { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; --poster-color: transparent; background: var(--bg-soft); border: 1px solid var(--line); }
+/* lun-e highlights */
+.rc-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.rc-stats > div { background: var(--bg-soft); padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+.rc-stats b { font-weight: 400; font-size: clamp(30px, 4vw, 44px); line-height: 1; letter-spacing: -0.04em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.rc-stats span { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-low); }
+.rc-feature { background: var(--bg-soft); padding: 24px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.rc-feature .k { font-size: 10px; letter-spacing: 0.3em; color: var(--accent); }
+.rc-feature b { font-weight: 400; font-size: 16px; color: var(--ink); }
+.rc-feature p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--ink-dim); }

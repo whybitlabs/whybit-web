@@ -24,6 +24,7 @@ the full build — hardware, wiring, firmware and print files — is documented 
 ```
 index.html          →  whybit.in/
 lun-e/index.html    →  whybit.in/lun-e     (lun-e rc — the current build)
+lun-e/pcb/          →  whybit.in/lun-e/pcb  (the board: specs, bom, pinout, board files)
 lun-e/evolution/    →  whybit.in/lun-e/evolution  (every version, v1 → now)
 about/index.html    →  whybit.in/about
 contact/index.html  →  whybit.in/contact

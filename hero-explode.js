@@ -33,7 +33,7 @@ function init() {
   }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMapping = THREE.NeutralToneMapping;   // keeps brand colours true (ACES shifts orange toward salmon)
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x000000, 0);
@@ -127,8 +127,25 @@ function init() {
   ];
 
   const nodes = {};
+  // #FF5B1F, the logo orange. The printed orange parts use a matcap painted in that exact
+  // colour (a small highlight where a face looks straight at the camera, slightly darker at grazing angles),
+  // so they read as the logo orange whatever the scene lighting and theme.
+  const BRAND = new THREE.Color('#FF5B1F');
+  const isBrand = (c) => Math.abs(c.r - BRAND.r) + Math.abs(c.g - BRAND.g) + Math.abs(c.b - BRAND.b) < 0.03;
+  const brandMat = (() => {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 256;
+    const x = cv.getContext('2d');
+    const gr = x.createRadialGradient(110, 104, 4, 128, 128, 128);
+    gr.addColorStop(0.0, '#FF7440');
+    gr.addColorStop(0.18, '#FF5B1F');
+    gr.addColorStop(0.96, '#FF5B1F');
+    gr.addColorStop(1.0, '#B9410F');
+    x.fillStyle = gr; x.fillRect(0, 0, 256, 256);
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+    return new THREE.MeshMatcapMaterial({ matcap: tex, side: THREE.DoubleSide, toneMapped: false, flatShading: true });  // the model has no vertex normals
+  })();
   const draco = new DRACOLoader();
-  draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/gltf/');
+  draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/libs/draco/gltf/');
   const loader = new GLTFLoader();
   loader.setDRACOLoader(draco);
   loader.load(host.dataset.model || '/models/lun-e-explode.glb', (gltf) => {
@@ -140,7 +157,11 @@ function init() {
       o.userData.base = o.position.clone();
       o.geometry.computeBoundingBox();
       o.userData.center = o.geometry.boundingBox.getCenter(new THREE.Vector3());
-      if (o.material) o.material.side = THREE.DoubleSide;
+      if (o.material) {
+        o.material.side = THREE.DoubleSide;
+        // whybit orange: pin the printed parts to the logo colour #FF5B1F
+        if (o.material.color && isBrand(o.material.color)) o.material = brandMat;
+      }
     });
     root.add(gltf.scene);
     for (const L of LABELS) {

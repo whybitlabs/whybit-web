@@ -1,0 +1,161 @@
+                <div class="border border-line bg-bg-soft p-4 md:p-8 mb-12 overflow-x-auto">
+                    <svg viewBox="0 0 900 720" class="w-full min-w-[620px] h-auto" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         role="img" aria-label="Block diagram: xiao esp32-s3 at the centre. button with 10k pull-down, battery divider (2 × 10k) and two yellow leds on its left; i²c header (sda, scl) above; m1, m1', m2, m2' to a drv8833 motor driver on its right, which drives motor a (out1, out2) and motor b (out3, out4). power: battery feeds the drv8833 and the divider; the xiao's 3v3 feeds the button; one common ground.">
+
+                        <!-- ============ SIGNAL BAND ============ -->
+                        <text x="0" y="14" class="text-accent" fill="currentColor" font-size="12" letter-spacing="3">SIGNAL</text>
+
+                        <!-- i2c header -->
+                        <g class="text-ink-low" stroke="currentColor" stroke-width="1.6">
+                            <rect x="315" y="36" width="200" height="56" rx="3" />
+                            <circle cx="375" cy="64" r="4" /><circle cx="455" cy="64" r="4" />
+                        </g>
+                        <text x="415" y="30" class="text-ink" fill="currentColor" font-size="13" text-anchor="middle">i²c header</text>
+
+                        <!-- xiao esp32-s3 -->
+                        <g class="text-ink-low" stroke="currentColor" stroke-width="1.6">
+                            <rect x="330" y="150" width="170" height="210" rx="3" />
+                            <path d="M352 174 l5 -9 l5 9 l5 -9 l5 9 l5 -9" />
+                        </g>
+                        <text x="415" y="250" class="text-ink" fill="currentColor" font-size="15" text-anchor="middle">xiao</text>
+                        <text x="415" y="270" class="text-ink" fill="currentColor" font-size="15" text-anchor="middle">esp32-s3</text>
+
+                        <!-- left: inputs + leds -->
+                        <g class="text-ink-low" stroke="currentColor" stroke-width="1.6">
+                            <rect x="20" y="140" width="150" height="62" rx="3" />
+                            <rect x="20" y="225" width="150" height="62" rx="3" />
+                            <rect x="20" y="310" width="150" height="62" rx="3" />
+                            <!-- led glyphs -->
+                            <path d="M132 334 h14 l-7 10 z M132 344 h14" />
+                            <path d="M150 330 l5 -5 M154 336 l5 -5" />
+                        </g>
+                        <g class="text-ink" fill="currentColor" font-size="13">
+                            <text x="36" y="168">button</text>
+                            <text x="36" y="253">bat divider</text>
+                            <text x="36" y="338">2 × led</text>
+                        </g>
+                        <g class="text-ink-dim" fill="currentColor" font-size="10" letter-spacing="1">
+                            <text x="36" y="186">ts3320a</text>
+                            <text x="36" y="271">2 × 10kΩ</text>
+                            <text x="36" y="356">yled1206g</text>
+                        </g>
+
+                        <!-- right: drv8833 + motors -->
+                        <g class="text-ink-low" stroke="currentColor" stroke-width="1.6">
+                            <rect x="600" y="160" width="130" height="190" rx="3" />
+                            <rect x="790" y="160" width="100" height="72" rx="3" />
+                            <circle cx="840" cy="196" r="14" />
+                            <rect x="790" y="278" width="100" height="72" rx="3" />
+                            <circle cx="840" cy="314" r="14" />
+                        </g>
+                        <text x="665" y="251" class="text-ink" fill="currentColor" font-size="13" text-anchor="middle">drv8833</text>
+                        <text x="665" y="268" class="text-ink-dim" fill="currentColor" font-size="10" letter-spacing="1" text-anchor="middle">motor driver</text>
+                        <g class="text-ink" fill="currentColor" font-size="11" text-anchor="middle">
+                            <text x="840" y="200">A</text>
+                            <text x="840" y="318">B</text>
+                        </g>
+                        <g class="text-ink-dim" fill="currentColor" font-size="11" text-anchor="middle">
+                            <text x="840" y="252">motor a</text>
+                            <text x="840" y="370">motor b</text>
+                        </g>
+
+                        <!-- signal wires -->
+                        <g class="text-accent" stroke="currentColor" stroke-width="2">
+                            <!-- i2c -->
+                            <path d="M375 92 V150" />
+                            <path d="M455 92 V150" />
+                            <!-- inputs / led -->
+                            <path d="M170 171 H330" />
+                            <path d="M170 256 H330" />
+                            <path d="M330 341 H170" />
+                            <!-- esp -> drv8833 -->
+                            <path d="M500 190 H600" />
+                            <path d="M500 230 H600" />
+                            <path d="M500 280 H600" />
+                            <path d="M500 320 H600" />
+                            <!-- drv8833 -> motors -->
+                            <path d="M730 186 H790" />
+                            <path d="M730 206 H790" />
+                            <path d="M730 304 H790" />
+                            <path d="M730 324 H790" />
+                        </g>
+                        <!-- direction ticks -->
+                        <g class="text-accent" stroke="currentColor" stroke-width="2">
+                            <path d="M322 165 l8 6 l-8 6" />
+                            <path d="M322 250 l8 6 l-8 6" />
+                            <path d="M178 335 l-8 6 l8 6" />
+                        </g>
+                        <g class="text-ink-dim" fill="currentColor" font-size="11" letter-spacing="1">
+                            <text x="363" y="124" text-anchor="end">sda</text>
+                            <text x="467" y="124">scl</text>
+                            <text x="182" y="162">button</text>
+                            <text x="182" y="247">bat-vol · <tspan class="text-ink" fill="currentColor">adc</tspan></text>
+                            <text x="182" y="332">led</text>
+                            <text x="550" y="183" text-anchor="middle">m1</text>
+                            <text x="550" y="223" text-anchor="middle">m1'</text>
+                            <text x="550" y="273" text-anchor="middle">m2'</text>
+                            <text x="550" y="313" text-anchor="middle">m2</text>
+                        </g>
+                        <g class="text-ink-dim" fill="currentColor" font-size="9" letter-spacing="0.5" text-anchor="middle">
+                            <text x="760" y="180">out1</text>
+                            <text x="760" y="220">out2</text>
+                            <text x="760" y="298">out3</text>
+                            <text x="760" y="338">out4</text>
+                        </g>
+
+                        <!-- divider -->
+                        <path d="M0 416 H900" class="text-line" stroke="currentColor" stroke-width="1" stroke-dasharray="3 5" />
+
+                        <!-- ============ POWER BAND ============ -->
+                        <text x="0" y="450" class="text-accent" fill="currentColor" font-size="12" letter-spacing="3">POWER</text>
+
+                        <g class="text-ink-low" stroke="currentColor" stroke-width="1.6">
+                            <!-- row 1: battery -> drv8833 -> motors -->
+                            <rect x="20" y="478" width="150" height="62" rx="3" />
+                            <rect x="250" y="478" width="150" height="62" rx="3" />
+                            <rect x="480" y="478" width="150" height="62" rx="3" />
+                            <!-- row 2: divider, 3v3 -> button -->
+                            <rect x="250" y="570" width="150" height="62" rx="3" />
+                            <rect x="560" y="570" width="130" height="62" rx="3" />
+                            <rect x="20" y="570" width="150" height="62" rx="3" stroke-dasharray="4 4" />
+                        </g>
+                        <g class="text-ink" fill="currentColor" font-size="13" text-anchor="middle">
+                            <text x="95" y="515">battery</text>
+                            <text x="325" y="515">drv8833 · vm</text>
+                            <text x="555" y="515">motors a + b</text>
+                            <text x="325" y="607">divider ÷ 2</text>
+                            <text x="95" y="607">xiao · 3v3</text>
+                            <text x="625" y="607">button</text>
+                        </g>
+
+                        <!-- power flow arrows -->
+                        <g class="text-accent" stroke="currentColor" stroke-width="2">
+                            <path d="M170 509 H242 M234 503 l8 6 l-8 6" />
+                            <path d="M400 509 H472 M464 503 l8 6 l-8 6" />
+                            <!-- bat branch down to divider -->
+                            <path d="M206 509 V601 H242 M234 595 l8 6 l-8 6" />
+                            <!-- divider -> adc -->
+                            <path d="M400 601 H452 M444 595 l8 6 l-8 6" />
+                            <!-- 3v3 -> button (routed under) -->
+                            <path d="M95 632 V652 H625 V640 M619 646 l6 -6 l6 6" />
+                        </g>
+                        <circle cx="206" cy="509" r="3" class="text-accent" fill="currentColor" />
+                        <g class="text-ink-dim" fill="currentColor" font-size="10" letter-spacing="1" text-anchor="middle">
+                            <text x="206" y="497">bat</text>
+                            <text x="436" y="497">out1–4</text>
+                        </g>
+                        <text x="460" y="598" class="text-ink" fill="currentColor" font-size="11">bat-vol</text>
+                        <text x="460" y="613" class="text-ink-dim" fill="currentColor" font-size="10">→ adc</text>
+                        <text x="705" y="598" class="text-ink" fill="currentColor" font-size="11">high side;</text>
+                        <text x="705" y="613" class="text-ink-dim" fill="currentColor" font-size="10">10k pull-down</text>
+
+                        <!-- common ground bus -->
+                        <g class="text-ink-low" stroke="currentColor" stroke-width="1.6">
+                            <path d="M40 690 H860" />
+                            <path d="M705 632 V690" stroke-dasharray="3 4" />
+                            <path d="M450 690 V702 M436 702 H464 M441 709 H459 M446 716 H454" />
+                        </g>
+                        <text x="40" y="682" class="text-ink-dim" fill="currentColor" font-size="11">one common ground — xiao, drv8833, leds, divider, pull-down</text>
+                    </svg>
+                </div>

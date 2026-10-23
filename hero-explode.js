@@ -58,6 +58,11 @@ function init() {
   const fill = new THREE.DirectionalLight(0xdfe8ff, 0.5);
   fill.position.set(120, 40, -80);
   scene.add(fill);
+  // rim light from behind — only switched on in dark mode, where the black
+  // robot would otherwise melt into the black starfield
+  const rim = new THREE.DirectionalLight(0xcfe0ff, 0);
+  rim.position.set(40, 90, -160);
+  scene.add(rim);
 
   const groundMat = new THREE.ShadowMaterial({ opacity: 0.18 });
   const ground = new THREE.Mesh(new THREE.CircleGeometry(220, 64), groundMat);
@@ -114,6 +119,7 @@ function init() {
   // `lift`: raise the anchor (mm) so it sits on the top run of the chain, not inside it.
   const LABELS = [
     { node: 'body_lid',         text: '<b>lid</b> · usb-c + button' },
+    { node: 'pcb_mask',         text: '<b>esp32-c3</b> main board' },
     { node: 'oled_case_front',  text: '<b>0.96″ oled</b> · snap-fit case' },
     { node: 'chain_L',          pair: 'chain_R', lift: 12, text: '<b>10 mm chain</b> · 15 links' },
     { node: 'sprocket_motor_L', pair: 'sprocket_motor_R', text: '<b>n20 drive</b> sprocket' },
@@ -174,8 +180,9 @@ function init() {
 
   function syncTheme() {
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-    groundMat.opacity = dark ? 0.45 : 0.18;
-    renderer.toneMappingExposure = dark ? 1.08 : 1.0;
+    groundMat.opacity = dark ? 0.6 : 0.18;
+    renderer.toneMappingExposure = dark ? 1.15 : 1.0;
+    rim.intensity = dark ? 2.2 : 0;
     dirty = true; wake();
   }
   new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

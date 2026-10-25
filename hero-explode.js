@@ -27,8 +27,8 @@ const CONFIGS = {
     model: '/models/lun-e-explode.glb',
     aria: 'Lun-E, a tracked desktop robot, coming apart into its parts as the page scrolls',
     fallback: ['/images/Lun-E.jpeg', 'Lun-E — a tracked desktop robot with animated oled eyes'],
-    ground: -10.62,
-    screen: { pos: [0, -28.09, 17.7], rot: [Math.PI / 2, 0, 0], move: [0, -23, 0], start: 0.14 },
+    ground: -12.28,
+    screen: { pos: [0, -28.09, 25.7], rot: [Math.PI / 2, 0, 0], move: [0, -23, 0], start: 0.14 },
     expl: {
       body_lid:         [[0, 0, 30], 0.00],
       usb_c:            [[0, 0, 12], 0.10],
@@ -46,7 +46,7 @@ const CONFIGS = {
       { node: 'body_lid',         text: '<b>lid</b> · usb-c + button' },
       { node: 'pcb_mask',         text: '<b>esp32-c3</b> main board' },
       { node: 'oled_case_front',  text: '<b>0.96″ oled</b> · snap-fit case' },
-      { node: 'chain_L',          pair: 'chain_R', lift: 12, text: '<b>10 mm chain</b> · 15 links' },
+      { node: 'chain_L',          pair: 'chain_R', lift: 12, text: '<b>8 mm chain</b> · 20 links' },
       { node: 'sprocket_motor_L', pair: 'sprocket_motor_R', text: '<b>n20 drive</b> sprocket' },
       { node: 'bearing_625_L',    pair: 'bearing_625_R', text: '<b>625-2z</b> idler bearing' },
     ],
@@ -167,7 +167,7 @@ function init(section, host, cfg) {
   faceTex.colorSpace = THREE.SRGBColorSpace;
   function drawFace(open) {
     g.shadowBlur = 0; g.fillStyle = '#000'; g.fillRect(0, 0, 512, 256);
-    g.fillStyle = '#7fe3ff'; g.shadowColor = '#7fe3ff'; g.shadowBlur = 18;
+    g.fillStyle = '#ffffff'; g.shadowColor = '#ffffff'; g.shadowBlur = 18;
     const h = Math.max(10, 130 * open), y = 58 + (130 - h) / 2, r = Math.min(34, h / 2);
     g.beginPath(); g.roundRect(96, y, 112, h, r); g.fill();
     g.beginPath(); g.roundRect(304, y, 112, h, r); g.fill();
@@ -202,6 +202,7 @@ function init(section, host, cfg) {
     const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
     return new THREE.MeshMatcapMaterial({ matcap: tex, side: THREE.DoubleSide, toneMapped: false, flatShading: true });  // the model has no vertex normals
   })();
+  const brandMatN = brandMat.clone(); brandMatN.flatShading = false;   // for parts whose face normals we compute
   const draco = new DRACOLoader();
   draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/libs/draco/gltf/');
   const loader = new GLTFLoader();
@@ -215,10 +216,15 @@ function init(section, host, cfg) {
       o.userData.base = o.position.clone();
       o.geometry.computeBoundingBox();
       o.userData.center = o.geometry.boundingBox.getCenter(new THREE.Vector3());
+      // faceted normals computed per face (flat shading from screen derivatives streaks on thin triangles)
+      const tris = o.geometry.index ? o.geometry.index.count / 3 : o.geometry.attributes.position.count / 3;
+      const faceted = !o.geometry.attributes.normal && tris < 40000;
+      if (faceted) { o.geometry = o.geometry.toNonIndexed(); o.geometry.computeVertexNormals(); }
       if (o.material) {
+        if (faceted) { o.material.flatShading = false; o.material.needsUpdate = true; }
         o.material.side = THREE.DoubleSide;
         // whybit orange: pin the printed parts to the logo colour #FF5B1F
-        if (o.material.color && isBrand(o.material.color)) o.material = brandMat;
+        if (o.material.color && isBrand(o.material.color)) o.material = faceted ? brandMatN : brandMat;
       }
     });
     root.add(gltf.scene);

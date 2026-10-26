@@ -206,7 +206,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 lg:items-start">
-                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="Lun-E RC board: esp32-c3 module, usb-c, button, pin header, headlights" loading="lazy" /><figcaption>esp32-c3 module at the back · usb-c in the middle · oled header on the front edge</figcaption></figure>
+                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="Lun-E RC board: esp32-c3 module, usb-c, button, pin header" loading="lazy" /><figcaption>esp32-c3 module at the back · usb-c in the middle · oled header on the front edge</figcaption></figure>
 
                     <dl class="rc-specs">
                         <div><dt>brain</dt><dd>esp32-c3-mini-1-h4 · risc-v, wi-fi + ble, 4 mb flash</dd></div>
@@ -216,7 +216,6 @@
                         <div><dt>cell</dt><dd>1s lipo, 300 mAh, protected · soldered to pads underneath</dd></div>
                         <div><dt>usb</dt><dd>vertical through-hole usb-c · charge + program</dd></div>
                         <div><dt>face</dt><dd>0.96″ ssd1306 oled on a 4-pin i2c header</dd></div>
-                        <div><dt>lights</dt><dd>two white 0603 headlights</dd></div>
                         <div><dt>input</dt><dd>one button · wakes the board from deep sleep</dd></div>
                         <div><dt>board</dt><dd>26 × 42 mm · 2 layers · 1.6 mm</dd></div>
                     </dl>
@@ -230,7 +229,7 @@
                         <li><span>02</span>tp4054 → 1s lipo (protected cell)</li>
                         <li><span>03</span>cell → drv8833 motor supply</li>
                         <li><span>04</span>cell → rt9080 → 3.3 v</li>
-                        <li><span>05</span>3.3 v → esp32-c3, oled, headlights</li>
+                        <li><span>05</span>3.3 v → esp32-c3, oled</li>
                     </ol>
                 </div>
             </section>
@@ -257,7 +256,7 @@
                             <tr><td>J1</td><td>1</td><td>USB-C receptacle USB 2.0 16P, vertical (top-entry), through-hole, 10 mm tall</td><td>USB-C vertical, through-hole</td><td>TYPE-C 16PLC-H10.0</td><td>fitted</td></tr>
                             <tr><td>SW1</td><td>1</td><td>Tactile switch 5.2x5.2 mm SMD, 3.2 N, 2.0 mm high</td><td>SMD 5.2x5.2 mm</td><td>PTS526 SP20 SMTR2 LFS</td><td>fitted</td></tr>
                             <tr><td>D1</td><td>1</td><td>LED red 0603, charge indicator</td><td>0603</td><td>XL-1608VRC-06</td><td>fitted</td></tr>
-                            <tr><td>D2 D3</td><td>2</td><td>LED white 0603, headlight</td><td>0603</td><td>White LED 0603 (equiv. LTW-C191DS5)</td><td>fitted</td></tr>
+                            <tr><td>D2 D3</td><td>2</td><td>LED white 0603 · headlights, dropped</td><td>0603</td><td>—</td><td>not fitted</td></tr>
                             <tr><td>C1 C2</td><td>2</td><td>MLCC 4.7uF 50V X5R 0805</td><td>4.7uF · 0805</td><td>0805X475K500NT</td><td>fitted</td></tr>
                             <tr><td>C3</td><td>1</td><td>MLCC 10uF 16V X5R 0805</td><td>10uF · 0805</td><td>GRT21BR61C106KE01L</td><td>fitted</td></tr>
                             <tr><td>C4 C8</td><td>2</td><td>MLCC 1uF 16V X5R 0603</td><td>1uF · 0603</td><td>GRM188R61C105KA12D</td><td>fitted</td></tr>
@@ -268,7 +267,7 @@
                             <tr><td>R3</td><td>1</td><td>Resistor 2k 1% 0603</td><td>2k · 0603</td><td>AC0603FR-072KL</td><td>fitted</td></tr>
                             <tr><td>R4</td><td>1</td><td>Resistor 1k 1% 0603</td><td>1k · 0603</td><td>RC0603FR-071KL</td><td>fitted</td></tr>
                             <tr><td>R7 R8 R9 R10</td><td>4</td><td>Resistor 10k 1% 0603</td><td>10k · 0603</td><td>RC0603FR-0710KL</td><td>fitted</td></tr>
-                            <tr><td>R11 R12</td><td>2</td><td>Resistor 47R 5% 0603</td><td>47 · 0603</td><td>RC0603JR-0747RL</td><td>fitted</td></tr>
+                            <tr><td>R11 R12</td><td>2</td><td>Resistor 47R 5% 0603 · headlight resistors, dropped</td><td>47 · 0603</td><td>—</td><td>not fitted</td></tr>
                             <tr><td>U2</td><td>1</td><td>Dual H-bridge motor driver, TSSOP-16</td><td>TSSOP-16</td><td>DRV8833PWR</td><td><span class="fit-hand">hand</span></td></tr>
                             <tr><td>J2</td><td>1</td><td>Battery solder pads</td><td>2 SMD pads (SMB size)</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
                             <tr><td>J3</td><td>1</td><td>N20 motor A</td><td>2 holes, 7.00 mm pitch</td><td>—</td><td><span class="fit-hand">hand</span></td></tr>
@@ -293,7 +292,7 @@
                         <thead><tr><th>gpio</th><th>function</th></tr></thead>
                         <tbody>
                             <tr><td>0</td><td>motor a · ain2</td></tr>
-                            <tr><td>1</td><td>left headlight (low = on)</td></tr>
+                            <tr><td>1</td><td>free</td></tr>
                             <tr><td>2</td><td>oled i2c scl · strap pull-up</td></tr>
                             <tr><td>3</td><td>free</td></tr>
                             <tr><td>4</td><td>motor a · ain1</td></tr>
@@ -303,7 +302,7 @@
                             <tr><td>9</td><td>strap · jp1 = download mode</td></tr>
                             <tr><td>10</td><td>motor sleep (high = motors on)</td></tr>
                             <tr><td>18 / 19</td><td>usb d− / d+</td></tr>
-                            <tr><td>20</td><td>right headlight (low = on)</td></tr>
+                            <tr><td>20</td><td>free</td></tr>
                             <tr><td>21</td><td>free (boot-log tx)</td></tr>
                         </tbody>
                     </table>
@@ -320,7 +319,7 @@
                     <div class="rc-feature"><b>hand-soldered driver</b><p>the drv8833 is fitted by hand: tssop-16 at 0.65 mm pitch. flux and a fine tip help.</p></div>
                     <div class="rc-feature"><b>cell first</b><p>connect the battery before you charge or program — the board runs from the cell.</p></div>
                     <div class="rc-feature"><b>protected cell only</b><p>there is no battery protection on the board; use a 1s lipo with its own protection.</p></div>
-                    <div class="rc-feature"><b>upward light</b><p>0603 leds shine up more than forward, so the headlights glow rather than beam.</p></div>
+                    <div class="rc-feature"><b>first flash</b><p>a blank chip needs jp1 shorted while you plug in usb-c. after that, it flashes straight over usb.</p></div>
                 </div>
             </section>
 

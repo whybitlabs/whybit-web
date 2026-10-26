@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+
+    <title>drive lun-e — phone controller · whybit.</title>
+    <meta name="description" content="drive lun-e rc from your phone over bluetooth. a thumb joystick, headlights, eye expressions and speed limit — right in the browser, nothing to install." />
+    <meta name="author" content="harshith aradhya · whybit" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://whybit.in/drive/" />
+
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="lun-e drive" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.svg" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="whybit." />
+    <meta property="og:title" content="drive lun-e from your phone" />
+    <meta property="og:description" content="a bluetooth joystick for lun-e rc, right in the browser." />
+    <meta property="og:url" content="https://whybit.in/drive/" />
+    <meta property="og:image" content="/images/lun-e-rc/lun-e-rc-og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/images/lun-e-rc/lun-e-rc-og.jpg" />
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('whybit-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', stored || (prefersDark ? 'dark' : 'light'));
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+
+    <style>
+      /* Page-local styles. Tokens (--bg, --ink, --accent, --line …) come from /styles.css. */
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); font-family: "JetBrains Mono", ui-monospace, monospace;
+             -webkit-font-smoothing: antialiased; overscroll-behavior: none; }
+      .dv { min-height: 100svh; display: flex; flex-direction: column; }
+      .dv-top { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+                padding: 20px 24px; }
+      .dv-logo { color: var(--ink); text-decoration: none; font-size: 20px; letter-spacing: -0.06em; line-height: 1; }
+      .dv-top-r { display: flex; align-items: center; gap: 12px; }
+      .dv-kicker { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-dim); }
+      .dv-chip { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-low);
+                 border: 1px solid var(--line); padding: 5px 10px; white-space: nowrap; max-width: 46vw;
+                 overflow: hidden; text-overflow: ellipsis; }
+      .dv-chip.on { color: var(--accent); border-color: var(--accent); }
+      .theme-toggle { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
+                      background: none; color: var(--ink-dim); display: flex; align-items: center;
+                      justify-content: center; cursor: pointer; padding: 0; }
+      .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+      .dv-main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 560px;
+                 margin: 0 auto; padding: 0 16px max(20px, env(safe-area-inset-bottom)); gap: 14px; }
+
+      .dv-btn { font: inherit; font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+                color: var(--ink); background: var(--bg-soft); border: 1px solid var(--line);
+                padding: 13px 14px; cursor: pointer; touch-action: manipulation; transition: border-color .2s, color .2s; }
+      .dv-btn:hover { border-color: var(--accent); color: var(--accent); }
+      .dv-btn:active { transform: scale(.98); }
+      .dv-btn.sel { border-color: var(--accent); color: var(--accent); }
+      .dv-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .dv-btn.primary:hover { background: var(--accent-deep); color: #fff; }
+      .dv-btn:disabled { opacity: .4; pointer-events: none; }
+
+      /* connect screen */
+      #connectView { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 24px 0 40px; }
+      #connectView h1 { font-weight: 400; font-size: clamp(40px, 12vw, 64px); letter-spacing: -0.06em; line-height: 1; margin: 0; }
+      #connectView h1 em { color: var(--accent); }
+      #connectView p { margin: 0; color: var(--ink-dim); font-size: 13px; line-height: 1.6; max-width: 44ch; }
+      .dv-eyes { display: flex; gap: 14px; }
+      .dv-eyes i { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); animation: blink 5s infinite; }
+      @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.08); } }
+      .dv-err { color: var(--accent); }
+      .dv-notes { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+      .dv-notes div { background: var(--bg-soft); padding: 14px 16px; font-size: 12px; color: var(--ink-dim); line-height: 1.55; }
+      .dv-notes b { display: block; color: var(--ink); font-weight: 500; font-size: 10px; letter-spacing: .25em;
+                    text-transform: uppercase; margin-bottom: 4px; }
+      .dv-links { display: flex; flex-wrap: wrap; gap: 20px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+      .dv-links a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+      .dv-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+      /* drive screen */
+      #driveView { flex: 1; display: none; flex-direction: column; gap: 14px; user-select: none; -webkit-user-select: none; }
+      .dv-status { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+      .dv-status div { background: var(--bg-soft); padding: 10px 12px; font-size: 9px; letter-spacing: .25em;
+                       text-transform: uppercase; color: var(--ink-low); }
+      .dv-status b { display: block; margin-top: 4px; color: var(--ink); font-size: 12px; letter-spacing: 0;
+                     text-transform: none; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .dv-pad-wrap { flex: 1; display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 250px; }
+      .dv-tread { width: 10px; height: 180px; border: 1px solid var(--line); position: relative; overflow: hidden; background: var(--bg-soft); }
+      .dv-tread i { position: absolute; left: 0; right: 0; top: 50%; height: 0; background: var(--accent); transition: all .15s; }
+      .dv-tread::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--ink-low); }
+      #pad { width: min(70vw, 290px); aspect-ratio: 1; border-radius: 50%; position: relative; touch-action: none;
+             border: 1px solid var(--line); background:
+               radial-gradient(circle, var(--bg-soft) 0 56%, transparent 57%),
+               radial-gradient(var(--dot) 1px, transparent 1.2px) 0 0 / 12px 12px, var(--bg); }
+      #pad::before, #pad::after { content: ""; position: absolute; background: var(--line); }
+      #pad::before { left: 50%; top: 8%; bottom: 8%; width: 1px; }
+      #pad::after { top: 50%; left: 8%; right: 8%; height: 1px; }
+      #knob { position: absolute; width: 30%; aspect-ratio: 1; left: 35%; top: 35%; border-radius: 50%; z-index: 1;
+              background: var(--accent); box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent);
+              transition: transform .14s ease-out; }
+      #pad.held #knob { transition: none; }
+      .dv-card { border: 1px solid var(--line); background: var(--bg-soft); padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+      .dv-slider { display: flex; flex-direction: column; gap: 8px; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--ink-dim); }
+      .dv-slider span { display: flex; justify-content: space-between; }
+      .dv-slider b { color: var(--ink); font-weight: 500; letter-spacing: 0; }
+      input[type=range] { width: 100%; accent-color: var(--accent); }
+      .dv-row { display: flex; gap: 8px; }
+      .dv-row > * { flex: 1; }
+      .dv-moods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .dv-moods .dv-btn { padding: 10px 0; }
+      details.dv-card summary { cursor: pointer; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--ink-dim); }
+      details.dv-card[open] summary { margin-bottom: 4px; }
+      .dv-hint { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-low); text-align: center; }
+      @media (prefers-reduced-motion: reduce) { .dv-eyes i { animation: none; } }
+    </style>
+</head>
+
+<body>
+<div class="dv">
+    <header class="dv-top">
+        <a href="/" class="dv-logo" aria-label="whybit — home"><span>whybit</span><span class="logo-dot"></span></a>
+        <div class="dv-top-r">
+            <span id="chip" class="dv-chip">offline</span>
+            <button type="button" id="theme-toggle" class="theme-toggle">
+                <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+                <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="dv-main">
+        <!-- ============ CONNECT ============ -->
+        <section id="connectView">
+            <div class="dv-kicker">/ drive — lun-e rc over bluetooth</div>
+            <div class="dv-eyes" aria-hidden="true"><i></i><i></i></div>
+            <h1>drive <em>lun-e.</em></h1>
+            <p id="connectMsg">switch the rover on, tap connect and pick “lun-e rc-…” from the list. nothing to install.</p>
+            <button id="btnConnect" class="dv-btn primary">connect to lun-e</button>
+
+            <div class="dv-notes">
+                <div><b>android</b>chrome works out of the box.</div>
+                <div><b>iphone</b>safari can't talk bluetooth. open this page in the free bluefy browser.</div>
+                <div><b>desktop</b>chrome or edge — drive with w a s d or the arrow keys, l for headlights.</div>
+            </div>
+            <div class="dv-links">
+                <a href="/lun-e/#drive">firmware + how it works →</a>
+                <a href="/connect/">prefer a real stick? connect →</a>
+            </div>
+        </section>
+
+        <!-- ============ DRIVE ============ -->
+        <section id="driveView">
+            <div class="dv-status">
+                <div>driving<b id="stSource">—</b></div>
+                <div>connect<b id="stConnect">—</b></div>
+                <div>lights<b id="stLights">—</b></div>
+            </div>
+
+            <div class="dv-pad-wrap">
+                <div class="dv-tread" title="left track"><i id="trL"></i></div>
+                <div id="pad" aria-label="joystick"><div id="knob"></div></div>
+                <div class="dv-tread" title="right track"><i id="trR"></i></div>
+            </div>
+
+            <div class="dv-card">
+                <label class="dv-slider"><span>max speed <b id="spdVal">70%</b></span>
+                    <input id="speed" type="range" min="10" max="100" step="5" value="70"></label>
+                <div class="dv-row"><button id="btnLights" class="dv-btn">headlights</button></div>
+                <div class="dv-moods" id="moods">
+                    <button class="dv-btn" data-m="0">normal</button>
+                    <button class="dv-btn" data-m="1">happy</button>
+                    <button class="dv-btn" data-m="2">sad</button>
+                    <button class="dv-btn" data-m="3">angry</button>
+                    <button class="dv-btn" data-m="4">sleepy</button>
+                    <button class="dv-btn" data-m="5">wow</button>
+                </div>
+            </div>
+
+            <details class="dv-card">
+                <summary>setup</summary>
+                <label class="dv-slider"><span>steering trim — drifts? nudge it <b id="trimVal">0</b></span>
+                    <input id="trim" type="range" min="-30" max="30" step="1" value="0"></label>
+                <div class="dv-row">
+                    <button id="btnPair" class="dv-btn">pair a connect</button>
+                    <button id="btnSleep" class="dv-btn">sleep</button>
+                </div>
+                <div class="dv-row"><button id="btnDisconnect" class="dv-btn">disconnect</button></div>
+                <div class="dv-hint" id="info"></div>
+            </details>
+            <div class="dv-hint">keys: w a s d / arrows · l = lights</div>
+        </section>
+    </main>
+</div>
+
+<script>
+// Must match common/lune_protocol.h in the firmware (/downloads/lun-e-rc/lun-e-firmware.zip)
+const SVC    = '6e4c0001-7a3d-4f8b-9c51-4c554e452d31';
+const DRIVE  = '6e4c0002-7a3d-4f8b-9c51-4c554e452d31';
+const CMD    = '6e4c0003-7a3d-4f8b-9c51-4c554e452d31';
+const STATUS = '6e4c0004-7a3d-4f8b-9c51-4c554e452d31';
+const CMD_LIGHTS = 1, CMD_MOOD = 2, CMD_TRIM = 3, CMD_PAIR = 4, CMD_SLEEP = 5;
+const F_LIGHTS = 1, F_APP = 2, F_CONNECT = 4, F_PAIRING = 8, F_PAIRED = 16;
+
+const $ = id => document.getElementById(id);
+let device = null, chDrive = null, chCmd = null, chStatus = null;
+let busy = false, cmdQueue = [], sendTimer = null;
+const stick = { x: 0, y: 0 }, keys = new Set();
+
+// ---------- connection ----------
+function supported() {
+  if (!navigator.bluetooth) {
+    $('connectMsg').innerHTML = '<span class="dv-err">this browser has no web bluetooth.</span> ' +
+      'use chrome on android or desktop — on iphone, open this page in bluefy.';
+    $('btnConnect').disabled = true;
+    return false;
+  }
+  return true;
+}
+
+async function connect() {
+  try {
+    $('connectMsg').textContent = 'looking for lun-e…';
+    device = await navigator.bluetooth.requestDevice({
+      filters: [{ services: [SVC] }, { namePrefix: 'Lun-E' }],
+      optionalServices: [SVC],
+    });
+    device.addEventListener('gattserverdisconnected', onDisconnected);
+    $('connectMsg').textContent = `connecting to ${(device.name || 'lun-e').toLowerCase()}…`;
+    const server = await device.gatt.connect();
+    const svc = await server.getPrimaryService(SVC);
+    chDrive = await svc.getCharacteristic(DRIVE);
+    chCmd = await svc.getCharacteristic(CMD);
+    chStatus = await svc.getCharacteristic(STATUS);
+    chStatus.addEventListener('characteristicvaluechanged', e => onStatus(e.target.value));
+    await chStatus.startNotifications();
+    onStatus(await chStatus.readValue());
+    busy = false; cmdQueue = [];
+    $('connectView').style.display = 'none';
+    $('driveView').style.display = 'flex';
+    $('chip').textContent = (device.name || 'connected').toLowerCase();
+    $('chip').classList.add('on');
+    sendTimer = setInterval(tick, 50);  // 20 Hz
+  } catch (e) {
+    if (e && e.name === 'NotFoundError') { $('connectMsg').textContent = 'no rover picked. is it switched on and close by?'; return; }
+    $('connectMsg').innerHTML = `<span class="dv-err">${(e && e.message) || e}</span>`;
+  }
+}
+
+function onDisconnected() {
+  clearInterval(sendTimer);
+  chDrive = chCmd = chStatus = null;
+  $('chip').textContent = 'offline';
+  $('chip').classList.remove('on');
+  $('driveView').style.display = 'none';
+  $('connectView').style.display = 'flex';
+  $('btnConnect').textContent = 'reconnect';
+  $('connectMsg').textContent = 'disconnected — the rover stopped on its own.';
+}
+
+// ---------- writes (web bluetooth allows one gatt op at a time) ----------
+async function tick() {
+  if (!chDrive || busy) return;
+  busy = true;
+  try {
+    if (cmdQueue.length) {
+      await chCmd.writeValueWithResponse(cmdQueue.shift());
+    } else {
+      if (document.hidden) { stick.x = 0; stick.y = 0; }
+      const k = keyStick();
+      const x = k ? k.x : stick.x, y = k ? k.y : stick.y;
+      const buf = new Uint8Array([x & 0xff, y & 0xff, +$('speed').value]);
+      await chDrive.writeValueWithoutResponse(buf);
+    }
+  } catch (e) { console.warn(e); }
+  busy = false;
+}
+
+function sendCmd(cmd, arg = 0) {
+  if (cmd === CMD_TRIM) cmdQueue = cmdQueue.filter(q => q[0] !== CMD_TRIM);
+  cmdQueue.push(new Uint8Array([cmd, arg & 0xff]));
+  if (navigator.vibrate) navigator.vibrate(15);
+}
+
+// ---------- status ----------
+function onStatus(dv) {
+  if (dv.byteLength < 10) return;
+  const s = {
+    flags: dv.getUint8(1), source: dv.getUint8(2), mood: dv.getUint8(3),
+    left: dv.getInt8(4), right: dv.getInt8(5), trim: dv.getInt8(6),
+    rssi: dv.getInt8(7), uptime: dv.getUint16(8, true),
+  };
+  $('stSource').textContent = ['nobody', 'connect', 'you'][s.source] || '?';
+  $('stConnect').textContent = s.flags & F_CONNECT ? `linked ${s.rssi} dBm`
+    : s.flags & F_PAIRING ? 'pairing…' : s.flags & F_PAIRED ? 'off' : 'not paired';
+  $('stLights').textContent = s.flags & F_LIGHTS ? 'on' : 'off';
+  $('btnLights').classList.toggle('sel', !!(s.flags & F_LIGHTS));
+  document.querySelectorAll('#moods button').forEach(b => b.classList.toggle('sel', +b.dataset.m === s.mood));
+  setTread($('trL'), s.left);
+  setTread($('trR'), s.right);
+  if (document.activeElement !== $('trim')) { $('trim').value = s.trim; $('trimVal').textContent = s.trim; }
+  const m = Math.floor(s.uptime / 60), sec = s.uptime % 60;
+  $('info').textContent = `${(device && device.name || '').toLowerCase()} · up ${m}:${String(sec).padStart(2, '0')}`;
+}
+
+function setTread(el, v) {
+  const h = Math.abs(v) / 2;
+  el.style.height = h + '%';
+  el.style.top = v >= 0 ? (50 - h) + '%' : '50%';
+}
+
+// ---------- joystick ----------
+const pad = $('pad'), knob = $('knob');
+let activePointer = null;
+function padMove(e) {
+  const r = pad.getBoundingClientRect(), R = r.width / 2;
+  let dx = e.clientX - (r.left + R), dy = e.clientY - (r.top + R);
+  const max = R * 0.7, d = Math.hypot(dx, dy);
+  if (d > max) { dx *= max / d; dy *= max / d; }
+  knob.style.transform = `translate(${dx}px, ${dy}px)`;
+  stick.x = Math.round(dx / max * 100);
+  stick.y = Math.round(-dy / max * 100);
+}
+pad.addEventListener('pointerdown', e => { activePointer = e.pointerId; pad.setPointerCapture(e.pointerId); pad.classList.add('held'); padMove(e); });
+pad.addEventListener('pointermove', e => { if (e.pointerId === activePointer) padMove(e); });
+const release = e => {
+  if (e.pointerId !== activePointer) return;
+  activePointer = null; pad.classList.remove('held');
+  knob.style.transform = ''; stick.x = 0; stick.y = 0;
+};
+pad.addEventListener('pointerup', release);
+pad.addEventListener('pointercancel', release);
+
+const KEYMAP = { KeyW: 'u', ArrowUp: 'u', KeyS: 'd', ArrowDown: 'd', KeyA: 'l', ArrowLeft: 'l', KeyD: 'r', ArrowRight: 'r' };
+addEventListener('keydown', e => {
+  if (!chDrive) return;
+  if (KEYMAP[e.code]) { keys.add(KEYMAP[e.code]); e.preventDefault(); }
+  if (e.code === 'KeyL' && !e.repeat) sendCmd(CMD_LIGHTS, 2);
+});
+addEventListener('keyup', e => { if (KEYMAP[e.code]) keys.delete(KEYMAP[e.code]); });
+addEventListener('blur', () => keys.clear());
+function keyStick() {
+  if (!keys.size) return null;
+  return { x: (keys.has('r') ? 100 : 0) - (keys.has('l') ? 100 : 0),
+           y: (keys.has('u') ? 100 : 0) - (keys.has('d') ? 100 : 0) };
+}
+
+// ---------- controls ----------
+$('btnConnect').onclick = connect;
+$('btnDisconnect').onclick = () => device && device.gatt && device.gatt.disconnect();
+$('btnLights').onclick = () => sendCmd(CMD_LIGHTS, 2);
+document.querySelectorAll('#moods button').forEach(b => b.onclick = () => sendCmd(CMD_MOOD, +b.dataset.m));
+$('speed').oninput = e => { $('spdVal').textContent = e.target.value + '%'; save('speed', e.target.value); };
+$('trim').oninput = e => { $('trimVal').textContent = e.target.value; sendCmd(CMD_TRIM, +e.target.value); };
+$('btnPair').onclick = () => sendCmd(CMD_PAIR);
+let sleepArm = 0;
+$('btnSleep').onclick = () => {
+  if (Date.now() - sleepArm < 2500) { sendCmd(CMD_SLEEP); $('btnSleep').textContent = 'sleep'; return; }
+  sleepArm = Date.now();
+  $('btnSleep').textContent = 'tap again';
+  setTimeout(() => { $('btnSleep').textContent = 'sleep'; }, 2500);
+};
+
+function save(k, v) { try { localStorage.setItem('lune.' + k, v); } catch (_) {} }
+function load(k) { try { return localStorage.getItem('lune.' + k); } catch (_) { return null; } }
+const sp = load('speed');
+if (sp) { $('speed').value = sp; $('spdVal').textContent = sp + '%'; }
+
+supported();
+</script>
+<script src="/script.js"></script>
+</body>
+
+</html>

@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
 
     <title>Lun-E RC — an open tracked rover you can build · whybit.</title>
-    <meta name="description" content="Lun-E RC is a palm-sized tracked rover on a custom esp32-c3 board: n20 gear motors, printed chain tracks, esp-now control and animated oled eyes. spin the 3d model, read the board, bom and pinout, and download every file." />
+    <meta name="description" content="Lun-E RC is a palm-sized tracked rover on a custom esp32-c3 board: n20 gear motors, printed chain tracks, esp-now or phone control and animated oled eyes. spin the 3d model, read the board, bom and pinout, drive it from your phone and download every file." />
     <meta name="keywords" content="lun-e, lun-e rc, whybit, esp32-c3, esp32-c3-mini-1, drv8833, n20 motor, tracked robot, esp-now, ssd1306, oled eyes, open hardware, kicad, 3d printed robot" />
     <meta name="author" content="harshith aradhya · whybit" />
     <meta name="creator" content="whybit" />
@@ -211,6 +211,7 @@
                             <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">custom 26 × 42 mm pcb</span>
                             <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">2× n20 + drv8833</span>
                             <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">esp-now</span>
+                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">ble phone app</span>
                             <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">0.96″ oled</span>
                             <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">1s lipo + usb-c</span>
                             <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">3d printed</span>
@@ -219,6 +220,7 @@
                         <div class="flex flex-wrap items-center gap-6">
                             <a href="#files"
                                class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">get the files →</a>
+                            <a href="/drive/" class="text-xs tracking-[0.2em] uppercase text-accent hover:text-accent-deep transition-colors ul-link">drive it from your phone →</a>
                             <a href="/lun-e/pcb/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">the board →</a>
                             <a href="/lun-e/evolution/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">how it got here →</a>
                         </div>
@@ -273,7 +275,7 @@
                     <div class="rc-feature"><span class="k">01</span><b>its own board</b><p>a custom esp32-c3 pcb replaces the dev board, modules and wires of the first build.</p></div>
                     <div class="rc-feature"><span class="k">02</span><b>geared tracks</b><p>two n20 gear motors on a drv8833 drive 8-tooth sprockets and printed 10.67 mm chain.</p></div>
                     <div class="rc-feature"><span class="k">03</span><b>animated oled eyes</b><p>a 0.96″ oled in a snap-fit case gives it a face — and the eyes are drawn in code.</p></div>
-                    <div class="rc-feature"><span class="k">04</span><b>esp-now control</b><p>driven from an esp32 transmitter — no router, no app, no pairing dance.</p></div>
+                    <div class="rc-feature"><span class="k">04</span><b>two ways to drive</b><p>the connect controller over esp-now, or your phone over bluetooth — no router either way.</p></div>
                     <div class="rc-feature"><span class="k">05</span><b>one usb-c port</b><p>charges the cell and programs the chip through the same socket.</p></div>
                     <div class="rc-feature"><span class="k">06</span><b>headlights + deep sleep</b><p>two white leds up front, and a button that wakes it from deep sleep.</p></div>
                 </div>
@@ -405,15 +407,48 @@
             <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
                 <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 04 — where it's at</div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">done</div><p class="text-sm text-ink-dim leading-relaxed">board designed and ordered · body, tracks and oled case modelled for printing.</p></div>
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">next</div><p class="text-sm text-ink-dim leading-relaxed">firmware for this board — motors, headlights, button, deep sleep — on github.</p></div>
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">not yet</div><p class="text-sm text-ink-dim leading-relaxed">no sensors, so it doesn't drive itself; it isn't driven from a phone.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">done</div><p class="text-sm text-ink-dim leading-relaxed">board designed and ordered · body, tracks and oled case modelled for printing · firmware v0.1 and the phone app written.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">next</div><p class="text-sm text-ink-dim leading-relaxed">flash v0.1 onto the first boards, tune the motors and eyes on the real rover, then publish it on github.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">not yet</div><p class="text-sm text-ink-dim leading-relaxed">no sensors, so it doesn't drive itself.</p></div>
                 </div>
             </section>
 
-            <!-- ============ 05 — FILES ============ -->
+            <!-- ============ 05 — DRIVE IT (firmware + phone app) ============ -->
+            <section id="drive" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 05 — drive it</div>
+                <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14">
+                    <div>
+                        <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-xl leading-[1.1] mb-6">
+                            a stick in your hand, <em class="italic text-accent">or your phone.</em>
+                        </h2>
+                        <p class="text-sm text-ink-dim leading-relaxed max-w-xl mb-8">
+                            one firmware listens for both. <span class="text-ink">connect</span> talks esp-now; your phone talks bluetooth from a web page —
+                            nothing to install. both can be on at once: whoever moves first drives, and if the driver goes quiet for 0.3 s the tracks stop.
+                        </p>
+                        <ul class="evo-delta mb-10">
+                            <li><b>esp-now</b><span>paired to one connect · 50 hz</span></li>
+                            <li><b>bluetooth</b><span>web bluetooth · chrome on android / desktop</span></li>
+                            <li><b>eyes</b><span>6 moods · they blink and look where you steer</span></li>
+                            <li><b>button</b><span>click lights · double-click pair · hold to sleep</span></li>
+                        </ul>
+                        <div class="flex flex-wrap items-center gap-6">
+                            <a href="/drive/" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase">open the phone app →</a>
+                            <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">firmware .zip ↓</a>
+                        </div>
+                        <p class="text-[10px] tracking-[0.2em] uppercase text-ink-low mt-6">v0.1 · platformio · being tested on the first boards</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-line border border-line self-start">
+                        <div class="rc-feature"><span class="k">01</span><b>flash it</b><p>open <code>rover/</code> in platformio and upload over the usb-c. first time on a blank board: short jp1 while plugging in.</p></div>
+                        <div class="rc-feature"><span class="k">02</span><b>pair connect</b><p>double-click the rover's button, hold connect's stick for 3 s. both screens say paired — and remember it.</p></div>
+                        <div class="rc-feature"><span class="k">03</span><b>or grab your phone</b><p>open whybit.in/drive in chrome, tap connect, pick lun-e rc. on iphone use the bluefy browser.</p></div>
+                        <div class="rc-feature"><span class="k">04</span><b>make it yours</b><p>pins, motor direction, speed and dead band live in one <code>config.h</code>. the protocol is one shared header.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ 06 — FILES ============ -->
             <section id="files" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 05 — every file</div>
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 06 — every file</div>
                 <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
                     all of it is <em class="italic text-accent">already yours.</em>
                 </h2>
@@ -421,7 +456,7 @@
                     nothing behind a wall, nothing behind an email form.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     <a href="/models/lun-e-rc.glb" download
                        class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" /><path d="M12 22 V12 M12 12 L21 7 M12 12 L3 7" /></svg>
@@ -438,6 +473,15 @@
                         <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">printable parts</div>
                         <p class="text-xs text-ink-dim leading-relaxed mb-6">body base and lid, 8-tooth drive sprocket and freewheel, 10.67 mm chain links and the oled case.</p>
                         <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.stl ×7</span><span class="text-ink-low border border-line px-2 py-1">6.8 mb</span></div>
+                    </a>
+
+                    <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download
+                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M8 7 L3 12 L8 17" /><path d="M16 7 L21 12 L16 17" /><path d="M13.5 4 L10.5 20" /></svg>
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">code</div>
+                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">firmware + app</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">rover and connect firmware (platformio), the shared protocol and the phone app. v0.1.</p>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">platformio</span><span class="text-ink-low border border-line px-2 py-1">35 kb</span></div>
                     </a>
 
                     <a href="/lun-e/pcb/#board-files"

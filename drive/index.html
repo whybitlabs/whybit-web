@@ -21,8 +21,9 @@
     <meta name="format-detection" content="telephone=no" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.svg" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="apple-touch-icon" href="/drive/icons/apple-touch-icon.png" />
+    <!-- Installable, offline-capable app: manifest + service worker (/drive/sw.js) -->
+    <link rel="manifest" href="/drive/manifest.webmanifest" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="whybit." />
@@ -94,6 +95,8 @@
       .dv-notes div { background: var(--bg-soft); padding: 14px 16px; font-size: 12px; color: var(--ink-dim); line-height: 1.55; }
       .dv-notes b { display: block; color: var(--ink); font-weight: 500; font-size: 10px; letter-spacing: .25em;
                     text-transform: uppercase; margin-bottom: 4px; }
+      .dv-install-hint { font-size: 11px !important; color: var(--ink-low) !important; margin-top: -10px !important; }
+      [hidden] { display: none !important; }
       .dv-links { display: flex; flex-wrap: wrap; gap: 20px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
       .dv-links a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
       .dv-links a:hover { color: var(--accent); border-color: var(--accent); }
@@ -155,11 +158,13 @@
             <div class="dv-kicker">/ drive — lun-e rc over bluetooth</div>
             <div class="dv-eyes" aria-hidden="true"><i></i><i></i></div>
             <h1>drive <em>lun-e.</em></h1>
-            <p id="connectMsg">switch the rover on, tap connect and pick “lun-e rc-…” from the list. nothing to install.</p>
+            <p id="connectMsg">switch the rover on, tap connect and pick “lun-e rc-…” from the list.</p>
             <button id="btnConnect" class="dv-btn primary">connect to lun-e</button>
+            <button id="btnInstall" class="dv-btn" hidden>install app · works offline</button>
+            <p id="installHint" class="dv-install-hint" hidden></p>
 
             <div class="dv-notes">
-                <div><b>android</b>chrome works out of the box.</div>
+                <div><b>android</b>chrome works out of the box. tap <i>install app</i> (or chrome menu → add to home screen) and it opens like an app — no internet needed after that.</div>
                 <div><b>iphone</b>safari can't talk bluetooth. open this page in the free bluefy browser.</div>
                 <div><b>desktop</b>chrome or edge — drive with w a s d or the arrow keys.</div>
             </div>
@@ -384,6 +389,38 @@ const sp = load('speed');
 if (sp) { $('speed').value = sp; $('spdVal').textContent = sp + '%'; }
 
 supported();
+
+// ---------- install + offline ----------
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+let installPrompt = null;
+if ('serviceWorker' in navigator) {
+  addEventListener('load', () => {
+    navigator.serviceWorker.register('/drive/sw.js', { scope: '/drive/' }).catch(e => console.warn('sw', e));
+  });
+}
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  installPrompt = e;
+  if (!standalone) $('btnInstall').hidden = false;
+});
+$('btnInstall').onclick = async () => {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  await installPrompt.userChoice.catch(() => null);
+  installPrompt = null;
+  $('btnInstall').hidden = true;
+};
+addEventListener('appinstalled', () => {
+  $('btnInstall').hidden = true;
+  $('installHint').hidden = false;
+  $('installHint').textContent = 'installed — open lun-e from your home screen, even with no internet.';
+});
+if (standalone) {
+  $('installHint').hidden = false;
+  $('installHint').textContent = navigator.onLine ? 'app mode · works offline' : 'offline · bluetooth still works';
+  addEventListener('online', () => { $('installHint').textContent = 'app mode · works offline'; });
+  addEventListener('offline', () => { $('installHint').textContent = 'offline · bluetooth still works'; });
+}
 </script>
 <script src="/script.js"></script>
 </body>

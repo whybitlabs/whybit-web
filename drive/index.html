@@ -233,12 +233,37 @@ let busy = false, cmdQueue = [], sendTimer = null;
 const stick = { x: 0, y: 0 }, keys = new Set();
 
 // ---------- connection ----------
+// Explain *why* Web Bluetooth is missing, so the fix is obvious.
+function whyNoBluetooth() {
+  const ua = navigator.userAgent;
+  if (!window.isSecureContext)
+    return ['this address isn’t secure, so the browser hides bluetooth.', 'open https://whybit.in/drive/ (or http://localhost) instead of a plain http:// or lan address.'];
+  if (/iPhone|iPad|iPod/.test(ua))
+    return ['iphone browsers can’t talk bluetooth.', 'open this page in the free bluefy browser.'];
+  if (/FBAN|FBAV|Instagram|WhatsApp|Line\/|; wv\)/.test(ua))
+    return ['this is an in-app browser.', 'open the page in chrome instead (⋮ → open in chrome).'];
+  if (navigator.brave)
+    return ['brave switches web bluetooth off.', 'turn on brave://flags/#brave-web-bluetooth-api and relaunch, or use chrome.'];
+  if (/Firefox\//.test(ua))
+    return ['firefox doesn’t support web bluetooth.', 'use chrome or edge.'];
+  if (/Linux/.test(ua) && !/Android|CrOS/.test(ua))
+    return ['chrome on linux keeps web bluetooth behind a flag.',
+            'paste chrome://flags/#enable-experimental-web-platform-features in the address bar, set it to enabled, relaunch chrome and make sure bluetooth is on.'];
+  return ['this browser has no web bluetooth.', 'use chrome or edge on android, windows, mac or chromeos — on iphone, bluefy.'];
+}
+
 function supported() {
   if (!navigator.bluetooth) {
-    $('connectMsg').innerHTML = '<span class="dv-err">this browser has no web bluetooth.</span> ' +
-      'use chrome on android or desktop — on iphone, open this page in bluefy.';
+    const [what, fix] = whyNoBluetooth();
+    $('connectMsg').innerHTML = `<span class="dv-err">${what}</span> ${fix}`;
     $('btnConnect').disabled = true;
     return false;
+  }
+  // Bluetooth API present but the radio is off / missing.
+  if (navigator.bluetooth.getAvailability) {
+    navigator.bluetooth.getAvailability().then(ok => {
+      if (!ok) $('connectMsg').innerHTML = '<span class="dv-err">bluetooth looks switched off.</span> turn it on, then tap connect.';
+    }).catch(() => {});
   }
   return true;
 }

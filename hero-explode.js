@@ -27,7 +27,7 @@ const CONFIGS = {
     model: '/models/lun-e-explode.glb',
     aria: 'Lun-E, a tracked desktop robot, coming apart into its parts as the page scrolls',
     fallback: ['/images/Lun-E.jpeg', 'Lun-E — a tracked desktop robot with animated oled eyes'],
-    ground: -12.28,
+    ground: -11.70,
     screen: { pos: [0, -28.09, 25.7], rot: [Math.PI / 2, 0, 0], move: [0, -23, 0], start: 0.14 },
     expl: {
       body_lid:         [[0, 0, 30], 0.00],
@@ -46,7 +46,7 @@ const CONFIGS = {
       { node: 'body_lid',         text: '<b>lid</b> · usb-c + button' },
       { node: 'pcb_mask',         text: '<b>esp32-c3</b> main board' },
       { node: 'oled_case_front',  text: '<b>0.96″ oled</b> · snap-fit case' },
-      { node: 'chain_L',          pair: 'chain_R', lift: 12, text: '<b>8 mm chain</b> · 20 links' },
+      { node: 'chain_L',          pair: 'chain_R', lift: 12, text: '<b>10.67 mm chain</b> · 14 links' },
       { node: 'sprocket_motor_L', pair: 'sprocket_motor_R', text: '<b>n20 drive</b> sprocket' },
       { node: 'bearing_625_L',    pair: 'bearing_625_R', text: '<b>625-2z</b> idler bearing' },
     ],

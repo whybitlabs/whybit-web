@@ -265,7 +265,7 @@
                     <div class="rc-feature"><span class="k">01</span><b>esp32-c3 glyph board</b><p>the same chip family as lun-e, on a ready-made glyph c3 board with its own usb-c.</p></div>
                     <div class="rc-feature"><span class="k">02</span><b>one thumbstick</b><p>an analog stick under your thumb — push to drive, lean to steer.</p></div>
                     <div class="rc-feature"><span class="k">03</span><b>the same oled case</b><p>the 0.96″ oled sits in the snap-fit case from lun-e. its wires drop through a slot in the shell.</p></div>
-                    <div class="rc-feature"><span class="k">04</span><b>esp-now link</b><p>talks straight to the rover — no router, no app, no pairing dance.</p></div>
+                    <div class="rc-feature"><span class="k">04</span><b>esp-now link</b><p>pair once — hold the stick for 3 s — then it talks straight to the rover. no router, no app.</p></div>
                     <div class="rc-feature"><span class="k">05</span><b>printed shell</b><p>a black shell, an inner plate for the board and an orange end cap — all printable.</p></div>
                     <div class="rc-feature"><span class="k">06</span><b>made to match</b><p>black and whybit orange, same as the rover it drives.</p></div>
                 </div>
@@ -275,8 +275,8 @@
             <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
                 <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — where it's at</div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">done</div><p class="text-sm text-ink-dim leading-relaxed">shell, end cap, inner plate and oled mount modelled · first assembly fits together in cad.</p></div>
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">next</div><p class="text-sm text-ink-dim leading-relaxed">firmware — read the stick, draw on the oled, send it to lun-e — on github.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">done</div><p class="text-sm text-ink-dim leading-relaxed">shell, end cap, inner plate and oled mount modelled · first assembly fits together in cad · firmware v0.1 written.</p></div>
+                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">next</div><p class="text-sm text-ink-dim leading-relaxed">flash v0.1 onto the first controller, tune the stick feel, then publish it on github. <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download class="ul-link text-ink hover:text-accent">get v0.1 ↓</a></p></div>
                     <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">kit</div><p class="text-sm text-ink-dim leading-relaxed">whether connect ships with the lun-e kit is announced with the price.</p></div>
                 </div>
             </section>
@@ -291,7 +291,7 @@
                     nothing behind a wall, nothing behind an email form.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     <a href="/models/connect.glb" download
                        class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" /><path d="M12 22 V12 M12 12 L21 7 M12 12 L3 7" /></svg>
@@ -308,6 +308,15 @@
                         <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">printable parts</div>
                         <p class="text-xs text-ink-dim leading-relaxed mb-6">shell, end cap, inner plate and the oled case (front + back), in assembly position.</p>
                         <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.stl ×5</span><span class="text-ink-low border border-line px-2 py-1">308 kb</span></div>
+                    </a>
+
+                    <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download
+                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M8 7 L3 12 L8 17" /><path d="M16 7 L21 12 L16 17" /><path d="M13.5 4 L10.5 20" /></svg>
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">code</div>
+                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">firmware</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">connect and rover firmware for platformio, sharing one protocol header. stick pins live in <code>config.h</code>.</p>
+                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">platformio</span><span class="text-ink-low border border-line px-2 py-1">v0.1</span></div>
                     </a>
 
                     <a href="/lun-e/"

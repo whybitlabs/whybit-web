@@ -130,6 +130,8 @@
       input[type=range] { width: 100%; accent-color: var(--accent); }
       .dv-row { display: flex; gap: 8px; }
       .dv-row > * { flex: 1; }
+      .dv-lights { align-items: center; }
+      .dv-lights .dv-btn { flex: 0 0 auto; min-width: 118px; padding: 10px 8px; }
       .dv-moods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
       .dv-moods .dv-btn { padding: 10px 0; }
       details.dv-card summary { cursor: pointer; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--ink-dim); }
@@ -191,6 +193,11 @@
             <div class="dv-card">
                 <label class="dv-slider"><span>max speed <b id="spdVal">70%</b></span>
                     <input id="speed" type="range" min="10" max="100" step="5" value="70"></label>
+                <div class="dv-row dv-lights">
+                    <button id="btnLights" class="dv-btn">lights off</button>
+                    <label class="dv-slider"><span>headlights <b id="litVal">66%</b></span>
+                        <input id="lights" type="range" min="5" max="100" step="1" value="66"></label>
+                </div>
                 <div class="dv-moods" id="moods">
                     <button class="dv-btn" data-m="0">normal</button>
                     <button class="dv-btn" data-m="1">happy</button>
@@ -212,7 +219,7 @@
                 <div class="dv-row"><button id="btnDisconnect" class="dv-btn">disconnect</button></div>
                 <div class="dv-hint" id="info"></div>
             </details>
-            <div class="dv-hint">keys: w a s d / arrows</div>
+            <div class="dv-hint">keys: w a s d / arrows · l = lights</div>
         </section>
     </main>
 </div>
@@ -223,9 +230,10 @@ const SVC    = '6e4c0001-7a3d-4f8b-9c51-4c554e452d31';
 const DRIVE  = '6e4c0002-7a3d-4f8b-9c51-4c554e452d31';
 const CMD    = '6e4c0003-7a3d-4f8b-9c51-4c554e452d31';
 const STATUS = '6e4c0004-7a3d-4f8b-9c51-4c554e452d31';
-const CMD_MOOD = 2, CMD_TRIM = 3, CMD_PAIR = 4, CMD_SLEEP = 5;
+const CMD_LIGHTS = 1, CMD_MOOD = 2, CMD_TRIM = 3, CMD_PAIR = 4, CMD_SLEEP = 5;
+const LIGHTS_TOGGLE = -1;  // LUNE_LIGHTS_TOGGLE
 const MOOD_NAMES = ['normal', 'happy', 'sad', 'angry', 'sleepy', 'wow'];
-const F_APP = 2, F_CONNECT = 4, F_PAIRING = 8, F_PAIRED = 16;
+const F_LIGHTS = 1, F_APP = 2, F_CONNECT = 4, F_PAIRING = 8, F_PAIRED = 16;
 
 const $ = id => document.getElementById(id);
 let device = null, chDrive = null, chCmd = null, chStatus = null;
@@ -328,6 +336,7 @@ async function tick() {
 
 function sendCmd(cmd, arg = 0) {
   if (cmd === CMD_TRIM) cmdQueue = cmdQueue.filter(q => q[0] !== CMD_TRIM);
+  if (cmd === CMD_LIGHTS && arg >= 0) cmdQueue = cmdQueue.filter(q => !(q[0] === CMD_LIGHTS && q[1] < 128));
   cmdQueue.push(new Uint8Array([cmd, arg & 0xff]));
   if (navigator.vibrate) navigator.vibrate(15);
 }
@@ -348,6 +357,11 @@ function onStatus(dv) {
   setTread($('trL'), s.left);
   setTread($('trR'), s.right);
   if (document.activeElement !== $('trim')) { $('trim').value = s.trim; $('trimVal').textContent = s.trim; }
+  // headlights: byte 10 (protocol v3). older rovers send 10 bytes -> just the flag.
+  const lit = dv.byteLength >= 11 ? dv.getUint8(10) : (s.flags & F_LIGHTS ? 100 : 0);
+  $('btnLights').textContent = lit ? 'lights on' : 'lights off';
+  $('btnLights').classList.toggle('sel', !!lit);
+  if (lit && document.activeElement !== $('lights')) { $('lights').value = lit; $('litVal').textContent = lit + '%'; }
   const m = Math.floor(s.uptime / 60), sec = s.uptime % 60;
   $('info').textContent = `${(device && device.name || '').toLowerCase()} · up ${m}:${String(sec).padStart(2, '0')}`;
 }
@@ -384,6 +398,7 @@ const KEYMAP = { KeyW: 'u', ArrowUp: 'u', KeyS: 'd', ArrowDown: 'd', KeyA: 'l', 
 addEventListener('keydown', e => {
   if (!chDrive) return;
   if (KEYMAP[e.code]) { keys.add(KEYMAP[e.code]); e.preventDefault(); }
+  else if (e.code === 'KeyL' && !e.repeat) sendCmd(CMD_LIGHTS, LIGHTS_TOGGLE);
 });
 addEventListener('keyup', e => { if (KEYMAP[e.code]) keys.delete(KEYMAP[e.code]); });
 addEventListener('blur', () => keys.clear());
@@ -400,6 +415,9 @@ document.querySelectorAll('#moods button').forEach(b => b.onclick = () => sendCm
 $('speed').oninput = e => { $('spdVal').textContent = e.target.value + '%'; save('speed', e.target.value); };
 $('trim').oninput = e => { $('trimVal').textContent = e.target.value; sendCmd(CMD_TRIM, +e.target.value); };
 $('btnPair').onclick = () => sendCmd(CMD_PAIR);
+$('btnLights').onclick = () => sendCmd(CMD_LIGHTS, LIGHTS_TOGGLE);
+// dragging the slider also switches the lights on at that brightness.
+$('lights').oninput = e => { $('litVal').textContent = e.target.value + '%'; sendCmd(CMD_LIGHTS, +e.target.value); };
 let sleepArm = 0;
 $('btnSleep').onclick = () => {
   if (Date.now() - sleepArm < 2500) { sendCmd(CMD_SLEEP); $('btnSleep').textContent = 'sleep'; return; }

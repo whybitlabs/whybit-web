@@ -7,7 +7,7 @@
 // therefore shows up on the launch after it was deployed.
 // Bump CACHE when this file's precache list changes.
 
-const CACHE = 'lune-drive-v2';
+const CACHE = 'lune-drive-v4';
 const PRECACHE = [
   '/drive/',
   '/drive/manifest.webmanifest',

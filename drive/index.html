@@ -134,8 +134,13 @@
       .dv-lights .dv-btn { flex: 0 0 auto; min-width: 118px; padding: 10px 8px; }
       .dv-moods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
       .dv-moods .dv-btn { padding: 10px 0; }
+      .dv-input { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--line);
+                  padding: 11px 12px; min-width: 0; }
+      .dv-input:focus { outline: none; border-color: var(--accent); }
       details.dv-card summary { cursor: pointer; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--ink-dim); }
       details.dv-card[open] summary { margin-bottom: 4px; }
+      .dv-hint.dv-left { text-align: left; line-height: 1.55; letter-spacing: 0; text-transform: none; font-size: 11px; }
+      details.dv-card[open] > :not(summary) + :not(summary) { margin-top: 8px; }
       .dv-hint { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-low); text-align: center; }
       @media (prefers-reduced-motion: reduce) { .dv-eyes i { animation: none; } }
     </style>
@@ -160,7 +165,7 @@
             <div class="dv-kicker">/ drive — lun-e rc over bluetooth</div>
             <div class="dv-eyes" aria-hidden="true"><i></i><i></i></div>
             <h1>drive <em>lun-e.</em></h1>
-            <p id="connectMsg">switch the rover on, tap connect and pick “lun-e rc-…” from the list.</p>
+            <p id="connectMsg">switch the rover on, tap connect and pick “lun-e …” from the list.</p>
             <button id="btnConnect" class="dv-btn primary">connect to lun-e</button>
             <button id="btnInstall" class="dv-btn" hidden>install app · works offline</button>
             <p id="installHint" class="dv-install-hint" hidden></p>
@@ -169,6 +174,7 @@
                 <div><b>android</b>chrome works out of the box. tap <i>install app</i> (or chrome menu → add to home screen) and it opens like an app — no internet needed after that.</div>
                 <div><b>iphone</b>safari can't talk bluetooth. open this page in the free bluefy browser.</div>
                 <div><b>desktop</b>chrome or edge — drive with w a s d or the arrow keys.</div>
+                <div><b>a room full of rovers</b>no stickers needed: double-click a rover's button and it shows its number on its screen. give each one a number once (setup → rover number); the list then says “lun-e 07”, the rover shows its number when you connect, and <i>find me</i> makes it blink and wiggle.</div>
             </div>
             <div class="dv-links">
                 <a href="/lun-e/#drive">firmware + how it works →</a>
@@ -206,12 +212,29 @@
                     <button class="dv-btn" data-m="4">sleepy</button>
                     <button class="dv-btn" data-m="5">wow</button>
                 </div>
+                <div class="dv-row"><button id="btnFind" class="dv-btn">find me · number + blink + wiggle</button></div>
             </div>
 
             <details class="dv-card">
                 <summary>setup</summary>
                 <label class="dv-slider"><span>steering trim — drifts? nudge it <b id="trimVal">0</b></span>
                     <input id="trim" type="range" min="-30" max="30" step="1" value="0"></label>
+                <label class="dv-slider"><span>motor direction</span></label>
+                <div class="dv-row">
+                    <button id="btnTestL" class="dv-btn">test left</button>
+                    <button id="btnTestR" class="dv-btn">test right</button>
+                </div>
+                <div class="dv-row">
+                    <button id="btnRevL" class="dv-btn">reverse left</button>
+                    <button id="btnRevR" class="dv-btn">reverse right</button>
+                </div>
+                <div class="dv-row"><button id="btnSwap" class="dv-btn">swap left ↔ right</button></div>
+                <div class="dv-hint dv-left" id="motHint">lift the rover. tap test left: the left tread should roll forward. the other tread moved? swap left ↔ right. it rolled backwards? reverse left. then test right. saved on this rover.</div>
+                <label class="dv-slider"><span>rover number <b id="numVal">—</b></span></label>
+                <div class="dv-row">
+                    <input id="num" class="dv-input" type="number" min="1" max="99" inputmode="numeric" placeholder="1–99" />
+                    <button id="btnNum" class="dv-btn">set number</button>
+                </div>
                 <div class="dv-row">
                     <button id="btnPair" class="dv-btn">pair a connect</button>
                     <button id="btnSleep" class="dv-btn">sleep</button>
@@ -230,7 +253,9 @@ const SVC    = '6e4c0001-7a3d-4f8b-9c51-4c554e452d31';
 const DRIVE  = '6e4c0002-7a3d-4f8b-9c51-4c554e452d31';
 const CMD    = '6e4c0003-7a3d-4f8b-9c51-4c554e452d31';
 const STATUS = '6e4c0004-7a3d-4f8b-9c51-4c554e452d31';
-const CMD_LIGHTS = 1, CMD_MOOD = 2, CMD_TRIM = 3, CMD_PAIR = 4, CMD_SLEEP = 5;
+const CMD_LIGHTS = 1, CMD_MOOD = 2, CMD_TRIM = 3, CMD_PAIR = 4, CMD_SLEEP = 5, CMD_NUMBER = 6, CMD_IDENTIFY = 7,
+      CMD_MOTORS = 8, CMD_MOTOR_TEST = 9;
+let renumberedTo = 0;
 const LIGHTS_TOGGLE = -1;  // LUNE_LIGHTS_TOGGLE
 const MOOD_NAMES = ['normal', 'happy', 'sad', 'angry', 'sleepy', 'wow'];
 const F_LIGHTS = 1, F_APP = 2, F_CONNECT = 4, F_PAIRING = 8, F_PAIRED = 16;
@@ -296,7 +321,6 @@ async function connect() {
     busy = false; cmdQueue = [];
     $('connectView').style.display = 'none';
     $('driveView').style.display = 'flex';
-    $('chip').textContent = (device.name || 'connected').toLowerCase();
     $('chip').classList.add('on');
     sendTimer = setInterval(tick, 50);  // 20 Hz
   } catch (e) {
@@ -313,7 +337,10 @@ function onDisconnected() {
   $('driveView').style.display = 'none';
   $('connectView').style.display = 'flex';
   $('btnConnect').textContent = 'reconnect';
-  $('connectMsg').textContent = 'disconnected — the rover stopped on its own.';
+  $('connectMsg').textContent = renumberedTo
+    ? `saved — it restarted as lun-e ${String(renumberedTo).padStart(2, '0')}. tap reconnect and pick it.`
+    : 'disconnected — the rover stopped on its own.';
+  renumberedTo = 0;
 }
 
 // ---------- writes (web bluetooth allows one gatt op at a time) ----------
@@ -348,7 +375,15 @@ function onStatus(dv) {
     flags: dv.getUint8(1), source: dv.getUint8(2), mood: dv.getUint8(3),
     left: dv.getInt8(4), right: dv.getInt8(5), trim: dv.getInt8(6),
     rssi: dv.getInt8(7), uptime: dv.getUint16(8, true),
+    number: dv.byteLength >= 12 ? dv.getUint8(11) : 0,   // protocol v4
   };
+  $('chip').textContent = s.number ? `lun-e ${String(s.number).padStart(2, '0')}` : (device && device.name || 'connected').toLowerCase();
+  $('numVal').textContent = s.number ? String(s.number).padStart(2, '0') : 'not set';
+  // byte 12: motor wiring (rovers with older firmware send 12 bytes -> controls stay off)
+  const mb = dv.byteLength >= 13 ? dv.getUint8(12) : null;
+  if (mb !== motorBits) { motorBits = mb; showMotors(); }
+  $('motHint').hidden = false;
+  if (mb === null) $('motHint').textContent = 'update this rover\'s firmware to set motor direction from here.';
   $('stSource').textContent = ['nobody', 'connect', 'you'][s.source] || '?';
   $('stConnect').textContent = s.flags & F_CONNECT ? `linked ${s.rssi} dBm`
     : s.flags & F_PAIRING ? 'pairing…' : s.flags & F_PAIRED ? 'off' : 'not paired';
@@ -415,6 +450,35 @@ document.querySelectorAll('#moods button').forEach(b => b.onclick = () => sendCm
 $('speed').oninput = e => { $('spdVal').textContent = e.target.value + '%'; save('speed', e.target.value); };
 $('trim').oninput = e => { $('trimVal').textContent = e.target.value; sendCmd(CMD_TRIM, +e.target.value); };
 $('btnPair').onclick = () => sendCmd(CMD_PAIR);
+
+// ---------- motor direction (Setup) ----------
+// bits: 1 = driver channel A is the left tread, 2 = left reversed, 4 = right reversed.
+let motorBits = null;
+function setMotors(b) { motorBits = b & 7; sendCmd(CMD_MOTORS, motorBits); showMotors(); }
+function showMotors() {
+  const ok = motorBits !== null;
+  ['btnTestL', 'btnTestR', 'btnSwap', 'btnRevL', 'btnRevR'].forEach(id => { $(id).disabled = !ok; });
+  if (!ok) return;
+  $('btnRevL').classList.toggle('sel', !!(motorBits & 2));
+  $('btnRevR').classList.toggle('sel', !!(motorBits & 4));
+}
+$('btnTestL').onclick = () => sendCmd(CMD_MOTOR_TEST, 1);
+$('btnTestR').onclick = () => sendCmd(CMD_MOTOR_TEST, 2);
+// Swapping sides moves each motor's "reversed" setting along with it.
+$('btnSwap').onclick = () => setMotors((motorBits ^ 1) & 1 | (motorBits & 2 ? 4 : 0) | (motorBits & 4 ? 2 : 0));
+$('btnRevL').onclick = () => setMotors(motorBits ^ 2);
+$('btnRevR').onclick = () => setMotors(motorBits ^ 4);
+showMotors();
+
+$('btnFind').onclick = () => sendCmd(CMD_IDENTIFY);
+$('btnNum').onclick = () => {
+  const n = parseInt($('num').value, 10);
+  if (!(n >= 1 && n <= 99)) { $('num').focus(); return; }
+  renumberedTo = n;
+  sendCmd(CMD_NUMBER, n);
+  $('btnNum').textContent = 'restarting…';
+  setTimeout(() => { $('btnNum').textContent = 'set number'; }, 4000);
+};
 $('btnLights').onclick = () => sendCmd(CMD_LIGHTS, LIGHTS_TOGGLE);
 // dragging the slider also switches the lights on at that brightness.
 $('lights').oninput = e => { $('litVal').textContent = e.target.value + '%'; sendCmd(CMD_LIGHTS, +e.target.value); };

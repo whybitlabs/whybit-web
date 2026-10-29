@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+
+    <title>flash — lun-e firmware from the browser · whybit.</title>
+    <meta name="description" content="flash the newest lun-e rc, lun-e glyph and connect firmware straight from chrome or edge over usb-c — no arduino ide, no platformio." />
+    <meta name="keywords" content="lun-e firmware, web flasher, esp web tools, web serial, esp32-c3, esp32-s3, connect, whybit" />
+    <meta name="author" content="harshith aradhya · whybit" />
+    <meta name="creator" content="whybit" />
+    <meta name="publisher" content="whybit" />
+    <meta name="copyright" content="copyleft 2026 whybit · GPL v3" />
+    <meta name="robots" content="index, follow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="canonical" href="https://whybit.in/flash/" />
+
+    <!-- Theme colors -->
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: dark)" />
+    <meta name="msapplication-TileColor" content="#FAFAFA" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- iOS / Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="whybit" />
+    <meta name="application-name" content="whybit" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="alternate icon" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.svg" />
+    <link rel="mask-icon" href="/favicon/favicon.svg" color="#FF5B1F" />
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.svg" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="whybit." />
+    <meta property="og:title" content="flash lun-e from the browser" />
+    <meta property="og:description" content="newest firmware for lun-e and connect, one click over usb-c." />
+    <meta property="og:url" content="https://whybit.in/flash/" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:image" content="/images/lun-e-rc/lun-e-rc-og.jpg" />
+    <meta property="og:image:alt" content="Lun-E RC, a small tracked rover with oled eyes." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="flash lun-e from the browser" />
+    <meta name="twitter:description" content="newest firmware for lun-e and connect, one click over usb-c." />
+    <meta name="twitter:image" content="/images/lun-e-rc/lun-e-rc-og.jpg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Lun-E",
+      "description": "An ESP32-C3 powered tracked robot with continuous-servo differential steering and animated OLED eyes. Open firmware and printable chassis.",
+      "brand": { "@type": "Brand", "name": "whybit" },
+      "category": "Robotics kit",
+      "url": "https://whybit.in/lun-e/",
+      "image": "/images/Lun-E.jpeg",
+      "manufacturer": { "@type": "Organization", "name": "whybit", "url": "https://whybit.in/" }
+    }
+    </script>
+
+    <!-- No-FOUC theme bootstrap: apply saved/system theme before paint -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('whybit-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Font: JetBrains Mono (single typeface, roman + italic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: 'var(--bg)',
+                        'bg-soft': 'var(--bg-soft)',
+                        'bg-card': 'var(--bg-card)',
+                        ink: 'var(--ink)',
+                        'ink-dim': 'var(--ink-dim)',
+                        'ink-low': 'var(--ink-low)',
+                        accent: 'var(--accent)',
+                        'accent-deep': 'var(--accent-deep)',
+                        signature: 'var(--signature)',
+                        line: 'var(--line)',
+                    },
+                    fontFamily: {
+                        display: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                        sans: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                    },
+                    letterSpacing: {
+                        tightest: '-0.06em',
+                        tighter2: '-0.04em',
+                    },
+                    animation: {
+                        'pulse-dot': 'pulseDot 2.4s ease-in-out infinite',
+                        'fade-up': 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
+                    },
+                    keyframes: {
+                        pulseDot: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.35)', opacity: '0.7' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- ESP Web Tools 10.2.1 (Apache-2.0, esphome.github.io/esp-web-tools), self-hosted in /flash/ewt/ -->
+    <script type="module" src="/flash/ewt/install-button.js"></script>
+    <style>
+      esp-web-install-button button[slot="activate"] { cursor: pointer; }
+      .fl-card[data-state="missing"] .fl-go, .fl-card[data-state="loading"] .fl-go { display: none; }
+      .fl-card:not([data-state="missing"]) .fl-missing { display: none; }
+      code.fl { font-size: 11px; padding: 1px 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+    </style>
+
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body class="bg-bg text-ink font-sans antialiased overflow-x-hidden">
+
+    <!-- Grain overlay -->
+    <div class="grain pointer-events-none fixed inset-0 z-[60] opacity-[0.035] mix-blend-overlay"></div>
+
+    <!-- Dotted grid background (reactive to cursor on desktop) -->
+    <div id="dot-grid" class="dot-grid pointer-events-none fixed inset-0 z-0"></div>
+
+    <!-- Cursor glow (desktop only) -->
+    <div id="cursor-glow" class="cursor-glow pointer-events-none fixed z-[55] hidden md:block"></div>
+    <div id="cursor-trail" class="cursor-trail pointer-events-none fixed z-[56] hidden md:block"></div>
+
+    <div class="relative z-10 min-h-[100svh] flex flex-col">
+
+        <!-- ============ TOP NAV ============ -->
+        <header class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between pointer-events-none">
+            <a href="/" class="pointer-events-auto" aria-label="whybit — home">
+                <span class="text-xl md:text-2xl font-display font-normal tracking-tightest leading-none select-none"><span>whybit</span><span class="logo-dot"></span></span>
+            </a>
+            <nav class="hidden md:flex gap-8 text-[10px] tracking-[0.3em] uppercase pointer-events-auto">
+                <a href="/lun-e/" class="transition-colors hover:text-accent text-ink-dim">lun-e</a>
+                <a href="/connect/" class="transition-colors hover:text-accent text-ink-dim">connect</a>
+                <a href="/lun-e/evolution/" class="transition-colors hover:text-accent text-ink-dim">evolution</a>
+                <a href="/about/" class="transition-colors hover:text-accent text-ink-dim">about</a>
+                <a href="/contact/" class="transition-colors hover:text-accent text-ink-dim">contact</a>
+                <a href="/#preorder" class="nav-preorder">pre-order</a>
+            </nav>
+            <div class="flex items-center gap-3 pointer-events-auto">
+                <a href="/#preorder" class="po-pill md:hidden">pre-order</a>
+                <span class="md:hidden text-[10px] tracking-[0.3em] uppercase text-ink-low">flash</span>
+                <button type="button" id="theme-toggle"
+                        class="theme-toggle w-9 h-9 rounded-full border border-line hover:border-accent hover:text-accent text-ink-dim flex items-center justify-center transition-colors">
+                    <!-- sun (shown in dark mode) -->
+                    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+                    </svg>
+                    <!-- moon (shown in light mode) -->
+                    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- ============ PAGE CONTENT ============ -->
+        <main class="flex-1 flex flex-col scroll-blur-target pb-24 md:pb-0">
+
+            <!-- ============ HERO ============ -->
+
+            <!-- ============ HERO ============ -->
+            <section class="px-6 md:px-12 pt-28 pb-14 md:pb-20">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-6">/ flash — firmware from the browser</div>
+                <h1 class="hero-title text-6xl md:text-8xl text-ink mb-6">Flash</h1>
+                <p class="text-base md:text-xl text-ink-dim leading-relaxed max-w-2xl mb-8">
+                    plug a lun-e or a connect into your computer with <span class="text-ink">usb-c</span>, pick it below and press flash.
+                    no arduino ide, no platformio — <em class="italic text-accent">the browser does it.</em>
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">web serial</span>
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">chrome / edge</span>
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">keeps your settings</span>
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">~30 s</span>
+                </div>
+                <div id="fl-browser" class="hidden border border-accent bg-bg-soft p-5 max-w-2xl text-sm text-ink-dim leading-relaxed">
+                    <span class="text-accent">this browser can't talk to usb serial ports.</span>
+                    open this page in <span class="text-ink">chrome or edge on a computer</span> — windows, mac, linux or chromeos. phones and safari / firefox can't flash.
+                </div>
+            </section>
+
+            <!-- ============ 01 — PICK A BOARD ============ -->
+            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 01 — pick what's on your desk</div>
+                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-12">
+                    one click, <em class="italic text-accent">newest firmware.</em>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div class="fl-card border border-line bg-bg-soft p-6 md:p-8 flex flex-col" data-slug="lun-e-rc" data-state="loading">
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">esp32-c3</div>
+                        <div class="font-display text-2xl text-ink mb-3">Lun-E RC</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">the tracked rover on its own board — eyes, motors, headlights, bluetooth app and connect.</p>
+                        <div class="flex flex-wrap items-center gap-3 text-[10px] tracking-[0.2em] uppercase mb-8">
+                            <span class="text-ink-low border border-line px-2 py-1">lun-e rc board</span>
+                            <span class="fl-ver text-ink-low border border-line px-2 py-1">checking…</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="fl-go">
+                                <esp-web-install-button manifest="/flash/firmware/lun-e-rc/manifest.json">
+                                    <button slot="activate" class="inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase">flash lun-e rc →</button>
+                                    <span slot="unsupported" class="text-xs text-ink-dim">this browser can't flash — use chrome or edge on a computer.</span>
+                                    <span slot="not-allowed" class="text-xs text-ink-dim">flashing needs https (or localhost).</span>
+                                </esp-web-install-button>
+                            </div>
+                            <p class="fl-missing text-xs text-ink-low leading-relaxed">not published yet.</p>
+                        </div>
+                    </div>
+                    <div class="fl-card border border-line bg-bg-soft p-6 md:p-8 flex flex-col" data-slug="lun-e-glyph" data-state="loading">
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">esp32-s3</div>
+                        <div class="font-display text-2xl text-ink mb-3">Lun-E Glyph</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">the rover built on a glyph esp32-s3 board with a tb6612 motor driver.</p>
+                        <div class="flex flex-wrap items-center gap-3 text-[10px] tracking-[0.2em] uppercase mb-8">
+                            <span class="text-ink-low border border-line px-2 py-1">glyph s3 + tb6612</span>
+                            <span class="fl-ver text-ink-low border border-line px-2 py-1">checking…</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="fl-go">
+                                <esp-web-install-button manifest="/flash/firmware/lun-e-glyph/manifest.json">
+                                    <button slot="activate" class="inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase">flash lun-e glyph →</button>
+                                    <span slot="unsupported" class="text-xs text-ink-dim">this browser can't flash — use chrome or edge on a computer.</span>
+                                    <span slot="not-allowed" class="text-xs text-ink-dim">flashing needs https (or localhost).</span>
+                                </esp-web-install-button>
+                            </div>
+                            <p class="fl-missing text-xs text-ink-low leading-relaxed">not published yet.</p>
+                        </div>
+                    </div>
+                    <div class="fl-card border border-line bg-bg-soft p-6 md:p-8 flex flex-col" data-slug="connect" data-state="loading">
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">esp32-c3</div>
+                        <div class="font-display text-2xl text-ink mb-3">Connect</div>
+                        <p class="text-xs text-ink-dim leading-relaxed mb-6">the thumbstick controller. flash it together with your rovers — they speak the same version.</p>
+                        <div class="flex flex-wrap items-center gap-3 text-[10px] tracking-[0.2em] uppercase mb-8">
+                            <span class="text-ink-low border border-line px-2 py-1">glyph c3</span>
+                            <span class="fl-ver text-ink-low border border-line px-2 py-1">checking…</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="fl-go">
+                                <esp-web-install-button manifest="/flash/firmware/connect/manifest.json">
+                                    <button slot="activate" class="inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase">flash connect →</button>
+                                    <span slot="unsupported" class="text-xs text-ink-dim">this browser can't flash — use chrome or edge on a computer.</span>
+                                    <span slot="not-allowed" class="text-xs text-ink-dim">flashing needs https (or localhost).</span>
+                                </esp-web-install-button>
+                            </div>
+                            <p class="fl-missing text-xs text-ink-low leading-relaxed">not published yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ 02 — HOW ============ -->
+            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — how it goes</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
+                    <div class="rc-feature"><span class="k">01</span><b>plug it in</b><p>usb-c from the board to your computer. use a data cable — some cables only charge.</p></div>
+                    <div class="rc-feature"><span class="k">02</span><b>press flash</b><p>pick the port in the browser's list — usually “usb jtag/serial debug unit”.</p></div>
+                    <div class="rc-feature"><span class="k">03</span><b>install</b><p>leave <i>erase device</i> unticked: the rover keeps its number, pairing, motor direction and trim.</p></div>
+                    <div class="rc-feature"><span class="k">04</span><b>watch it wake</b><p>it restarts with the wake-up eyes. do the next one — and the connect, so they match.</p></div>
+                </div>
+            </section>
+
+            <!-- ============ 03 — TROUBLE ============ -->
+            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 03 — if it won't connect</div>
+                <ul class="evo-delta max-w-3xl">
+                    <li><b>blank board</b><span>a brand-new lun-e rc: short jp1 while you plug in usb-c, flash, then remove jp1.</span></li>
+                    <li><b>glyph boards</b><span>lun-e glyph or connect not found: hold boot while you plug it in, then press flash again.</span></li>
+                    <li><b>linux</b><span>no ports listed: <code class="fl">sudo usermod -aG dialout $USER</code>, then log out and back in.</span></li>
+                    <li><b>port busy</b><span>close the serial monitor, platformio or another tab that has the board open.</span></li>
+                    <li><b>acting strange</b><span>flash again with <i>erase device</i> ticked — that also clears its number and pairing.</span></li>
+                </ul>
+            </section>
+
+            <!-- ============ 04 — SOURCE ============ -->
+            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 04 — the source</div>
+                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-8">
+                    everything flashed here is built from the same platformio projects you can download — rover, glyph, connect and the phone app.
+                </p>
+                <div class="flex flex-wrap items-center gap-6">
+                    <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">firmware source .zip ↓</a>
+                    <a href="/drive/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">then drive it →</a>
+                    <a href="/lun-e/#drive" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">how it works →</a>
+                </div>
+            </section>
+
+            <!-- ============ FOOTER ============ -->
+            <footer class="mt-auto px-6 md:px-12 py-10 border-t border-line flex flex-col md:flex-row md:items-end justify-between gap-8 text-[10px] tracking-[0.25em] uppercase text-ink-low">
+                <div class="flex items-center gap-4">
+                    <span class="text-xl font-display font-normal tracking-tightest leading-none select-none normal-case"><span>whybit</span><span class="logo-dot"></span></span>
+                </div>
+                <div class="flex flex-wrap gap-x-6 gap-y-2">
+                    <a href="https://www.instagram.com/whybit.in/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">instagram</a>
+                    <a href="https://www.youtube.com/@why-bit" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">youtube</a>
+                    <a href="https://www.linkedin.com/in/l-harshith-aradhya-7571142b6/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">linkedin</a>
+                    <a href="https://github.com/whybitlabs" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">github</a>
+                    <a href="/contact/" class="ul-link text-ink-dim hover:text-accent">contact</a>
+                </div>
+                <div class="flex flex-col md:items-end gap-1 normal-case tracking-normal">
+                    <div class="text-[10px] tracking-[0.25em] uppercase">copyleft 🄯 2026 whybit · gpl v3</div>
+                    <div class="text-[10px] tracking-[0.25em] uppercase">
+                        site by
+                        <a href="https://absurd.industries/" target="_blank" rel="noopener" class="ul-link text-ink-dim hover:text-accent">absurd industries</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+        <!-- ============ BOTTOM NAV (mobile only) ============ -->
+        <nav class="bottom-nav md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-stretch justify-around pt-2">
+            <a href="/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 10 L11 3 L19 10 V18 H3 Z" />
+                    <circle cx="11" cy="14" r="1" fill="currentColor" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">home</span>
+            </a>
+            <a href="/lun-e/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="7" width="16" height="10" rx="2" />
+                    <circle cx="8" cy="12" r="1.2" fill="currentColor" />
+                    <circle cx="14" cy="12" r="1.2" fill="currentColor" />
+                    <path d="M11 7 V4" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">lun-e</span>
+            </a>
+            <a href="/connect/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="8" width="12" height="11" rx="2" />
+                    <circle cx="11" cy="5" r="2.2" />
+                    <path d="M11 7.2 V10" />
+                    <rect x="8" y="13" width="6" height="3" rx="0.5" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">connect</span>
+            </a>
+            <a href="/lun-e/evolution/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 17 L8 11 L12 14 L19 5" />
+                    <path d="M15 5 H19 V9" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">evolution</span>
+            </a>
+            <a href="/about/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M9 9 Q9 7 11 7 Q13 7 13 9 Q13 10.5 11 11 V12.5" />
+                    <circle cx="11" cy="15" r="0.8" fill="currentColor" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">about</span>
+            </a>
+            <a href="/contact/" class="nav-item flex-1 flex flex-col items-center justify-center gap-1 py-2 text-ink-dim">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="16" height="12" rx="1.5" />
+                    <path d="M3 7 L11 12 L19 7" />
+                </svg>
+                <span class="text-[9px] tracking-[0.25em] uppercase">contact</span>
+            </a>
+        </nav>
+    </div>
+
+
+    <script>
+      // Show which firmware version is published for each board; hide the button
+      // if that board hasn't been published yet (tools/publish-firmware.sh).
+      (function () {
+        if (!('serial' in navigator)) document.getElementById('fl-browser').classList.remove('hidden');
+        document.querySelectorAll('.fl-card').forEach(function (card) {
+          var slug = card.dataset.slug, ver = card.querySelector('.fl-ver');
+          fetch('/flash/firmware/' + slug + '/manifest.json', { cache: 'no-cache' })
+            .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function (m) { ver.textContent = 'v' + m.version; card.dataset.state = 'ready'; })
+            .catch(function () { ver.textContent = 'not built'; card.dataset.state = 'missing'; });
+        });
+      })();
+    </script>
+    <script src="/script.js"></script>
+</body>
+
+</html>

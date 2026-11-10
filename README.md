@@ -38,6 +38,8 @@ styles.css          →  everything tailwind can't do elegantly
 script.js           →  theme toggle, starfield, cursor glow, scroll blur
 hero-explode.js     →  home page scroll sections: lun-e (hero) and connect spin and come apart as you scroll.
                        one config per model in CONFIGS; a section opts in with data-hero="lune" / "connect"
+film.js             →  silent loop of the launch film behind the home page pre-order section
+film/               →  loop.mp4 (1080p), loop-720.mp4 (phones), loop-poster.jpg (still for reduced motion)
 ```
 
 to add a version to the evolution page: copy one `.evo-stop` link in the rail
@@ -73,23 +75,22 @@ site by [absurd industries](https://absurd.industries/).
 whybit.in/preorder (`preorder/index.html` + `preorder.js`) takes free reservations — no
 payment. people get the **lun-e rc kit** and can tick **add connect** (connect isn't sold
 on its own, so that makes it **lun-e rc + connect**), fill in the form, and it posts to a tiny worker (`worker/index.js`) that stores it in
-cloudflare d1. the home page has a short teaser with the live "rovers left" count; every
+cloudflare d1. the home page has a short pre-order teaser (with the film looping behind it); every
 "pre-order" link points to /preorder/. `/preorder/?kit=lun-e-rc-connect` opens with connect
 already ticked.
 
 **prices and products** live in one place — `KITS` at the top of `worker/index.js`:
 
 ```js
-'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555, rovers: 1 },
-'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666, rovers: 1 },
+'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555 },
+'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666 },
 ```
 
 `price` is in rupees, or `null` to show "price announced soon". the form reads them from
 the api (the add-on price is the difference). the amounts are also written into the copy on
 `preorder/index.html` and the home page teaser — grep for `₹` if you change them.
 
-**first batch:** `CAP` (20) counts lun-e rc units — the kit and the bundle each use one per
-quantity. once they're gone, new orders are saved as `waitlist`.
+**no stock limit:** every order is saved as `reserved` — there's no cap and no waitlist.
 
 the site deploys and works without the database — the form just says "reservations open
 soon". to switch reservations on, once:

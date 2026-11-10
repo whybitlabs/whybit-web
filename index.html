@@ -275,28 +275,25 @@
             </section>
 
             <!-- ============ PRE-ORDER (teaser — the form lives on /preorder/) ============ -->
-            <!-- preorder.js fills in the units-left meter from /api/preorder/status. -->
-            <section id="preorder" class="px-6 md:px-12 py-24 md:py-32 border-t border-line scroll-mt-20">
-                <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 lg:items-center">
+            <section id="preorder" class="po-cinema px-6 md:px-12 py-24 md:py-32 scroll-mt-20">
+                <!-- film.js: a silent loop of the launch film plays behind the section while it's on screen -->
+                <div class="po-bg" aria-hidden="true">
+                    <video class="po-bg-video" muted loop playsinline preload="none" poster="/film/loop-poster.jpg"></video>
+                    <div class="po-bg-shade"></div>
+                </div>
+                <div class="po-content grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 lg:items-center">
                     <div class="min-w-0">
                         <div class="flex flex-wrap items-center gap-2 mb-6">
                             <span class="po-badge">pre-order</span>
-                            <span class="text-[10px] tracking-[0.3em] uppercase text-ink-low">lun-e rc · first batch</span>
+                            <span class="text-[10px] tracking-[0.3em] uppercase text-ink-low">lun-e rc · reservations open</span>
                         </div>
                         <h2 class="font-display text-3xl md:text-5xl tracking-tighter2 text-ink max-w-xl leading-[1.05] mb-6">
                             reserve your <em class="italic text-accent">lun-e.</em>
                         </h2>
                         <p class="text-sm md:text-base text-ink-dim leading-relaxed max-w-lg mb-10">
-                            the rover for ₹5,555 — add the connect controller and it's ₹6,666. the first batch is
-                            twenty rovers. reserving is free — nothing to pay until it ships.
+                            the rover for ₹5,555 — add the connect controller and it's ₹6,666.
+                            reserving is free — nothing to pay until it ships.
                         </p>
-                        <div class="po-meter mb-10" aria-live="polite">
-                            <div class="po-meter-top">
-                                <span><b id="po-left">20</b> of <span id="po-cap">20</span> rovers left</span>
-                                <span id="po-state" class="text-ink-low">checking…</span>
-                            </div>
-                            <div class="po-bar"><i id="po-fill" style="width:0%"></i></div>
-                        </div>
                         <a href="/preorder/" class="po-submit magnetic inline-block text-center no-underline" style="width:auto;padding-left:28px;padding-right:28px;">pre-order →</a>
                     </div>
                     <div class="min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -387,7 +384,7 @@
     </div>
 
     <script src="/script.js"></script>
-    <script src="/preorder.js" defer></script>
+    <script src="/film.js" defer></script>
     <script type="importmap">
       { "imports": {
           "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",

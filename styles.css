@@ -658,3 +658,33 @@ model-viewer { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; -
 .lune-links a b { font-weight: 400; color: var(--ink); font-size: 15px; }
 .lune-links a span { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); }
 .lune-links a:hover b, .lune-links a:hover span { color: var(--accent); }
+
+/* ============================================================
+   PRE-ORDER — the launch film loops silently behind it (film.js)
+   The section is always dark, in both themes, so the footage and
+   the copy read the same everywhere.
+   ============================================================ */
+.po-cinema {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: #050505; color-scheme: dark;
+  --bg: #000000; --bg-soft: rgba(12, 12, 12, 0.55); --ink: #F2F2F2; --ink-dim: #B4B4B4; --ink-low: #8A8A8A; --line: rgba(255, 255, 255, 0.14);
+}
+.po-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.po-bg-video { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 1.4s ease; transform: scale(1.04); }
+.po-bg-video.is-on { opacity: 1; }
+.po-bg-video[poster] { background: #050505; }
+.po-bg-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.62) 38%, rgba(0,0,0,.30) 70%, rgba(0,0,0,.40) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 72%, rgba(0,0,0,.7) 100%);
+}
+.po-content { position: relative; }
+.po-cinema a.border { backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); }
+.po-cinema a.border:hover { background: rgba(20, 20, 20, 0.7); }
+/* phones & tablets: the section is tall and narrow, so the film sits as a strip behind the headline and fades to black */
+@media (max-width: 1023px) {
+  .po-bg { bottom: auto; height: min(88vw, 520px); }
+  .po-bg-video { transform: none; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent); mask-image: linear-gradient(180deg, #000 60%, transparent); }
+  .po-bg-shade { background: linear-gradient(180deg, rgba(0,0,0,.22) 0%, rgba(0,0,0,.45) 55%, #050505 100%); }
+}

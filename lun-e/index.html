@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
 
     <title>Lun-E RC — an open tracked rover you can build · whybit.</title>
-    <meta name="description" content="Lun-E RC is a palm-sized tracked rover on a custom esp32-c3 board: n20 gear motors, printed chain tracks, esp-now or phone control and animated oled eyes. spin the 3d model, read the board, bom and pinout, drive it from your phone and download every file." />
+    <meta name="description" content="Lun-E RC is a palm-sized tracked rover with animated oled eyes on its own esp32-c3 board. drive it with the connect controller or your phone. every file is open." />
     <meta name="keywords" content="lun-e, lun-e rc, whybit, esp32-c3, esp32-c3-mini-1, drv8833, n20 motor, tracked robot, esp-now, ssd1306, oled eyes, open hardware, kicad, 3d printed robot" />
     <meta name="author" content="harshith aradhya · whybit" />
     <meta name="creator" content="whybit" />
@@ -195,34 +195,17 @@
 
             <!-- ============ HERO ============ -->
             <section class="px-6 md:px-12 pt-28 pb-16 md:pb-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-6">/ lun-e rc — v3 · october 2026</div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-10 lg:gap-16 lg:items-center">
                     <div>
+                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-6">lun-e rc · v3</div>
                         <h1 class="hero-title text-6xl md:text-8xl text-ink mb-6">Lun-E</h1>
-                        <p class="text-base md:text-xl text-ink-dim leading-relaxed max-w-xl mb-8">
-                            a palm-sized tracked rover on its <span class="text-ink">own esp32-c3 board</span>.
-                            two n20 gear motors, printed chain tracks, <span class="text-ink">esp-now</span> control —
-                            and it still looks back at you with <em class="italic text-accent">animated oled eyes.</em>
+                        <p class="text-base md:text-xl text-ink-dim leading-relaxed max-w-md mb-10">
+                            a palm-sized tracked rover with <em class="italic text-accent">animated oled eyes.</em>
+                            drive it with connect or your phone.
                         </p>
-
-                        <div class="flex flex-wrap gap-2 mb-9">
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">esp32-c3-mini-1</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">custom 26 × 42 mm pcb</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">2× n20 + drv8833</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">esp-now</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">ble phone app</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">0.96″ oled</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">1s lipo + usb-c</span>
-                            <span class="text-[10px] tracking-[0.2em] uppercase text-ink-dim border border-line px-3 py-1.5">3d printed</span>
-                        </div>
-
                         <div class="flex flex-wrap items-center gap-6">
-                            <a href="#files"
-                               class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">get the files →</a>
-                            <a href="/drive/" class="text-xs tracking-[0.2em] uppercase text-accent hover:text-accent-deep transition-colors ul-link">drive it from your phone →</a>
-                            <a href="/lun-e/pcb/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">the board →</a>
-                            <a href="/lun-e/evolution/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">how it got here →</a>
+                            <a href="/preorder/" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase">pre-order →</a>
+                            <a href="/drive/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">drive it →</a>
                         </div>
                     </div>
 
@@ -239,270 +222,57 @@
                                       exposure="1.05"
                                       environment-image="neutral"
                                       class="aspect-[4/3] rounded-sm"></model-viewer>
-                        <div class="flex items-center justify-between gap-4 mt-3 text-[10px] tracking-[0.25em] uppercase text-ink-low">
-                            <span>drag to orbit · scroll to zoom</span>
-                            <a href="/models/lun-e-rc.glb" download class="ul-link text-ink-dim hover:text-accent">download .glb ↓</a>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ============ GALLERY — renders of the current build ============ -->
-            <section class="px-6 md:px-12 py-10 md:py-14 border-t border-line">
+            <!-- ============ GALLERY ============ -->
+            <section class="px-6 md:px-12 pb-14 md:pb-20">
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
-                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-exploded.webp" alt="Lun-E RC pulled apart: lid, board, oled case, chains, sprockets and bearings" loading="lazy" /><figcaption>every part, pulled apart</figcaption></figure>
-                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="The green Lun-E RC board inside the body, lid lifted" loading="lazy" /><figcaption>the board, lid off</figcaption></figure>
-                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-drive.webp" alt="Close-up of the chain track, drive sprocket and freewheel" loading="lazy" /><figcaption>chain, sprocket, freewheel</figcaption></figure>
-                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-front.webp" alt="Lun-E RC from the front, oled eyes lit" loading="lazy" /><figcaption>face to face</figcaption></figure>
+                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-front.webp" alt="Lun-E RC from the front, oled eyes lit" loading="lazy" /></figure>
+                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-exploded.webp" alt="Lun-E RC pulled apart into its parts" loading="lazy" /></figure>
+                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="The Lun-E RC board inside the body, lid lifted" loading="lazy" /></figure>
+                    <figure class="rc-shot"><img src="/images/lun-e-rc/lun-e-rc-drive.webp" alt="Close-up of the chain track and drive sprocket" loading="lazy" /></figure>
                 </div>
             </section>
 
-            <!-- ============ 01 — WHAT MAKES IT ============ -->
+            <!-- ============ WHAT IT IS ============ -->
             <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 01 — what makes it lun-e</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-12">
-                    small rover, <em class="italic text-accent">big personality.</em>
-                </h2>
-
-                <div class="rc-stats mb-12">
-                    <div><b>26 × 42</b><span>mm board</span></div>
-                    <div><b>2</b><span>n20 gear motors</span></div>
-                    <div><b>14</b><span>chain links a side</span></div>
-                    <div><b>300</b><span>mAh lipo</span></div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-line border border-line">
-                    <div class="rc-feature"><span class="k">01</span><b>its own board</b><p>a custom esp32-c3 pcb replaces the dev board, modules and wires of the first build.</p></div>
-                    <div class="rc-feature"><span class="k">02</span><b>geared tracks</b><p>two n20 gear motors on a drv8833 drive 8-tooth sprockets and printed 10.67 mm chain.</p></div>
-                    <div class="rc-feature"><span class="k">03</span><b>animated oled eyes</b><p>a 0.96″ oled in a snap-fit case gives it a face — and the eyes are drawn in code.</p></div>
-                    <div class="rc-feature"><span class="k">04</span><b>two ways to drive</b><p>the connect controller over esp-now, or your phone over bluetooth — no router either way.</p></div>
-                    <div class="rc-feature"><span class="k">05</span><b>one usb-c port</b><p>charges the cell and programs the chip through the same socket.</p></div>
-                    <div class="rc-feature"><span class="k">06</span><b>sleeps like it means it</b><p>hold the button and its eyes droop shut before it drops into deep sleep. press it and they blink awake.</p></div>
-                </div>
-            </section>
-
-            <!-- ============ 02 — HOW IT DRIVES ============ -->
-            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 02 — how it drives</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    two tracks, four <em class="italic text-accent">moves.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-14">
-                    there is no steering mechanism. the difference in speed between the left and right track <span class="text-ink">is</span> the steering.
-                    each side has one n20 gear motor turning an 8-tooth sprocket; the far end of the track rides on a freewheel spinning on a 625-2z bearing.
-                    fourteen printed links of 10.67 mm chain wrap the two — an exact fit, no slack.
-                </p>
-
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
-                    <!-- forward -->
-                    <div class="bg-bg-soft p-6 md:p-8 flex flex-col items-center text-center">
-                        <svg viewBox="0 0 120 92" width="120" height="92" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-ink-low mb-5">
-                            <rect x="16" y="14" width="18" height="64" rx="9" />
-                            <rect x="86" y="14" width="18" height="64" rx="9" />
-                            <rect x="40" y="28" width="40" height="36" rx="4" />
-                            <circle cx="52" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <circle cx="68" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <g class="text-accent" stroke="currentColor" stroke-width="2">
-                                <path d="M25 68 V26 M19 32 L25 26 L31 32" />
-                                <path d="M95 68 V26 M89 32 L95 26 L101 32" />
-                            </g>
-                        </svg>
-                        <div class="text-ink text-sm mb-1">both forward</div>
-                        <div class="text-xs text-ink-dim">drives straight ahead</div>
-                    </div>
-                    <!-- reverse -->
-                    <div class="bg-bg-soft p-6 md:p-8 flex flex-col items-center text-center">
-                        <svg viewBox="0 0 120 92" width="120" height="92" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-ink-low mb-5">
-                            <rect x="16" y="14" width="18" height="64" rx="9" />
-                            <rect x="86" y="14" width="18" height="64" rx="9" />
-                            <rect x="40" y="28" width="40" height="36" rx="4" />
-                            <circle cx="52" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <circle cx="68" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <g class="text-accent" stroke="currentColor" stroke-width="2">
-                                <path d="M25 26 V68 M19 62 L25 68 L31 62" />
-                                <path d="M95 26 V68 M89 62 L95 68 L101 62" />
-                            </g>
-                        </svg>
-                        <div class="text-ink text-sm mb-1">both reverse</div>
-                        <div class="text-xs text-ink-dim">backs up straight</div>
-                    </div>
-                    <!-- arc -->
-                    <div class="bg-bg-soft p-6 md:p-8 flex flex-col items-center text-center">
-                        <svg viewBox="0 0 120 92" width="120" height="92" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-ink-low mb-5">
-                            <rect x="16" y="14" width="18" height="64" rx="9" />
-                            <rect x="86" y="14" width="18" height="64" rx="9" />
-                            <rect x="40" y="28" width="40" height="36" rx="4" />
-                            <circle cx="52" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <circle cx="68" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <g class="text-accent" stroke="currentColor" stroke-width="2">
-                                <path d="M25 68 V48 M19 54 L25 48 L31 54" />
-                                <path d="M95 68 V26 M89 32 L95 26 L101 32" />
-                            </g>
-                        </svg>
-                        <div class="text-ink text-sm mb-1">one side slower</div>
-                        <div class="text-xs text-ink-dim">arcs toward the slow track</div>
-                    </div>
-                    <!-- pivot -->
-                    <div class="bg-bg-soft p-6 md:p-8 flex flex-col items-center text-center">
-                        <svg viewBox="0 0 120 92" width="120" height="92" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-ink-low mb-5">
-                            <rect x="16" y="14" width="18" height="64" rx="9" />
-                            <rect x="86" y="14" width="18" height="64" rx="9" />
-                            <rect x="40" y="28" width="40" height="36" rx="4" />
-                            <circle cx="52" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <circle cx="68" cy="46" r="3.2" fill="currentColor" stroke="none" />
-                            <g class="text-accent" stroke="currentColor" stroke-width="2">
-                                <path d="M25 68 V26 M19 32 L25 26 L31 32" />
-                                <path d="M95 26 V68 M89 62 L95 68 L101 62" />
-                            </g>
-                        </svg>
-                        <div class="text-ink text-sm mb-1">opposite directions</div>
-                        <div class="text-xs text-ink-dim">pivots in place, on the spot</div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-16">
-                    <div class="border border-line bg-bg-soft p-6">
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">drive</div>
-                        <div class="font-display text-lg text-ink mb-2">n20 → 8-tooth sprocket</div>
-                        <p class="text-xs text-ink-dim leading-relaxed">one motor per side, on diagonally opposite corners. the sprocket presses straight onto the d-shaft.</p>
-                    </div>
-                    <div class="border border-line bg-bg-soft p-6">
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">idler</div>
-                        <div class="font-display text-lg text-ink mb-2">freewheel on a 625-2z</div>
-                        <p class="text-xs text-ink-dim leading-relaxed">the bearing sits on a 5 mm stub moulded into the base; the freewheel's closed face hides it from outside.</p>
-                    </div>
-                    <div class="border border-line bg-bg-soft p-6">
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">track</div>
-                        <div class="font-display text-lg text-ink mb-2">10.67 mm printed chain</div>
-                        <p class="text-xs text-ink-dim leading-relaxed">14 links per side. sprocket teeth drop into the window of each link; the links hinge on printed pins.</p>
-                    </div>
+                    <div class="rc-feature"><b>its own board</b><p>one custom esp32-c3 pcb. no loose wires.</p></div>
+                    <div class="rc-feature"><b>real tracks</b><p>two n20 gear motors and printed chain.</p></div>
+                    <div class="rc-feature"><b>a face</b><p>oled eyes that blink, look around and fall asleep.</p></div>
+                    <div class="rc-feature"><b>one usb-c</b><p>charges and programs through the same port.</p></div>
                 </div>
             </section>
 
-            <!-- ============ 03 — THE BOARD (teaser → /lun-e/pcb/) ============ -->
-            <section id="board" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 03 — the board</div>
-                <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-14 lg:items-center">
-                    <div>
-                        <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-xl leading-[1.1] mb-6">
-                            one board. <em class="italic text-accent">no more wiring.</em>
-                        </h2>
-                        <p class="text-sm text-ink-dim leading-relaxed max-w-xl mb-8">
-                            everything that was a module in v1 now lives on one 26 × 42 mm, two-layer board:
-                            the esp32-c3, the motor driver, the charger and the 3.3 v regulator.
-                        </p>
-                        <ul class="evo-delta mb-10">
-                            <li><b>brain</b><span>esp32-c3-mini-1 · wi-fi + ble</span></li>
-                            <li><b>motors</b><span>drv8833 dual h-bridge</span></li>
-                            <li><b>power</b><span>tp4054 charger · rt9080 ldo</span></li>
-                            <li><b>usb</b><span>vertical usb-c · charge + program</span></li>
-                        </ul>
-                        <a href="/lun-e/pcb/" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">board, bom + pinout →</a>
-                    </div>
-                    <figure class="rc-shot rc-shot-lg"><img src="/images/lun-e-rc/lun-e-rc-board.webp" alt="Lun-E RC board inside the body, lid lifted" loading="lazy" /><figcaption>the board, lid off</figcaption></figure>
-                </div>
-            </section>
-
-            <!-- ============ 04 — STATUS ============ -->
-            <section class="px-6 md:px-12 py-14 md:py-20 border-t border-line">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 04 — where it's at</div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">done</div><p class="text-sm text-ink-dim leading-relaxed">board designed and ordered · body, tracks and oled case modelled for printing · firmware v0.1 and the phone app written.</p></div>
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">next</div><p class="text-sm text-ink-dim leading-relaxed">flash v0.1 onto the first boards, tune the motors and eyes on the real rover, then publish it on github.</p></div>
-                    <div class="border border-line bg-bg-soft p-6"><div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-3">not yet</div><p class="text-sm text-ink-dim leading-relaxed">no sensors, so it doesn't drive itself.</p></div>
-                </div>
-            </section>
-
-            <!-- ============ 05 — DRIVE IT (firmware + phone app) ============ -->
+            <!-- ============ DRIVE IT ============ -->
             <section id="drive" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 05 — drive it</div>
-                <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14">
+                <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-14 lg:items-center">
+                    <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-xl leading-[1.1]">
+                        a stick in your hand, <em class="italic text-accent">or your phone.</em>
+                    </h2>
                     <div>
-                        <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-xl leading-[1.1] mb-6">
-                            a stick in your hand, <em class="italic text-accent">or your phone.</em>
-                        </h2>
-                        <p class="text-sm text-ink-dim leading-relaxed max-w-xl mb-8">
-                            one firmware listens for both. <span class="text-ink">connect</span> talks esp-now; your phone talks bluetooth from a web page —
-                            nothing to install. both can be on at once: whoever moves first drives, and if the driver goes quiet for 0.3 s the tracks stop.
+                        <p class="text-sm text-ink-dim leading-relaxed max-w-lg mb-8">
+                            pair it with <a href="/connect/" class="ul-link text-ink hover:text-accent">connect</a>, or open the drive page in chrome — nothing to install.
                         </p>
-                        <ul class="evo-delta mb-10">
-                            <li><b>esp-now</b><span>paired to one connect · 50 hz</span></li>
-                            <li><b>bluetooth</b><span>web bluetooth · chrome on android / desktop</span></li>
-                            <li><b>eyes</b><span>6 moods · they blink and look where you steer</span></li>
-                            <li><b>button</b><span>click for a new look · double-click who am i · triple-click pair · hold to sleep</span></li>
-                            <li><b>a crowd</b><span>each rover shows its number on its screen · no stickers</span></li>
-                        </ul>
                         <div class="flex flex-wrap items-center gap-6">
-                            <a href="/drive/" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-300 text-xs tracking-[0.2em] uppercase">open the phone app →</a>
-                            <a href="/flash/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">flash from the browser →</a>
-                            <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">firmware .zip ↓</a>
+                            <a href="/drive/" class="magnetic inline-flex items-center gap-3 px-6 py-3 border border-ink-low hover:border-accent text-ink hover:text-accent transition-colors duration-300 text-xs tracking-[0.2em] uppercase">open the drive page →</a>
+                            <a href="/flash/" class="text-xs tracking-[0.2em] uppercase text-ink-dim hover:text-accent transition-colors ul-link">update the firmware →</a>
                         </div>
-                        <p class="text-[10px] tracking-[0.2em] uppercase text-ink-low mt-6">v0.1 · platformio · being tested on the first boards</p>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-line border border-line self-start">
-                        <div class="rc-feature"><span class="k">01</span><b>flash it</b><p>straight from chrome or edge at <a href="/flash/" class="ul-link text-ink hover:text-accent">whybit.in/flash</a> — or build <code>rover/</code> in platformio and upload over the usb-c.</p></div>
-                        <div class="rc-feature"><span class="k">02</span><b>pair connect</b><p>hold connect next to the rover and hold its stick for 3 s (a rover paired before: triple-click its button first). both screens say paired — and remember it.</p></div>
-                        <div class="rc-feature"><span class="k">03</span><b>or grab your phone</b><p>open whybit.in/drive in chrome, tap connect, pick lun-e rc. on iphone use the bluefy browser.</p></div>
-                        <div class="rc-feature"><span class="k">04</span><b>make it yours</b><p>pins, motor direction, speed and dead band live in one <code>config.h</code>. the protocol is one shared header.</p></div>
                     </div>
                 </div>
             </section>
 
-            <!-- ============ 06 — FILES ============ -->
+            <!-- ============ FILES — short list; detail lives on the linked pages ============ -->
             <section id="files" class="px-6 md:px-12 py-14 md:py-20 border-t border-line scroll-mt-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-4">/ 06 — every file</div>
-                <h2 class="font-display text-2xl md:text-4xl tracking-tighter2 text-ink max-w-2xl leading-[1.1] mb-6">
-                    all of it is <em class="italic text-accent">already yours.</em>
-                </h2>
-                <p class="text-sm text-ink-dim leading-relaxed max-w-2xl mb-14">
-                    nothing behind a wall, nothing behind an email form.
-                </p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                    <a href="/models/lun-e-rc.glb" download
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" /><path d="M12 22 V12 M12 12 L21 7 M12 12 L3 7" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">3d model</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">lun-e-rc.glb</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">the assembled rover from the viewer up top — drop it into your own scene.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.glb (draco)</span><span class="text-ink-low border border-line px-2 py-1">1.1 mb</span></div>
-                    </a>
-
-                    <a href="/downloads/lun-e-rc/lun-e-rc-print-parts.zip" download
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M6 9V3h12v6" /><rect x="3" y="9" width="18" height="8" rx="1.5" /><path d="M7 17v4h10v-4" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">print</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">printable parts</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">body base and lid, 8-tooth drive sprocket and freewheel, 10.67 mm chain links and the oled case.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">.stl ×7</span><span class="text-ink-low border border-line px-2 py-1">6.8 mb</span></div>
-                    </a>
-
-                    <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M8 7 L3 12 L8 17" /><path d="M16 7 L21 12 L16 17" /><path d="M13.5 4 L10.5 20" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">code</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">firmware + app</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">rover and connect firmware (platformio), the shared protocol and the phone app. v0.1.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">platformio</span><span class="text-ink-low border border-line px-2 py-1">35 kb</span></div>
-                    </a>
-
-                    <a href="/lun-e/pcb/#board-files"
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M12 3 L21 8 L12 13 L3 8 Z" /><path d="M3 12 L12 17 L21 12" /><path d="M3 16 L12 21 L21 16" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">board</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">board files</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">gerbers, the populated board as .step, the full bom and the pinout — on the board page.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">gerber</span><span class="text-ink-low border border-line px-2 py-1">.step</span><span class="text-ink-low border border-line px-2 py-1">.csv</span></div>
-                    </a>
-
-                    <a href="/lun-e/evolution/"
-                       class="group border border-line hover:border-accent transition-colors bg-bg-soft p-6 md:p-8 flex flex-col">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-accent mb-6"><path d="M3 17 L8 11 L12 14 L19 5" /><path d="M15 5 H19 V9" /></svg>
-                        <div class="text-[10px] tracking-[0.3em] uppercase text-ink-low mb-2">history</div>
-                        <div class="font-display text-lg text-ink group-hover:text-accent transition-colors mb-3">evolution of lun-e</div>
-                        <p class="text-xs text-ink-dim leading-relaxed mb-6">v1 to now — the servo tank, the camera board study, and the rc. old files live there.</p>
-                        <div class="mt-auto flex items-center gap-3 text-[10px] tracking-[0.2em] uppercase"><span class="text-ink-low border border-line px-2 py-1">3 versions</span></div>
-                    </a>
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-8">/ open source — every file</div>
+                <div id="board" class="lune-links">
+                    <a href="/downloads/lun-e-rc/lun-e-rc-print-parts.zip" download><b>printable parts</b><span>.stl ↓</span></a>
+                    <a href="/downloads/lun-e-rc/lun-e-firmware.zip" download><b>firmware + app</b><span>.zip ↓</span></a>
+                    <a href="/lun-e/pcb/"><b>the board</b><span>gerbers, bom, pinout →</span></a>
+                    <a href="/models/lun-e-rc.glb" download><b>3d model</b><span>.glb ↓</span></a>
+                    <a href="/lun-e/evolution/"><b>how it got here</b><span>evolution →</span></a>
                 </div>
             </section>
 

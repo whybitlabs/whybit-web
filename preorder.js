@@ -1,8 +1,7 @@
 /* ============================================================
    whybit. — preorder.js
-   Used on /preorder/ (the form) and on the home page (the
-   units-left meter only). Talks to worker/index.js:
-     GET  /api/preorder/status  → units left + kits and prices
+   Used on /preorder/ (the form). Talks to worker/index.js:
+     GET  /api/preorder/status  → open or not + kits and prices
      POST /api/preorder         → reserve
    No payment happens here; it only records a free reservation.
    ============================================================ */
@@ -11,9 +10,8 @@
   var $ = function (id) { return document.getElementById(id); };
   var form = $('po-form');
   var fields = $('po-fields'), msg = $('po-msg'), btn = $('po-submit');
-  var leftEl = $('po-left'), capEl = $('po-cap'), fill = $('po-fill'), stateEl = $('po-state');
   var totalEl = $('po-total');
-  var open = false, left = 20, cap = 20, kits = {};
+  var open = false, kits = {};
 
   var inr = function (n) {
     try { return '₹' + Number(n).toLocaleString('en-IN'); } catch (e) { return '₹' + n; }
@@ -26,15 +24,6 @@
     msg.innerHTML = html;
   }
 
-  function meter(s) {
-    left = s.left; cap = s.cap;
-    if (leftEl) leftEl.textContent = s.left;
-    if (capEl) capEl.textContent = s.cap;
-    if (fill) fill.style.width = Math.min(100, (s.reserved / s.cap) * 100) + '%';
-    if (stateEl) stateEl.textContent = !s.open ? 'opening soon' : s.left > 0 ? 'reservations open' : 'waitlist open';
-    setButton();
-  }
-
   // ---- products: prices from the worker, selection drives the button + total ----
   // the rover is always in; ticking "add connect" makes it the bundle
   function selectedKit() {
@@ -43,12 +32,11 @@
     form.elements.kit.value = id;
     return id;
   }
-  function kitUsesRovers(id) { return !kits[id] || kits[id].rovers > 0; }
 
   function setButton() {
     if (!btn || btn.dataset.done) return;
-    var id = selectedKit();
-    btn.textContent = open && left === 0 && kitUsesRovers(id) ? 'join the waitlist →' : 'reserve mine →';
+    selectedKit();
+    btn.textContent = 'reserve mine →';
   }
 
   function showPrices(list) {
@@ -88,10 +76,10 @@
 
   fetch('/api/preorder/status', { headers: { accept: 'application/json' } })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (s) { showPrices(s.kits); meter(s); setOpen(!!s.open); })
-    .catch(function () { meter({ open: false, cap: 20, reserved: 0, left: 20 }); setOpen(false); });
+    .then(function (s) { showPrices(s.kits); setButton(); setOpen(!!s.open); })
+    .catch(function () { setOpen(false); });
 
-  if (!form) return;  // home page: meter only
+  if (!form) return;
 
   // /preorder/?kit=lun-e-rc-connect (or ?kit=connect) ticks the connect add-on
   var want = new URLSearchParams(location.search).get('kit');
@@ -125,10 +113,8 @@
         var j = res.body;
         if (j.ok) {
           fields.disabled = true;
-          if (typeof j.left === 'number') meter({ open: true, cap: cap, reserved: cap - j.left, left: j.left });
           var k = kits[data.kit], name = k ? k.name : 'your order';
           if (j.already) show('ok', '<b>you\'re already on the list.</b> we have a reservation for this email — we\'ll be in touch. want to change it? reply to our email or <a href="/contact/">get in touch</a>.');
-          else if (j.status === 'waitlist') show('ok', '<b>you\'re on the waitlist.</b> all ' + cap + ' rovers in the first batch are reserved; you\'re next in line for the following batch. we\'ll email you.');
           else show('ok', '<b>reserved.</b> your ' + name + ' is held for you. we\'ll email you to confirm the shipping date — nothing to pay until then.');
           btn.dataset.done = '1';
           btn.textContent = 'done ✓';

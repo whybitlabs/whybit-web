@@ -5,8 +5,8 @@
    static assets, exactly as before.
 
    API
-     GET  /api/preorder/status   → { open, cap, reserved, left, kits }
-     POST /api/preorder          → reserve (or waitlist when full)
+     GET  /api/preorder/status   → { open, kits }
+     POST /api/preorder          → reserve (no stock limit — every order is reserved)
      GET  /api/preorder/export   → CSV of every reservation
                                    (header  Authorization: Bearer <ADMIN_KEY>)
 
@@ -17,18 +17,15 @@
 
 // ---- what can be pre-ordered -------------------------------------------------
 // price: rupees incl. everything you quote, or null = "price announced soon".
-// rovers: how many Lun-E RC units one of these uses from the first batch (CAP).
 // The /preorder/ page reads names and prices from here, so this is the only
 // place to change them.
 // Connect isn't sold on its own — it's an add-on to the rover (the bundle).
 const KITS = {
-  'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555, rovers: 1 },
-  'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666, rovers: 1 },
+  'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555 },
+  'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666 },
 };
-const CAP = 20;     // Lun-E RC units in the first batch
 const MAX_QTY = 2;
-const ROVER_KITS = Object.keys(KITS).filter((k) => KITS[k].rovers > 0);
-const kitList = () => Object.entries(KITS).map(([id, k]) => ({ id, name: k.name, price: k.price, rovers: k.rovers }));
+const kitList = () => Object.entries(KITS).map(([id, k]) => ({ id, name: k.name, price: k.price }));
 
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -41,22 +38,10 @@ async function sha256(text) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-// Lun-E RC units already reserved (kit + bundle; connect-only orders don't count).
-async function reservedCount(db) {
-  const marks = ROVER_KITS.map(() => '?').join(',');
-  const row = await db
-    .prepare(`SELECT COALESCE(SUM(qty),0) AS n FROM preorders WHERE status = 'reserved' AND kit IN (${marks})`)
-    .bind(...ROVER_KITS)
-    .first();
-  return row ? Number(row.n) : 0;
-}
-
 const clean = (v, max) => String(v ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
 
 async function status(env) {
-  if (!env.DB) return json({ open: false, cap: CAP, reserved: 0, left: CAP, kits: kitList() });
-  const n = await reservedCount(env.DB);
-  return json({ open: true, cap: CAP, reserved: n, left: Math.max(0, CAP - n), kits: kitList() });
+  return json({ open: !!env.DB, kits: kitList() });
 }
 
 async function reserve(request, env) {
@@ -65,7 +50,7 @@ async function reserve(request, env) {
   try { body = await request.json(); } catch { return json({ ok: false, error: 'send the form as json' }, 400); }
 
   // honeypot: real people never fill the hidden "company" field
-  if (clean(body.company, 100)) return json({ ok: true, status: 'reserved', left: null });
+  if (clean(body.company, 100)) return json({ ok: true, status: 'reserved' });
 
   const f = {
     name: clean(body.name, 80),
@@ -94,17 +79,14 @@ async function reserve(request, env) {
   if (recent && Number(recent.n) >= 5) return json({ ok: false, error: 'too many tries — give it an hour' }, 429);
 
   const existing = await env.DB.prepare('SELECT id, status FROM preorders WHERE email = ?').bind(f.email).first();
-  if (existing) return json({ ok: true, already: true, status: existing.status, left: Math.max(0, CAP - (await reservedCount(env.DB))) });
+  if (existing) return json({ ok: true, already: true, status: existing.status });
 
-  const n = await reservedCount(env.DB);
-  const usesRovers = KITS[f.kit].rovers > 0;
-  const st = !usesRovers || n + f.qty * KITS[f.kit].rovers <= CAP ? 'reserved' : 'waitlist';
+  const st = 'reserved';
   await env.DB.prepare(
     'INSERT INTO preorders (name,email,phone,city,pincode,kit,qty,notes,status,ip_hash) VALUES (?,?,?,?,?,?,?,?,?,?)'
   ).bind(f.name, f.email, f.phone, f.city, f.pincode, f.kit, f.qty, f.notes, st, ipHash).run();
 
-  const left = Math.max(0, CAP - (st === 'reserved' && usesRovers ? n + f.qty * KITS[f.kit].rovers : n));
-  return json({ ok: true, status: st, left });
+  return json({ ok: true, status: st });
 }
 
 async function exportCsv(request, env) {

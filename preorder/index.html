@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
 
     <title>Pre-order Lun-E RC and Connect · whybit.</title>
-    <meta name="description" content="reserve a lun-e rc kit for ₹5,555, or add the connect controller for ₹6,666. the first batch is twenty rovers. reserving is free — no payment now; we email the shipping date first." />
+    <meta name="description" content="reserve a lun-e rc kit for ₹5,555, or add the connect controller for ₹6,666. reserving is free — no payment now; we email the shipping date first." />
     <meta name="keywords" content="lun-e pre-order, lun-e rc kit, connect controller, whybit, robot kit india, esp32-c3 robot kit" />
     <meta name="author" content="harshith aradhya · whybit" />
     <meta name="creator" content="whybit" />
@@ -191,11 +191,11 @@
         <main class="flex-1 flex flex-col scroll-blur-target pb-24 md:pb-0">
 
             <!-- ============ PRE-ORDER ============ -->
-            <!-- preorder.js reads /api/preorder/status for units left, product names and
+            <!-- preorder.js reads /api/preorder/status for product names and
                  prices (set in worker/index.js → KITS), and posts the form to /api/preorder.
                  Until the database is set up the form shows "reservations open soon". -->
             <section id="preorder" class="px-6 md:px-12 pt-28 pb-16 md:pb-24">
-                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-6">/ pre-order — first batch</div>
+                <div class="text-[10px] tracking-[0.3em] uppercase text-ink-dim mb-6">/ pre-order</div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-16 lg:items-end mb-12 md:mb-16">
                     <div class="min-w-0">
@@ -206,16 +206,9 @@
                         <h1 class="hero-title text-5xl md:text-7xl text-ink mb-6">reserve your <em class="italic text-accent">lun-e.</em></h1>
                         <p class="text-base md:text-lg text-ink-dim leading-relaxed max-w-xl">
                             the rover for ₹5,555 — add the connect controller and it's ₹6,666.
-                            the first batch is twenty rovers. reserving is free — we'll email you
+                            reserving is free — we'll email you
                             the shipping date before anything is charged.
                         </p>
-                    </div>
-                    <div class="po-meter" aria-live="polite">
-                        <div class="po-meter-top">
-                            <span><b id="po-left">20</b> of <span id="po-cap">20</span> rovers left</span>
-                            <span id="po-state" class="text-ink-low">checking…</span>
-                        </div>
-                        <div class="po-bar"><i id="po-fill" style="width:0%"></i></div>
                     </div>
                 </div>
 
@@ -297,7 +290,6 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     <div class="border border-line bg-bg-soft p-6"><b class="block text-ink font-normal mb-2">do i pay now?</b><p class="text-sm text-ink-dim leading-relaxed">no. reserving is free. you pay only once yours is ready to ship.</p></div>
                     <div class="border border-line bg-bg-soft p-6"><b class="block text-ink font-normal mb-2">when does it ship?</b><p class="text-sm text-ink-dim leading-relaxed">the boards are ordered. we'll email a shipping date to everyone who reserved.</p></div>
-                    <div class="border border-line bg-bg-soft p-6"><b class="block text-ink font-normal mb-2">what if all 20 are gone?</b><p class="text-sm text-ink-dim leading-relaxed">the form keeps working — you join the waitlist for the next batch, in order.</p></div>
                     <div class="border border-line bg-bg-soft p-6"><b class="block text-ink font-normal mb-2">do i need connect?</b><p class="text-sm text-ink-dim leading-relaxed">no. lun-e rc drives from your phone's browser at <a href="/drive/" class="ul-link text-accent">whybit.in/drive</a>. connect is a real thumbstick for when you want one — it comes as an add-on with the rover.</p></div>
                     <div class="border border-line bg-bg-soft p-6"><b class="block text-ink font-normal mb-2">can i change my order?</b><p class="text-sm text-ink-dim leading-relaxed">yes — reply to our email or <a href="/contact/" class="ul-link text-accent">get in touch</a> any time before you pay.</p></div>
                     <div class="border border-line bg-bg-soft p-6"><b class="block text-ink font-normal mb-2">is it open source?</b><p class="text-sm text-ink-dim leading-relaxed">every file — board, firmware and print parts — is on the <a href="/lun-e/" class="ul-link text-accent">lun-e</a> and <a href="/connect/" class="ul-link text-accent">connect</a> pages.</p></div>

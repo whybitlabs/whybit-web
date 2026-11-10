@@ -27,6 +27,7 @@ lun-e/index.html    →  whybit.in/lun-e     (lun-e rc — the current build)
 lun-e/pcb/          →  whybit.in/lun-e/pcb  (the board: specs, bom, pinout, board files)
 lun-e/evolution/    →  whybit.in/lun-e/evolution  (every version, v1 → now)
 connect/            →  whybit.in/connect   (connect — the controller for lun-e)
+preorder/           →  whybit.in/preorder  (pre-order: lun-e rc kit, connect, or both)
 about/index.html    →  whybit.in/about
 contact/index.html  →  whybit.in/contact
 images/             →  local media (images/lun-e-rc/, images/connect/ = renders)
@@ -69,8 +70,27 @@ site by [absurd industries](https://absurd.industries/).
 
 ## pre-orders
 
-the home page has a free-reservation form (`#preorder`, `preorder.js`). it posts to a tiny
-worker (`worker/index.js`) that stores reservations in cloudflare d1. no payment is taken.
+whybit.in/preorder (`preorder/index.html` + `preorder.js`) takes free reservations — no
+payment. people pick **lun-e rc kit**, **connect controller** or **lun-e rc + connect**,
+fill in the form, and it posts to a tiny worker (`worker/index.js`) that stores it in
+cloudflare d1. the home page has a short teaser with the live "rovers left" count; every
+"pre-order" link points to /preorder/. `/preorder/?kit=connect` (or `lun-e-rc-kit`,
+`lun-e-rc-connect`) opens with that one picked.
+
+**prices and products** live in one place — `KITS` at the top of `worker/index.js`:
+
+```js
+'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: null, rovers: 1 },
+'connect':          { name: 'connect controller', price: null, rovers: 0 },
+'lun-e-rc-connect': { name: 'lun-e rc + connect', price: null, rovers: 1 },
+```
+
+`price` is in rupees (`3999`), or `null` to show "price announced soon". the page reads
+them from the api, so there's nothing to change in the html.
+
+**first batch:** `CAP` (20) counts lun-e rc units — the kit and the bundle each use one per
+quantity. once they're gone, new rover orders are saved as `waitlist`. connect on its own
+isn't capped.
 
 the site deploys and works without the database — the form just says "reservations open
 soon". to switch reservations on, once:
@@ -88,5 +108,6 @@ then push. to download every reservation as a spreadsheet:
 curl -H "Authorization: Bearer <ADMIN_KEY>" https://whybit.in/api/preorder/export -o preorders.csv
 ```
 
-first batch size (20) and the kit list live at the top of `worker/index.js`.
-the first 20 units are `reserved`; anyone after that is saved as `waitlist`.
+to try it locally with a throwaway database: add the same `d1_databases` block, then
+`npx wrangler d1 execute whybit-preorders --local --file=worker/schema.sql` and
+`npx wrangler dev` (put `ADMIN_KEY=anything` in `.dev.vars`).

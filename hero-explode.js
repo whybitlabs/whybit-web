@@ -4,7 +4,7 @@
    data-hero="…"> is taller than the screen and its stage is sticky
    (see .lune-scroll in styles.css). How far you have scrolled
    through the section is mapped onto the model: it spins a full
-   turn, comes apart part by part, and callouts name the parts.
+   turn, comes apart part by part (no part callouts — `labels` is empty).
    Scroll back up and it rebuilds. One config per product below
    (lune = Lun-E RC, connect = the Connect controller).
    Plain ES module; three.js comes from jsDelivr via the import
@@ -42,14 +42,7 @@ const CONFIGS = {
       freewheel_R:      [[32, 0, 0], 0.36], freewheel_L: [[-32, 0, 0], 0.36],
       bearing_625_R:    [[46, 0, 0], 0.46], bearing_625_L: [[-46, 0, 0], 0.46],
     },
-    labels: [
-      { node: 'body_lid',         text: '<b>lid</b> · usb-c + button' },
-      { node: 'pcb_mask',         text: '<b>esp32-c3</b> main board' },
-      { node: 'oled_case_front',  text: '<b>0.96″ oled</b> · snap-fit case' },
-      { node: 'chain_L',          pair: 'chain_R', lift: 12, text: '<b>10.67 mm chain</b> · 14 links' },
-      { node: 'sprocket_motor_L', pair: 'sprocket_motor_R', text: '<b>n20 drive</b> sprocket' },
-      { node: 'bearing_625_L',    pair: 'bearing_625_R', text: '<b>625-2z</b> idler bearing' },
-    ],
+    labels: [],  // no part callouts on the model
     cam: { yaw0: -0.62, pitch: [0.32, 0.46], dist: [178, 305], look: [7, 11] },
   },
   connect: {
@@ -70,13 +63,7 @@ const CONFIGS = {
       case_body:       [[-46, 0, 0], 0.36],
       inner_plate:     [[0, 0, 8], 0.42],
     },
-    labels: [
-      { node: 'oled_case_front', text: '<b>0.96″ oled</b> · same case as lun-e' },
-      { node: 'joy_knob',        text: '<b>thumbstick</b> · drive + steer' },
-      { node: 'glyph_mask',      text: '<b>esp32-c3</b> glyph board' },
-      { node: 'case_cap',        text: '<b>end cap</b>' },
-      { node: 'case_body',       text: '<b>printed shell</b>' },
-    ],
+    labels: [],  // no part callouts on the model
     cam: { yaw0: 0.7, pitch: [0.5, 0.42], dist: [240, 335], look: [13, 24] },
   },
 };

@@ -36,10 +36,12 @@
   }
 
   // ---- products: prices from the worker, selection drives the button + total ----
+  // the rover is always in; ticking "add connect" makes it the bundle
   function selectedKit() {
     if (!form) return null;
-    var r = form.querySelector('input[name="kit"]:checked');
-    return r ? r.value : null;
+    var id = form.elements.addon && form.elements.addon.checked ? 'lun-e-rc-connect' : 'lun-e-rc-kit';
+    form.elements.kit.value = id;
+    return id;
   }
   function kitUsesRovers(id) { return !kits[id] || kits[id].rovers > 0; }
 
@@ -57,6 +59,10 @@
         el.classList.toggle('is-set', typeof k.price === 'number');
       });
     });
+    var base = kits['lun-e-rc-kit'], both = kits['lun-e-rc-connect'];
+    if (base && both && typeof base.price === 'number' && typeof both.price === 'number') {
+      document.querySelectorAll('[data-addon-price]').forEach(function (el) { el.textContent = '+ ' + inr(both.price - base.price); });
+    }
     updateTotal();
   }
 
@@ -87,14 +93,12 @@
 
   if (!form) return;  // home page: meter only
 
-  // /preorder/?kit=connect preselects a product
+  // /preorder/?kit=lun-e-rc-connect (or ?kit=connect) ticks the connect add-on
   var want = new URLSearchParams(location.search).get('kit');
-  if (want) {
-    var pick = form.querySelector('input[name="kit"][value="' + want.replace(/[^a-z0-9-]/g, '') + '"]');
-    if (pick) pick.checked = true;
-  }
+  if ((want === 'lun-e-rc-connect' || want === 'connect') && form.elements.addon) form.elements.addon.checked = true;
+  selectedKit();
   form.addEventListener('change', function (e) {
-    if (e.target.name === 'kit' || e.target.name === 'qty') { setButton(); updateTotal(); }
+    if (e.target.name === 'addon' || e.target.name === 'qty') { setButton(); updateTotal(); }
   });
 
   function fieldError(name, text) {
@@ -112,7 +116,8 @@
     if (!open) return;
     ['name', 'email', 'phone', 'city', 'pincode', 'qty', 'kit'].forEach(function (n) { fieldError(n, ''); });
     var data = {};
-    new FormData(form).forEach(function (v, k) { data[k] = v; });
+    selectedKit();
+    new FormData(form).forEach(function (v, k) { if (k !== 'addon') data[k] = v; });
     btn.disabled = true; btn.textContent = 'reserving…';
     fetch('/api/preorder', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
@@ -124,7 +129,7 @@
           var k = kits[data.kit], name = k ? k.name : 'your order';
           if (j.already) show('ok', '<b>you\'re already on the list.</b> we have a reservation for this email — we\'ll be in touch. want to change it? reply to our email or <a href="/contact/">get in touch</a>.');
           else if (j.status === 'waitlist') show('ok', '<b>you\'re on the waitlist.</b> all ' + cap + ' rovers in the first batch are reserved; you\'re next in line for the following batch. we\'ll email you.');
-          else show('ok', '<b>reserved.</b> your ' + name + ' is held for you. we\'ll email you to confirm the price and shipping date — nothing to pay until then.');
+          else show('ok', '<b>reserved.</b> your ' + name + ' is held for you. we\'ll email you to confirm the shipping date — nothing to pay until then.');
           btn.dataset.done = '1';
           btn.textContent = 'done ✓';
           return;

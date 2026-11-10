@@ -20,12 +20,12 @@
 // rovers: how many Lun-E RC units one of these uses from the first batch (CAP).
 // The /preorder/ page reads names and prices from here, so this is the only
 // place to change them.
+// Connect isn't sold on its own — it's an add-on to the rover (the bundle).
 const KITS = {
-  'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: null, rovers: 1 },
-  'connect':          { name: 'connect controller', price: null, rovers: 0 },
-  'lun-e-rc-connect': { name: 'lun-e rc + connect', price: null, rovers: 1 },
+  'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555, rovers: 1 },
+  'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666, rovers: 1 },
 };
-const CAP = 20;     // Lun-E RC units in the first batch (connect on its own isn't capped)
+const CAP = 20;     // Lun-E RC units in the first batch
 const MAX_QTY = 2;
 const ROVER_KITS = Object.keys(KITS).filter((k) => KITS[k].rovers > 0);
 const kitList = () => Object.entries(KITS).map(([id, k]) => ({ id, name: k.name, price: k.price, rovers: k.rovers }));

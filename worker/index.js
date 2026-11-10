@@ -5,19 +5,30 @@
    static assets, exactly as before.
 
    API
-     GET  /api/preorder/status   → { open, cap, reserved, left }
+     GET  /api/preorder/status   → { open, cap, reserved, left, kits }
      POST /api/preorder          → reserve (or waitlist when full)
      GET  /api/preorder/export   → CSV of every reservation
                                    (header  Authorization: Bearer <ADMIN_KEY>)
 
    Bindings (wrangler.jsonc): DB (D1), ASSETS.  Secret: ADMIN_KEY.
    If DB isn't bound yet, the API answers { open:false } and the
-   form on the home page says "reservations open soon".
+   form on /preorder/ says "reservations open soon".
    ============================================================ */
 
-const CAP = 20;                       // units in the first batch
-const KITS = ['lun-e-rc-kit'];        // what can be reserved (prices announced later)
+// ---- what can be pre-ordered -------------------------------------------------
+// price: rupees incl. everything you quote, or null = "price announced soon".
+// rovers: how many Lun-E RC units one of these uses from the first batch (CAP).
+// The /preorder/ page reads names and prices from here, so this is the only
+// place to change them.
+const KITS = {
+  'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: null, rovers: 1 },
+  'connect':          { name: 'connect controller', price: null, rovers: 0 },
+  'lun-e-rc-connect': { name: 'lun-e rc + connect', price: null, rovers: 1 },
+};
+const CAP = 20;     // Lun-E RC units in the first batch (connect on its own isn't capped)
 const MAX_QTY = 2;
+const ROVER_KITS = Object.keys(KITS).filter((k) => KITS[k].rovers > 0);
+const kitList = () => Object.entries(KITS).map(([id, k]) => ({ id, name: k.name, price: k.price, rovers: k.rovers }));
 
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -30,17 +41,22 @@ async function sha256(text) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+// Lun-E RC units already reserved (kit + bundle; connect-only orders don't count).
 async function reservedCount(db) {
-  const row = await db.prepare("SELECT COALESCE(SUM(qty),0) AS n FROM preorders WHERE status = 'reserved'").first();
+  const marks = ROVER_KITS.map(() => '?').join(',');
+  const row = await db
+    .prepare(`SELECT COALESCE(SUM(qty),0) AS n FROM preorders WHERE status = 'reserved' AND kit IN (${marks})`)
+    .bind(...ROVER_KITS)
+    .first();
   return row ? Number(row.n) : 0;
 }
 
 const clean = (v, max) => String(v ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
 
 async function status(env) {
-  if (!env.DB) return json({ open: false, cap: CAP, reserved: 0, left: CAP });
+  if (!env.DB) return json({ open: false, cap: CAP, reserved: 0, left: CAP, kits: kitList() });
   const n = await reservedCount(env.DB);
-  return json({ open: true, cap: CAP, reserved: n, left: Math.max(0, CAP - n) });
+  return json({ open: true, cap: CAP, reserved: n, left: Math.max(0, CAP - n), kits: kitList() });
 }
 
 async function reserve(request, env) {
@@ -57,7 +73,7 @@ async function reserve(request, env) {
     phone: clean(body.phone, 20),
     city: clean(body.city, 60),
     pincode: clean(body.pincode, 6),
-    kit: clean(body.kit, 40) || KITS[0],
+    kit: clean(body.kit, 40) || 'lun-e-rc-kit',
     qty: Math.round(Number(body.qty) || 1),
     notes: clean(body.notes, 500),
   };
@@ -67,7 +83,7 @@ async function reserve(request, env) {
   if (!/^\+?[0-9 ]{10,15}$/.test(f.phone)) errors.phone = 'a 10-digit phone number, please';
   if (f.city.length < 2) errors.city = 'add your city';
   if (!/^[1-9][0-9]{5}$/.test(f.pincode)) errors.pincode = 'a 6-digit pin code';
-  if (!KITS.includes(f.kit)) errors.kit = 'pick a kit';
+  if (!Object.prototype.hasOwnProperty.call(KITS, f.kit)) errors.kit = 'pick what you want';
   if (f.qty < 1 || f.qty > MAX_QTY) errors.qty = `1 or ${MAX_QTY}`;
   if (Object.keys(errors).length) return json({ ok: false, error: 'check the highlighted fields', fields: errors }, 422);
 
@@ -81,12 +97,13 @@ async function reserve(request, env) {
   if (existing) return json({ ok: true, already: true, status: existing.status, left: Math.max(0, CAP - (await reservedCount(env.DB))) });
 
   const n = await reservedCount(env.DB);
-  const st = n + f.qty <= CAP ? 'reserved' : 'waitlist';
+  const usesRovers = KITS[f.kit].rovers > 0;
+  const st = !usesRovers || n + f.qty * KITS[f.kit].rovers <= CAP ? 'reserved' : 'waitlist';
   await env.DB.prepare(
     'INSERT INTO preorders (name,email,phone,city,pincode,kit,qty,notes,status,ip_hash) VALUES (?,?,?,?,?,?,?,?,?,?)'
   ).bind(f.name, f.email, f.phone, f.city, f.pincode, f.kit, f.qty, f.notes, st, ipHash).run();
 
-  const left = Math.max(0, CAP - (st === 'reserved' ? n + f.qty : n));
+  const left = Math.max(0, CAP - (st === 'reserved' && usesRovers ? n + f.qty * KITS[f.kit].rovers : n));
   return json({ ok: true, status: st, left });
 }
 

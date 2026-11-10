@@ -27,7 +27,7 @@ lun-e/index.html    →  whybit.in/lun-e     (lun-e rc — the current build)
 lun-e/pcb/          →  whybit.in/lun-e/pcb  (the board: specs, bom, pinout, board files)
 lun-e/evolution/    →  whybit.in/lun-e/evolution  (every version, v1 → now)
 connect/            →  whybit.in/connect   (connect — the controller for lun-e)
-preorder/           →  whybit.in/preorder  (pre-order: lun-e rc kit, + connect add-on)
+preorder/           →  whybit.in/preorder  (pre-order: lun-e rc, + connect add-on)
 about/index.html    →  whybit.in/about
 contact/index.html  →  whybit.in/contact
 images/             →  local media (images/lun-e-rc/, images/connect/ = renders)
@@ -39,7 +39,7 @@ script.js           →  theme toggle, starfield, cursor glow, scroll blur
 hero-explode.js     →  home page scroll sections: lun-e (hero) and connect spin and come apart as you scroll.
                        one config per model in CONFIGS; a section opts in with data-hero="lune" / "connect"
 film.js             →  silent loop of the launch film behind the home page pre-order section
-film/               →  loop.mp4 (1080p), loop-720.mp4 (phones), loop-poster.jpg (still for reduced motion)
+film/               →  loop.mp4 / loop.webm (1080p), loop-720.mp4 / loop-720.webm (phones), loop-poster.jpg (still)
 ```
 
 to add a version to the evolution page: copy one `.evo-stop` link in the rail
@@ -73,7 +73,7 @@ site by [absurd industries](https://absurd.industries/).
 ## pre-orders
 
 whybit.in/preorder (`preorder/index.html` + `preorder.js`) takes free reservations — no
-payment. people get the **lun-e rc kit** and can tick **add connect** (connect isn't sold
+payment. people get the **lun-e rc** and can tick **add connect** (connect isn't sold
 on its own, so that makes it **lun-e rc + connect**), fill in the form, and it posts to a tiny worker (`worker/index.js`) that stores it in
 cloudflare d1. the home page has a short pre-order teaser (with the film looping behind it); every
 "pre-order" link points to /preorder/. `/preorder/?kit=lun-e-rc-connect` opens with connect
@@ -82,7 +82,7 @@ already ticked.
 **prices and products** live in one place — `KITS` at the top of `worker/index.js`:
 
 ```js
-'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555 },
+'lun-e-rc-kit':     { name: 'lun-e rc',           price: 5555 },
 'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666 },
 ```
 

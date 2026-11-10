@@ -5,6 +5,10 @@
 
    - Nothing downloads until the section is close to the screen.
    - Phones get a lighter 720p file, larger screens 1080p.
+   - H.264 mp4 where the browser has it, VP9 webm where it doesn't
+     (some Linux Chromium / Firefox builds ship without H.264).
+   - The poster frame shows until the video is ready, so the
+     section is never an empty dark band.
    - Plays only while the section is on screen.
    - Reduced motion or data saver: the still poster frame only.
    ============================================================ */
@@ -18,18 +22,17 @@
 
   var mq = function (q) { return window.matchMedia && window.matchMedia(q).matches; };
   var saveData = navigator.connection && navigator.connection.saveData;
-  if (mq('(prefers-reduced-motion: reduce)') || saveData) {
-    video.classList.add('is-on');                     // the poster frame stays as a still background
-    return;
-  }
+  if (mq('(prefers-reduced-motion: reduce)') || saveData) return;   // the poster frame stays as a still background
 
   var loaded = false, inView = false;
   function load() {
     if (loaded) return; loaded = true;
-    video.src = mq('(max-width: 767px)') ? '/film/loop-720.mp4' : '/film/loop.mp4';
-    video.addEventListener('playing', function () { video.classList.add('is-on'); }, { once: true });
+    var name = mq('(max-width: 767px)') ? '/film/loop-720' : '/film/loop';
+    var mp4 = video.canPlayType('video/mp4; codecs="avc1.640028"');
+    var webm = video.canPlayType('video/webm; codecs="vp9"');
+    video.src = name + (!mp4 && webm ? '.webm' : '.mp4');
   }
-  function play() { var p = video.play(); if (p && p.catch) p.catch(function () { video.classList.add('is-on'); }); }
+  function play() { var p = video.play(); if (p && p.catch) p.catch(function () {}); }   // blocked (e.g. low-power mode): the poster stays
 
   if (!('IntersectionObserver' in window)) { load(); play(); return; }
 

@@ -21,7 +21,7 @@
 // place to change them.
 // Connect isn't sold on its own — it's an add-on to the rover (the bundle).
 const KITS = {
-  'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555 },
+  'lun-e-rc-kit':     { name: 'lun-e rc',           price: 5555 },
   'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666 },
 };
 const MAX_QTY = 2;

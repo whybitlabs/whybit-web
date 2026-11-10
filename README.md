@@ -27,7 +27,7 @@ lun-e/index.html    →  whybit.in/lun-e     (lun-e rc — the current build)
 lun-e/pcb/          →  whybit.in/lun-e/pcb  (the board: specs, bom, pinout, board files)
 lun-e/evolution/    →  whybit.in/lun-e/evolution  (every version, v1 → now)
 connect/            →  whybit.in/connect   (connect — the controller for lun-e)
-preorder/           →  whybit.in/preorder  (pre-order: lun-e rc kit, connect, or both)
+preorder/           →  whybit.in/preorder  (pre-order: lun-e rc kit, + connect add-on)
 about/index.html    →  whybit.in/about
 contact/index.html  →  whybit.in/contact
 images/             →  local media (images/lun-e-rc/, images/connect/ = renders)
@@ -71,26 +71,25 @@ site by [absurd industries](https://absurd.industries/).
 ## pre-orders
 
 whybit.in/preorder (`preorder/index.html` + `preorder.js`) takes free reservations — no
-payment. people pick **lun-e rc kit**, **connect controller** or **lun-e rc + connect**,
-fill in the form, and it posts to a tiny worker (`worker/index.js`) that stores it in
+payment. people get the **lun-e rc kit** and can tick **add connect** (connect isn't sold
+on its own, so that makes it **lun-e rc + connect**), fill in the form, and it posts to a tiny worker (`worker/index.js`) that stores it in
 cloudflare d1. the home page has a short teaser with the live "rovers left" count; every
-"pre-order" link points to /preorder/. `/preorder/?kit=connect` (or `lun-e-rc-kit`,
-`lun-e-rc-connect`) opens with that one picked.
+"pre-order" link points to /preorder/. `/preorder/?kit=lun-e-rc-connect` opens with connect
+already ticked.
 
 **prices and products** live in one place — `KITS` at the top of `worker/index.js`:
 
 ```js
-'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: null, rovers: 1 },
-'connect':          { name: 'connect controller', price: null, rovers: 0 },
-'lun-e-rc-connect': { name: 'lun-e rc + connect', price: null, rovers: 1 },
+'lun-e-rc-kit':     { name: 'lun-e rc kit',       price: 5555, rovers: 1 },
+'lun-e-rc-connect': { name: 'lun-e rc + connect', price: 6666, rovers: 1 },
 ```
 
-`price` is in rupees (`3999`), or `null` to show "price announced soon". the page reads
-them from the api, so there's nothing to change in the html.
+`price` is in rupees, or `null` to show "price announced soon". the form reads them from
+the api (the add-on price is the difference). the amounts are also written into the copy on
+`preorder/index.html` and the home page teaser — grep for `₹` if you change them.
 
 **first batch:** `CAP` (20) counts lun-e rc units — the kit and the bundle each use one per
-quantity. once they're gone, new rover orders are saved as `waitlist`. connect on its own
-isn't capped.
+quantity. once they're gone, new orders are saved as `waitlist`.
 
 the site deploys and works without the database — the form just says "reservations open
 soon". to switch reservations on, once:

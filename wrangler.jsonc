@@ -24,7 +24,7 @@
   // 4. npx wrangler secret put ADMIN_KEY      (any long random string — used to export orders)
   // Until then the site deploys fine and the form says "reservations open soon".
   //
-  // ,"d1_databases": [
-  //   { "binding": "DB", "database_name": "whybit-preorders", "database_id": "PASTE-ID-HERE" }
-  // ]
+  ,"d1_databases": [
+    { "binding": "DB", "database_name": "whybit-preorders", "database_id": "c758a796-71f2-428a-8f1b-2383e3097d11" }
+  ]
 }
